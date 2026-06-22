@@ -59,7 +59,7 @@ export default function PreviewPage() {
         <div className="flex items-center gap-5">
           <button
             onClick={() => router.push("/admin/pemberkasan/jishusei")}
-            className="flex items-center justify-center w-11 h-11 bg-white border border-gray-200 rounded-xl shadow-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            className="flex items-center justify-center w-11 h-11 bg-white border border-gray-200 !rounded-xl shadow-sm text-gray-600 hover:bg-gray-50 transition-colors"
           >
             <ArrowLeft size={22} />
           </button>

@@ -30,7 +30,7 @@ export default function PemberkasanPage() {
             <div className="flex items-center gap-4 mb-3">
               <button 
                 onClick={() => router.push("/admin")}
-                className="p-2.5 bg-white border border-emerald-100 rounded-xl shadow-sm text-emerald-700 hover:bg-emerald-50 transition-colors"
+                className="p-2.5 bg-white border border-emerald-100 !rounded-xl shadow-sm text-emerald-700 hover:bg-emerald-50 transition-colors"
               >
                 <ArrowLeft size={24} />
               </button>

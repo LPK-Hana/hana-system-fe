@@ -103,7 +103,7 @@ export default function DokumenJishuseiPage() {
           <div className="flex items-start md:items-center gap-4">
             <button
               onClick={() => router.push("/admin/pemberkasan")}
-              className="p-2.5 bg-white border border-emerald-100 rounded-xl shadow-sm text-emerald-700 hover:bg-emerald-50 transition-colors shrink-0 mt-1 md:mt-0"
+              className="p-2.5 bg-white border border-emerald-100 !rounded-xl shadow-sm text-emerald-700 hover:bg-emerald-50 transition-colors shrink-0 mt-1 md:mt-0"
             >
               <ArrowLeft size={24} />
             </button>
@@ -204,17 +204,17 @@ export default function DokumenJishuseiPage() {
 
                 <Column width={160} fixed="right" align="center">
                   <HeaderCell className="!bg-emerald-50/80 !text-emerald-800 !font-bold !text-xs tracking-wider uppercase">Action</HeaderCell>
-                  <Cell className="!p-2">
+                  <Cell style={{ padding: '6px 0' }}>
                     {rowData => (
-                      <div className="flex items-center justify-center gap-1">
-                        <Button onClick={() => router.push(`/admin/pemberkasan/jishusei/preview/${rowData.id}`)} appearance="subtle" size="sm" className="!text-blue-500 hover:!bg-blue-50 !font-bold !p-2" title="Preview Dokumen">
-                          <Eye size={16} />
+                      <div className="flex items-center justify-center gap-2 h-full w-full">
+                        <Button onClick={() => router.push(`/admin/pemberkasan/jishusei/preview/${rowData.id}`)} appearance="subtle" size="sm" className="!text-blue-500 hover:!bg-blue-50 !p-1.5 flex items-center justify-center" title="Preview Dokumen">
+                          <Eye size={18} />
                         </Button>
-                        <Button appearance="subtle" size="sm" className="!text-emerald-600 hover:!bg-emerald-50 !font-bold !p-2" title="Edit">
-                          <Pencil size={16} />
+                        <Button appearance="subtle" size="sm" className="!text-emerald-600 hover:!bg-emerald-50 !p-1.5 flex items-center justify-center" title="Edit">
+                          <Pencil size={18} />
                         </Button>
-                        <Button onClick={() => handleDelete(rowData.id)} appearance="subtle" size="sm" className="!text-red-500 hover:!bg-red-50 !font-bold !p-2" title="Hapus">
-                          <Trash2 size={16} />
+                        <Button onClick={() => handleDelete(rowData.id)} appearance="subtle" size="sm" className="!text-red-500 hover:!bg-red-50 !p-1.5 flex items-center justify-center" title="Hapus">
+                          <Trash2 size={18} />
                         </Button>
                       </div>
                     )}
