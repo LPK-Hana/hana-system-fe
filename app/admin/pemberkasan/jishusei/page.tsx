@@ -2,103 +2,76 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Search, Filter, Pencil, Trash2, Download, Eye } from "lucide-react";
-import { Table, Button, Pagination, Input, InputGroup, Modal, Form, DatePicker } from 'rsuite';
-import React from 'react';
+import { ArrowLeft, Search, Pencil, Trash2, Eye, Wand2 } from "lucide-react";
+import { Table, Button, Pagination, Input, InputGroup, Modal } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
-
-const FormField = ({ name, label, text, className, ...props }: any) => (
-  <Form.Group controlId={name} className={className}>
-    <Form.ControlLabel>{label}</Form.ControlLabel>
-    <Form.Control name={name} style={{ width: '100%' }} {...props} />
-    {text && <Form.HelpText>{text}</Form.HelpText>}
-  </Form.Group>
-);
-
-const CustomTextarea = React.forwardRef((props: any, ref) => <Input {...props} as="textarea" ref={ref} />);
+import JishuseiFormFields from './components/JishuseiFormFields';
+import { getDummyJishuseiPage1 } from './dummyData';
+import { emptyJishuseiPage1, type JishuseiPage1Data } from './types';
+import { loadAllEntries, saveAllEntries } from './utils';
 
 const { Column, HeaderCell, Cell } = Table;
 
-// Helper to format date for display
-const formatDateDisplay = (d: any) => {
+const formatDateDisplay = (d: string | null) => {
   if (!d) return '-';
   const date = new Date(d);
   return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
 };
 
-const emptyFormData = {
-  dateCreated: null,
-  romajiName: '',
-  kanjiName: '',
-  birthDate: null,
-  age: '',
-  address: '',
-  schoolName: '',
-  schoolStart: null,
-  schoolEnd: null,
-  work1Company: '',
-  work1Start: null,
-  work1End: null
-};
-
 export default function DokumenJishuseiPage() {
   const router = useRouter();
-
-  // Table Data State (from localStorage)
-  const [tableData, setTableData] = useState<any[]>([]);
-
-  // Load data from localStorage on mount
-  useEffect(() => {
-    const stored = localStorage.getItem('jishusei_data');
-    if (stored) {
-      setTableData(JSON.parse(stored));
-    }
-  }, []);
-
-  // Save data to localStorage whenever it changes
-  const saveData = (data: any[]) => {
-    setTableData(data);
-    localStorage.setItem('jishusei_data', JSON.stringify(data));
-  };
-
-  // Pagination States
+  const [tableData, setTableData] = useState<JishuseiPage1Data[]>([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
-
-  // Modal & Form States
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState<any>({ ...emptyFormData });
+  const [formKey, setFormKey] = useState(0);
+  const [formData, setFormData] = useState<Omit<JishuseiPage1Data, 'id'>>(emptyJishuseiPage1());
 
-  // Handle data slicing
-  const paginatedData = tableData.slice((page - 1) * limit, page * limit);
+  useEffect(() => {
+    setTableData(loadAllEntries());
+  }, []);
 
-  // Handle Submit
-  const handleSubmit = () => {
-    const newEntry = {
-      ...formData,
-      id: Date.now(), // unique ID
-    };
-    saveData([...tableData, newEntry]);
-    setFormData({ ...emptyFormData });
-    setIsModalOpen(false);
+  const saveData = (data: JishuseiPage1Data[]) => {
+    setTableData(data);
+    saveAllEntries(data);
   };
 
-  // Handle Delete
+  const paginatedData = tableData.slice((page - 1) * limit, page * limit);
+
+  const handleSubmit = () => {
+    const newEntry: JishuseiPage1Data = {
+      ...formData,
+      id: Date.now(),
+    };
+    saveData([...tableData, newEntry]);
+    setFormData(emptyJishuseiPage1());
+    setIsModalOpen(false);
+    router.push(`/admin/pemberkasan/jishusei/preview/${newEntry.id}`);
+  };
+
   const handleDelete = (id: number) => {
-    const filtered = tableData.filter((item) => item.id !== id);
-    saveData(filtered);
+    saveData(tableData.filter((item) => item.id !== id));
+  };
+
+  const openNewForm = () => {
+    setFormData(emptyJishuseiPage1());
+    setFormKey((k) => k + 1);
+    setIsModalOpen(true);
+  };
+
+  const handleFillDummy = () => {
+    setFormData(getDummyJishuseiPage1());
+    setFormKey((k) => k + 1);
   };
 
   return (
     <main className="min-h-screen bg-[#F4F7F4] p-6 md:p-12 relative overflow-hidden font-sans text-gray-800">
-      {/* Decorative Soft Mesh Gradient / Natural Background */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] rounded-full bg-emerald-100/40 blur-[120px]" />
         <div className="absolute top-[40%] -right-[20%] w-[60vw] h-[60vw] rounded-full bg-amber-50/50 blur-[100px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto bg-white/80 backdrop-blur-md p-6 md:p-8 rounded-3xl border border-emerald-50 shadow-sm min-h-[80vh] flex flex-col">
-        {/* Header Section */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-emerald-100 pb-6">
           <div className="flex items-start md:items-center gap-4">
             <button
@@ -112,18 +85,15 @@ export default function DokumenJishuseiPage() {
                 Dokumen Jishusei
               </h1>
               <p className="text-sm text-gray-500 font-medium">
-                Kelola daftar dan berkas peserta Jishusei di sini.
+                Isi form Riwayat Hidup (Hal. 1) → Preview → Download PDF A4
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3 self-start md:self-auto">
-            <Button onClick={() => setIsModalOpen(true)} appearance="primary" color="green" className="!rounded-xl !font-bold shadow-sm">
-              + Tambah Data
-            </Button>
-          </div>
+          <Button onClick={openNewForm} appearance="primary" color="green" className="!rounded-xl !font-bold shadow-sm">
+            + Tambah Data
+          </Button>
         </header>
 
-        {/* Table Controls (Search etc) */}
         <div className="flex justify-between items-center mb-4 gap-4">
           <div className="w-full max-w-sm">
             <InputGroup inside className="!rounded-xl !border-emerald-200 focus-within:!border-emerald-500">
@@ -138,7 +108,6 @@ export default function DokumenJishuseiPage() {
           </div>
         </div>
 
-        {/* Table Content */}
         <div className="bg-white rounded-2xl overflow-hidden border border-emerald-100 shadow-sm flex-1 flex flex-col">
           {tableData.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center p-12 text-center">
@@ -146,7 +115,7 @@ export default function DokumenJishuseiPage() {
                 <Search size={32} className="text-emerald-300" />
               </div>
               <p className="text-gray-400 font-bold text-lg mb-1">Belum ada data</p>
-              <p className="text-gray-400 text-sm">Klik tombol <strong className="text-emerald-600">+ Tambah Data</strong> untuk menambahkan peserta baru.</p>
+              <p className="text-gray-400 text-sm">Klik <strong className="text-emerald-600">+ Tambah Data</strong> untuk mulai mengisi form.</p>
             </div>
           ) : (
             <>
@@ -202,18 +171,18 @@ export default function DokumenJishuseiPage() {
                   </Cell>
                 </Column>
 
-                <Column width={160} fixed="right" align="center">
+                <Column width={120} fixed="right" align="center">
                   <HeaderCell className="!bg-emerald-50/80 !text-emerald-800 !font-bold !text-xs tracking-wider uppercase">Action</HeaderCell>
                   <Cell style={{ padding: '6px 0' }}>
                     {rowData => (
                       <div className="flex items-center justify-center gap-2 h-full w-full">
-                        <Button onClick={() => router.push(`/admin/pemberkasan/jishusei/preview/${rowData.id}`)} appearance="subtle" size="sm" className="!text-blue-500 hover:!bg-blue-50 !p-1.5 flex items-center justify-center" title="Preview Dokumen">
+                        <Button onClick={() => router.push(`/admin/pemberkasan/jishusei/preview/${rowData.id}`)} appearance="subtle" size="sm" className="!text-blue-500 hover:!bg-blue-50 !p-1.5" title="Preview">
                           <Eye size={18} />
                         </Button>
-                        <Button appearance="subtle" size="sm" className="!text-emerald-600 hover:!bg-emerald-50 !p-1.5 flex items-center justify-center" title="Edit">
+                        <Button appearance="subtle" size="sm" className="!text-emerald-600 hover:!bg-emerald-50 !p-1.5" title="Edit (segera)">
                           <Pencil size={18} />
                         </Button>
-                        <Button onClick={() => handleDelete(rowData.id)} appearance="subtle" size="sm" className="!text-red-500 hover:!bg-red-50 !p-1.5 flex items-center justify-center" title="Hapus">
+                        <Button onClick={() => handleDelete(rowData.id)} appearance="subtle" size="sm" className="!text-red-500 hover:!bg-red-50 !p-1.5" title="Hapus">
                           <Trash2 size={18} />
                         </Button>
                       </div>
@@ -222,17 +191,10 @@ export default function DokumenJishuseiPage() {
                 </Column>
               </Table>
 
-              {/* Pagination */}
               <div className="p-4 border-t border-gray-100 bg-gray-50/50">
                 <Pagination
-                  prev
-                  next
-                  first
-                  last
-                  ellipsis
-                  boundaryLinks
-                  maxButtons={5}
-                  size="md"
+                  prev next first last ellipsis boundaryLinks
+                  maxButtons={5} size="md"
                   layout={['total', '-', 'limit', '|', 'pager', 'skip']}
                   total={tableData.length}
                   limitOptions={[10, 20, 50]}
@@ -240,7 +202,6 @@ export default function DokumenJishuseiPage() {
                   activePage={page}
                   onChangePage={setPage}
                   onChangeLimit={setLimit}
-                  className="!text-gray-600"
                 />
               </div>
             </>
@@ -248,58 +209,33 @@ export default function DokumenJishuseiPage() {
         </div>
       </div>
 
-      {/* ADD DATA MODAL */}
-      <Modal size="lg" open={isModalOpen} onClose={() => setIsModalOpen(false)} overflow={true}>
+      <Modal size="lg" open={isModalOpen} onClose={() => setIsModalOpen(false)} overflow>
         <Modal.Header>
-          <Modal.Title className="font-serif text-emerald-900 text-xl font-bold">Tambah Dokumen Jishusei</Modal.Title>
+          <Modal.Title className="font-serif text-emerald-900 text-xl font-bold">
+            Form Riwayat Hidup — Halaman 1
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body className="p-4">
-
-          <Form fluid onChange={(formValue) => setFormData(formValue)} formValue={formData}>
-            <h5 className="text-sm font-bold text-emerald-800 mb-4 border-b pb-2">1. Identitas Diri</h5>
-
-            <FormField name="dateCreated" label="Tanggal Pembuatan Dokumen" accepter={DatePicker} format="dd MMM yyyy" />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField name="romajiName" label="Nama (Romawi)" />
-              <FormField name="kanjiName" label="Nama (Kanji)" />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField name="birthDate" label="Tanggal Lahir" accepter={DatePicker} format="dd MMM yyyy" />
-              <FormField name="age" label="Umur" type="number" />
-            </div>
-
-            <FormField name="address" label="Alamat Sekarang" accepter={CustomTextarea} rows={3} />
-
-            <h5 className="text-sm font-bold text-emerald-800 mt-6 mb-4 border-b pb-2">2. Riwayat Pendidikan & Pekerjaan</h5>
-
-            <FormField name="schoolName" label="Nama Sekolah" />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField name="schoolStart" label="Mulai (Bulan/Tahun)" accepter={DatePicker} format="MM yyyy" />
-              <FormField name="schoolEnd" label="Lulus (Bulan/Tahun)" accepter={DatePicker} format="MM yyyy" />
-            </div>
-
-            <FormField name="work1Company" label="Perusahaan Pengalaman Kerja (1)" />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField name="work1Start" label="Mulai (Bulan/Tahun)" accepter={DatePicker} format="MM yyyy" />
-              <FormField name="work1End" label="Selesai (Bulan/Tahun)" accepter={DatePicker} format="MM yyyy" />
-            </div>
-          </Form>
-
+        <Modal.Body className="p-4 max-h-[70vh] overflow-y-auto">
+          <div className="flex justify-end mb-4">
+            <Button
+              appearance="ghost"
+              size="sm"
+              onClick={handleFillDummy}
+              className="!text-amber-700 hover:!bg-amber-50 !font-semibold"
+            >
+              <Wand2 size={16} className="inline-block mr-1.5 -mt-0.5" />
+              Isi Data Dummy
+            </Button>
+          </div>
+          <JishuseiFormFields key={formKey} formData={formData} onChange={setFormData} />
         </Modal.Body>
         <Modal.Footer className="border-t border-emerald-50 bg-emerald-50/20 pt-4 flex justify-end gap-2">
-          <Button onClick={() => setIsModalOpen(false)} appearance="subtle">
-            Batal
-          </Button>
+          <Button onClick={() => setIsModalOpen(false)} appearance="subtle">Batal</Button>
           <Button onClick={handleSubmit} appearance="primary" color="green" className="shadow-sm">
-            Simpan Data
+            Simpan & Preview
           </Button>
         </Modal.Footer>
       </Modal>
-
     </main>
   );
 }
