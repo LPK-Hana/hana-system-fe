@@ -1,26 +1,165 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --hana-page-bg: #f4f7f4;
+  --hana-primary: #047857;
+  --hana-primary-dark: #064e3b;
+  --hana-primary-light: #ecfdf5;
+  --hana-matte: #1a1a1a;
+  --hana-text-muted: #6b7280;
+  --hana-border: #e5e7eb;
+
+  --background: var(--hana-page-bg);
+  --foreground: var(--hana-matte);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+}
+
+.hana-wagara {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046 8.954-20 20-20v2c-9.941 0-18 8.059-18 18s8.059 18 18 18v2c-11.046 0-20-8.954-20-20zm-20 0c0-11.046 8.954-20 20-20v2C10.059 2 2 10.059 2 20s8.059 18 18 18v2c-11.046 0-20-8.954-20-20z' fill='%23047857' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-size: 40px 40px;
+}
+
+.hana-wagara-subtle {
+  opacity: 0.02;
+}
+
+.hana-btn-outline {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  padding: 12px 8px;
+  transition: color 0.5s ease, border-color 0.5s ease;
+  cursor: pointer;
+}
+
+.hana-btn-outline:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.hana-btn-outline span {
+  position: relative;
+  z-index: 10;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #374151;
+  transition: color 0.5s ease;
+}
+
+.hana-btn-outline:hover:not(:disabled) span {
+  color: var(--hana-primary-dark);
+}
+
+.hana-btn-outline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(236, 253, 245, 0.7);
+  transform: translateX(-100%);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+
+.hana-btn-outline:hover:not(:disabled)::after {
+  transform: translateX(0);
+}
+
+.hana-dashboard-card {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid rgba(229, 231, 235, 0.6);
+  transition: border-color 0.7s ease;
+  cursor: pointer;
+}
+
+.hana-dashboard-card:hover {
+  border-color: rgba(4, 120, 87, 0.3);
+}
+
+.hana-dashboard-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(236, 253, 245, 0.35);
+  transform: translateX(-100%);
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hana-portal-btn {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--hana-border);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.4s ease, border-color 0.4s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.hana-portal-btn span {
+  position: relative;
+  z-index: 10;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #333333;
+  transition: color 0.4s ease;
+}
+
+.hana-portal-btn:hover span {
+  color: var(--hana-matte);
+}
+
+.hana-portal-btn:hover {
+  border-color: var(--hana-primary);
+}
+
+.hana-portal-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--hana-primary-light);
+  transform: translateX(-100%);
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+
+.hana-portal-btn:hover::after {
+  transform: translateX(0);
+}
+
+.hana-dashboard-card:hover::before {
+  transform: translateX(0);
 }

@@ -8,7 +8,6 @@ import JishuseiPage1Document from '../../components/JishuseiPage1Document';
 import { getEntryById } from '../../utils';
 import { exportPage1ToPdf } from '../../exportPdf';
 import type { JishuseiPage1Data } from '../../types';
-import 'rsuite/dist/rsuite.min.css';
 
 const notoSerifJP = Noto_Serif_JP({
   subsets: ['latin'],

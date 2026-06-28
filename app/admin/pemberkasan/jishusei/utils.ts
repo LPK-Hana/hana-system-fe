@@ -95,7 +95,11 @@ export const loadAllEntries = (): JishuseiPage1Data[] => {
   const stored = localStorage.getItem(STORAGE_KEY);
   if (!stored) return [];
   try {
-    return JSON.parse(stored) as JishuseiPage1Data[];
+    const parsed = JSON.parse(stored) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .map((item) => deserializeJishuseiEntry(item))
+      .filter((item): item is JishuseiPage1Data => item !== null);
   } catch {
     return [];
   }

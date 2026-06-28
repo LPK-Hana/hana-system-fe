@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, LogOut, ArrowRight, FolderOpen } from "lucide-react";
-import { clearAuthCookie } from "../../lib/auth";
+import { Settings, LogOut, FolderOpen } from "lucide-react";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -15,10 +14,10 @@ export default function AdminPage() {
       const year = now.getFullYear();
       const month = now.getMonth() + 1;
       const date = now.getDate();
-      const days = ['日', '月', '火', '水', '木', '金', '土'];
+      const days = ["日", "月", "火", "水", "木", "金", "土"];
       const day = days[now.getDay()];
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
 
       setCurrentDate(`${year}年${month}月${date}日${day}曜日 ${hours}:${minutes}`);
     };
@@ -29,61 +28,71 @@ export default function AdminPage() {
   }, []);
 
   const handleLogout = () => {
-    clearAuthCookie();
-    router.replace("/login");
+    router.replace("/");
   };
 
   return (
     <main className="min-h-screen bg-[#F4F7F4] p-6 md:p-12 relative overflow-hidden font-sans text-gray-800">
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] rounded-full bg-emerald-100/40 blur-[120px]" />
-        <div className="absolute top-[40%] -right-[20%] w-[60vw] h-[60vw] rounded-full bg-amber-50/50 blur-[100px]" />
-      </div>
+      <div className="hana-wagara hana-wagara-subtle" aria-hidden />
 
       <div className="relative z-10 max-w-6xl mx-auto">
-        <header className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-16">
-          <div>
-            <div className="flex items-center gap-4 mb-3">
-              <div className="p-2.5 bg-white border border-emerald-100 rounded-xl shadow-sm text-emerald-700">
-                <Settings size={24} />
+        <header className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between sm:gap-4 pb-8 border-b border-gray-200/80">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-start gap-3">
+              <div className="rounded-md border border-gray-200 bg-white p-2 text-emerald-800 shrink-0 mt-1">
+                <Settings size={20} strokeWidth={1.5} />
               </div>
-              <h1 className="text-3xl md:text-4xl font-serif text-emerald-900 tracking-wide">
-                Administrator Dashboard
-              </h1>
+              <div className="min-w-0">
+                <h1 className="text-2xl md:text-3xl font-serif text-gray-900 tracking-wide">
+                  Administrator Dashboard
+                </h1>
+                <p className="mt-2 text-sm text-gray-800">
+                  Selamat datang di sistem Hana, <span className="font-medium">ADMIN</span>
+                </p>
+              </div>
             </div>
-            <p className="text-sm md:text-base text-gray-600 mb-6 font-medium">
-              Selamat datang di sistem Hana, ADMIN
-            </p>
-            <p className="text-sm font-bold tracking-wider text-emerald-800">
-              {currentDate}
-            </p>
+            <div className="mt-6 space-y-2 pl-0 sm:pl-11">
+              <p className="text-base text-gray-900 leading-relaxed font-medium">{currentDate}</p>
+            </div>
           </div>
 
           <button
+            type="button"
             onClick={handleLogout}
-            className="flex items-center gap-2 px-5 py-2.5 bg-white border border-emerald-200 text-emerald-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-900 transition-colors shadow-sm text-xs font-bold tracking-widest uppercase self-start"
+            className="shrink-0 inline-flex items-center gap-2 self-start rounded-md border border-gray-200 bg-white px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-gray-600 hover:bg-red-800 hover:border-red-800 hover:text-white transition-colors"
           >
             <LogOut size={16} />
             Keluar
           </button>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           <div
             onClick={() => router.push("/admin/pemberkasan")}
-            className="group bg-white/80 backdrop-blur-md p-8 rounded-3xl border border-emerald-50 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300 flex flex-col h-full cursor-pointer hover:-translate-y-1"
+            className="hana-dashboard-card group block p-10 md:p-14"
           >
-            <div className="mb-6">
-              <div className="inline-flex p-4 bg-emerald-50 border border-emerald-100 text-emerald-700 rounded-2xl group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
-                <FolderOpen size={28} strokeWidth={1.5} />
+            <div className="relative z-10">
+              <div className="w-14 h-14 border border-emerald-800/20 flex items-center justify-center mb-8 text-emerald-800 bg-white group-hover:bg-emerald-800 group-hover:text-white transition-colors duration-500 ease-out">
+                <FolderOpen size={24} strokeWidth={1.5} />
               </div>
-            </div>
-            <h3 className="text-xl font-serif text-emerald-900 mb-8 flex-1">
-              Pemberkasan Dokumen
-            </h3>
-            <div className="flex items-center text-xs font-bold text-emerald-600 uppercase tracking-widest group-hover:text-emerald-800 transition-colors">
-              Kelola Dokumen
-              <ArrowRight size={16} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
+              <h2 className="text-2xl font-serif text-gray-900 mb-6 tracking-wide group-hover:text-emerald-950 transition-colors duration-500">
+                Pemberkasan Dokumen
+              </h2>
+              <div className="flex items-center text-xs tracking-widest uppercase text-emerald-800 font-semibold">
+                <span className="relative">
+                  Kelola Dokumen
+                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-emerald-800 group-hover:w-full transition-all duration-500 ease-out" />
+                </span>
+                <svg
+                  className="w-4 h-4 ml-3 transform group-hover:translate-x-2 transition-transform duration-500 ease-out"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
