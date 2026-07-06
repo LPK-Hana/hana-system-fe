@@ -1,165 +1,140 @@
 @import "tailwindcss";
 
 :root {
-  --hana-page-bg: #f4f7f4;
-  --hana-primary: #047857;
-  --hana-primary-dark: #064e3b;
-  --hana-primary-light: #ecfdf5;
-  --hana-matte: #1a1a1a;
-  --hana-text-muted: #6b7280;
-  --hana-border: #e5e7eb;
-
-  --background: var(--hana-page-bg);
-  --foreground: var(--hana-matte);
+  --background: #ffffff;
+  --foreground: #171717;
+  --hana-accent: #047857;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
+  --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.hana-wagara {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  opacity: 0.03;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046 8.954-20 20-20v2c-9.941 0-18 8.059-18 18s8.059 18 18 18v2c-11.046 0-20-8.954-20-20zm-20 0c0-11.046 8.954-20 20-20v2C10.059 2 2 10.059 2 20s8.059 18 18 18v2c-11.046 0-20-8.954-20-20z' fill='%23047857' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
-  background-size: 40px 40px;
+/* Next.js <Link> hub cards — override rsuite / browser default anchor blue */
+main a.group {
+  text-decoration: none !important;
+  color: inherit !important;
 }
 
-.hana-wagara-subtle {
-  opacity: 0.02;
+/* RSuite sets h1–h6 to font-weight: bolder; hub + admin page titles should match Gada */
+main :is(h1, h2).font-serif,
+main a.group h2 {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-weight: 400;
+  color: rgb(17 24 39);
 }
 
-.hana-btn-outline {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  border: 1px solid #d1d5db;
-  padding: 12px 8px;
-  transition: color 0.5s ease, border-color 0.5s ease;
-  cursor: pointer;
+/* Admin data tables — match Gada typography (Arial body, semibold headers) */
+.admin-data-table {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
-.hana-btn-outline:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.hana-btn-outline span {
-  position: relative;
-  z-index: 10;
-  font-size: 0.65rem;
+.admin-data-table th {
   font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #374151;
-  transition: color 0.5s ease;
 }
 
-.hana-btn-outline:hover:not(:disabled) span {
-  color: var(--hana-primary-dark);
+.admin-data-table td {
+  font-weight: 400;
 }
 
-.hana-btn-outline::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(236, 253, 245, 0.7);
-  transform: translateX(-100%);
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 0;
+.admin-data-table :is(th, td) {
+  vertical-align: middle;
 }
 
-.hana-btn-outline:hover:not(:disabled)::after {
-  transform: translateX(0);
+/* Admin dashboard wide tables — borders stay visible with sticky columns */
+.admin-data-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-top: 1px solid #64748b;
+  border-left: 1px solid #64748b;
 }
 
-.hana-dashboard-card {
-  position: relative;
-  overflow: hidden;
-  background: #ffffff;
-  border: 1px solid rgba(229, 231, 235, 0.6);
-  transition: border-color 0.7s ease;
-  cursor: pointer;
+.admin-data-table :is(th, td) {
+  border-right: 1px solid #94a3b8;
+  border-bottom: 1px solid #94a3b8;
 }
 
-.hana-dashboard-card:hover {
-  border-color: rgba(4, 120, 87, 0.3);
+.admin-data-table thead :is(th) {
+  border-bottom: 2px solid #64748b;
 }
 
-.hana-dashboard-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(236, 253, 245, 0.35);
-  transform: translateX(-100%);
-  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 0;
-  pointer-events: none;
+.admin-data-table :is(th, td).border-dashed {
+  border-style: solid !important;
 }
 
-.hana-portal-btn {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid var(--hana-border);
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.4s ease, border-color 0.4s ease;
-  cursor: pointer;
-  text-decoration: none;
+.admin-data-table :is(th, td)[class*='border-gray-100'],
+.admin-data-table :is(th, td)[class*='border-amber-100'],
+.admin-data-table :is(th, td)[class*='border-rose-100'],
+.admin-data-table :is(th, td)[class*='border-rose-200'] {
+  border-color: #94a3b8 !important;
 }
 
-.hana-portal-btn span {
-  position: relative;
-  z-index: 10;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #333333;
-  transition: color 0.4s ease;
+.admin-data-table :is(th, td)[class*='sticky'] {
+  background-clip: padding-box;
 }
 
-.hana-portal-btn:hover span {
-  color: var(--hana-matte);
+.admin-data-table :is(th, td)[class*='sticky'][class*='left-'] {
+  border-right: 1px solid #64748b !important;
 }
 
-.hana-portal-btn:hover {
-  border-color: var(--hana-primary);
+.admin-data-table :is(th, td)[class*='sticky'][class*='right-0'] {
+  border-left: 1px solid #64748b !important;
 }
 
-.hana-portal-btn::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--hana-primary-light);
-  transform: translateX(-100%);
-  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 0;
+.admin-data-table thead :is(th)[class*='sticky'] {
+  border-bottom: 2px solid #64748b !important;
 }
 
-.hana-portal-btn:hover::after {
-  transform: translateX(0);
+.admin-data-table .admin-sticky-split-right {
+  box-shadow: 4px 0 8px rgba(15, 23, 42, 0.08);
 }
 
-.hana-dashboard-card:hover::before {
-  transform: translateX(0);
+.admin-data-table .admin-sticky-split-left {
+  box-shadow: -4px 0 8px rgba(15, 23, 42, 0.08);
+}
+
+/* ── Print: force A4 ── */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  body:has(#cv-print-wrapper) > *:not(#__NEXT_DATA__) {
+    display: none !important;
+  }
+
+  #cv-print-wrapper {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 210mm;
+  }
+
+  #cv-template {
+    width: 210mm !important;
+    padding: 10mm 12mm !important;
+    font-size: 9pt !important;
+    background: white !important;
+    box-sizing: border-box !important;
+  }
 }

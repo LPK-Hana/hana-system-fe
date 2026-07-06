@@ -1,7 +1,6 @@
-import { Toaster } from "react-hot-toast";
-import { Geist, Geist_Mono, Inter, Noto_Sans_JP } from "next/font/google";
-import RsuiteProvider from "../components/RsuiteProvider";
-import "rsuite/dist/rsuite.min.css";
+import { Geist, Geist_Mono, Inter, Noto_Sans_JP, Noto_Serif_JP } from "next/font/google";
+import { AuthSessionWatcher } from "@/components/AuthSessionWatcher";
+import { GlobalToaster } from "@/components/GlobalToaster";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,22 +24,27 @@ const notoSansJP = Noto_Sans_JP({
   weight: ["400", "500", "700"],
 });
 
+const notoSerifJP = Noto_Serif_JP({
+  variable: "--font-noto-serif-jp",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata = {
   title: "Hana System",
   description: "Hana System Dashboard",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="id"
-      className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${notoSansJP.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${notoSansJP.variable} ${notoSerifJP.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">
-        <RsuiteProvider>
-          {children}
-          <Toaster position="top-center" />
-        </RsuiteProvider>
+      <body className="min-h-full flex flex-col">
+        <GlobalToaster />
+        <AuthSessionWatcher />
+        {children}
       </body>
     </html>
   );
