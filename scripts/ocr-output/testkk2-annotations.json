@@ -1,0 +1,118 @@
+[
+  {
+    "locale": "id",
+    "description": "No\nwwwwww\nNama Kepala Keluarga\nAlamat\nRT/RW\nREPUBLIK INDONESIA Kode Pos\nNama Lengkap\n(1)\n1\nDEWI YULIANTIE\n2\nMUHAMMAD IHSAN MAULANA\n3 M NUR AZRIL ALFARIZI\n4\n-\n5-\nKARTU KELUARGA\nNo. 3202313112110006\nDEWI YULIANTIE\n: KP. CICURUG\n: 008/003\nDesa/Kelurahan : CIKEMBANG\nKecamatan : CARINGIN\nKabupaten/Kota : SUKABUMI\nProvinsi\nNIK\nJenis\nKelamin\nTempat Lahir\nTanggal\nLahir\nAgama\n: JAWA BARAT\nPendidikan\nJenis Pekerjaan\nGolongan\nDarah\n(2)\n(3)\n(4)\n3202316112830002 PEREMPUAN SUKABUMI\n3202312206050002 LAKI-LAKI SUKABUMI\n3202310511170001 LAKI-LAKI SUKABUMI\n(5)\n21-12-1983\n22-06-2005\n05-11-2017\n(6)\n(7)\n(8)\n(9)\nISLAM\nISLAM\nISLAM\nTAMAT SD/SEDERAJAT\nBELUM TAMAT SD/SEDERAJAT\nTIDAK/BELUM SEKOLAH\nMENGURUS RUMAH TANGGA\nPELAJAR/MAHASISWA\nBELUM/TIDAK BEKERJA\nTIDAK TAHU\nTIDAK TAHU\nTIDAK TAHU\n6\n7\n8\n9\n10-\nNo\nStatus\nPerkawinan\nTanggal\nPerkawinan\nStatus Hubungan\nDalam Keluarga\n(10)\n(11)\n(12)\n1\nKAWIN BELUM TERCATAT\nKEPALA KELUARGA\n2 BELUM KAWIN\n3 BELUM KAWIN\n4\n-\n5\n6\nANAK\nANAK\n7-\n8\n9\n10\nDikeluarkan Tanggal:\n10-04-2025\nDokumen Imigrasi\nKewarganegaraan\nNo. Paspor\nNo. KITAP\n(13)\n(14)\n(15)\nAyah\n(16)\nWNI\nWNI\nIYUS\nENCEP\nIIS\nWNI\nKEPALA KELUARGA\nSTIYADI\nNama Orang Tua\nIbu\n(17)\nDEWI YULIANTIE\nDEWI YULIANTIE\nKEPALA DINAS KEPENDUDUKAN DAN\nPENCATATAN SIPIL KABUPATEN SUKABUMI\nDEWI YULIANTIE\nTanda Tangan/Cap Jempol\nAMIR HAMZAH, S.Sos., M.Si.\nNIP. 197308211992031003\nDokumen ini telah ditandatangani secara elektronik menggunakan sertifikat elektronik yang diterbitkan oleh Balai Sertifikasi Elektronik (BSrE), BSSN",
+    "boundingPoly": {
+      "vertices": [
+        {
+          "x": 22,
+          "y": 17
+        },
+        {
+          "x": 1363,
+          "y": 17
+        },
+        {
+          "x": 1363,
+          "y": 935
+        },
+        {
+          "x": 22,
+          "y": 935
+        }
+      ]
+    }
+  },
+  {
+    "description": "No",
+    "boundingPoly": {
+      "vertices": [
+        {
+          "x": 22,
+          "y": 183
+        },
+        {
+          "x": 41,
+          "y": 183
+        },
+        {
+          "x": 41,
+          "y": 194
+        },
+        {
+          "x": 22,
+          "y": 194
+        }
+      ]
+    }
+  },
+  {
+    "description": "wwwwww",
+    "boundingPoly": {
+      "vertices": [
+        {
+          "x": 86,
+          "y": 140
+        },
+        {
+          "x": 135,
+          "y": 139
+        },
+        {
+          "x": 135,
+          "y": 152
+        },
+        {
+          "x": 86,
+          "y": 153
+        }
+      ]
+    }
+  },
+  {
+    "description": "Nama",
+    "boundingPoly": {
+      "vertices": [
+        {
+          "x": 198,
+          "y": 101
+        },
+        {
+          "x": 238,
+          "y": 101
+        },
+        {
+          "x": 238,
+          "y": 115
+        },
+        {
+          "x": 198,
+          "y": 115
+        }
+      ]
+    }
+  },
+  {
+    "description": "Kepala",
+    "boundingPoly": {
+      "vertices": [
+        {
+          "x": 242,
+          "y": 101
+        },
+        {
+          "x": 289,
+          "y": 101
+        },
+        {
+          "x": 289,
+          "y": 115
+        },
+        {
+          "x": 242,
+          "y": 115
+        }
+      ]
+    }
+  }
+]

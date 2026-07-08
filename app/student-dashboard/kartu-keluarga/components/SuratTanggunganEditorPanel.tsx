@@ -1,0 +1,350 @@
+'use client';
+
+import React from 'react';
+import { UserCircle2 } from 'lucide-react';
+import { KkFormData } from '../types';
+import { SuratTanggunganFormData } from '../types/suratTanggunganTypes';
+import { kkMembersWithData } from '../utils/suratTanggunganMapper';
+import { translateToKatakana } from '../utils/translations';
+
+export type StEditorTab = 'select' | 'edit_id' | 'edit_jp';
+
+interface SuratTanggunganEditorPanelProps {
+  activeMobileTab: 'edit' | 'preview';
+  isEditorCollapsed: boolean;
+  activeTab: StEditorTab;
+  setActiveTab: (tab: StEditorTab) => void;
+  setViewLanguage?: (lang: 'id' | 'jp') => void;
+  kkFormData: KkFormData;
+  stFormData: SuratTanggunganFormData;
+  onSelectApplicant: (memberIndex: number) => void;
+  updateApplicant: (field: string, value: string, syncJpField?: string) => void;
+  updateDependent: (idx: number, field: string, value: string, syncJpField?: string) => void;
+  updateMeta: (field: keyof SuratTanggunganFormData, value: string) => void;
+}
+
+const inputCls =
+  'w-full border border-slate-200 rounded-lg px-3 py-2 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 outline-none';
+
+export const SuratTanggunganEditorPanel: React.FC<SuratTanggunganEditorPanelProps> = ({
+  activeMobileTab,
+  isEditorCollapsed,
+  activeTab,
+  setActiveTab,
+  setViewLanguage,
+  kkFormData,
+  stFormData,
+  onSelectApplicant,
+  updateApplicant,
+  updateDependent,
+  updateMeta,
+}) => {
+  const isJp = activeTab === 'edit_jp';
+  const hasApplicant = stFormData.applicantMemberIndex !== null;
+  const members = kkMembersWithData(kkFormData);
+  const kkEmpty = members.length === 0;
+
+  const getApplicantVal = (field: string, jpField?: string) => {
+    const a = stFormData.applicant as Record<string, string>;
+    if (!isJp) return a[field] ?? '';
+    if (jpField && a[jpField]) return a[jpField];
+    return a[field] ?? '';
+  };
+
+  const handleApplicant = (field: string, jpField: string, val: string) => {
+    const upper = field === 'gender' || field === 'genderJp' ? val : val.toUpperCase();
+    if (isJp) {
+      updateApplicant(jpField, upper);
+      return;
+    }
+    updateApplicant(field, upper, jpField);
+    if (field === 'name') updateApplicant('nameKatakana', translateToKatakana(upper));
+    if (field === 'domisili') updateApplicant('domisiliKatakana', translateToKatakana(upper));
+  };
+
+  const handleDep = (idx: number, field: string, jpField: string, val: string) => {
+    const upper = val.toUpperCase();
+    if (isJp) {
+      updateDependent(idx, jpField, upper);
+      return;
+    }
+    updateDependent(idx, field, upper, jpField);
+    if (field === 'name') updateDependent(idx, 'nameKatakana', translateToKatakana(upper));
+    if (field === 'relationship') {
+      const jpRel =
+        ({ Ayah: '父', Ibu: '母', 'Adik Perempuan': '妹', 'Adik Laki-laki': '弟' } as Record<string, string>)[upper] ||
+        upper;
+      updateDependent(idx, 'relationshipJp', jpRel);
+    }
+  };
+
+  return (
+    <div
+      className={`
+        ${activeMobileTab === 'edit' ? 'flex' : 'hidden lg:flex'}
+        ${isEditorCollapsed ? 'lg:hidden' : 'lg:flex'}
+        w-full lg:w-[400px] flex-shrink-0 bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden flex-col print:hidden lg:h-full min-h-0
+      `}
+    >
+      <div className="flex border-b border-slate-100 bg-slate-50/30">
+        <button
+          type="button"
+          onClick={() => setActiveTab('select')}
+          className={`flex-1 py-3 text-xs font-semibold text-center transition-all ${activeTab === 'select' ? 'bg-white text-indigo-700 border-b-2 border-indigo-600 font-bold' : 'text-slate-500 hover:text-slate-800'}`}
+        >
+          1. Pilih Peserta
+        </button>
+        <button
+          type="button"
+          disabled={!hasApplicant}
+          onClick={() => {
+            setActiveTab('edit_id');
+            setViewLanguage?.('id');
+          }}
+          className={`flex-1 py-3 text-xs font-semibold text-center transition-all disabled:opacity-40 disabled:cursor-not-allowed ${activeTab === 'edit_id' ? 'bg-white text-indigo-700 border-b-2 border-indigo-600 font-bold' : 'text-slate-500 hover:text-slate-800'}`}
+        >
+          2. Revisi Indo
+        </button>
+        <button
+          type="button"
+          disabled={!hasApplicant}
+          onClick={() => {
+            setActiveTab('edit_jp');
+            setViewLanguage?.('jp');
+          }}
+          className={`flex-1 py-3 text-xs font-semibold text-center transition-all disabled:opacity-40 disabled:cursor-not-allowed ${activeTab === 'edit_jp' ? 'bg-white text-indigo-700 border-b-2 border-indigo-600 font-bold' : 'text-slate-500 hover:text-slate-800'}`}
+        >
+          3. Revisi Jepang
+        </button>
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-4 space-y-5">
+        {activeTab === 'select' ? (
+          <div className="space-y-4">
+            <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-3">
+              <p className="text-xs text-indigo-900 font-semibold leading-relaxed">
+                Pilih anggota keluarga yang akan berangkat ke Jepang. Data Surat Tanggungan akan diisi otomatis dari KK.
+              </p>
+            </div>
+            {kkEmpty ? (
+              <p className="text-xs text-slate-500 text-center py-8">
+                Upload dan isi data KK terlebih dahulu di tab Kartu Keluarga.
+              </p>
+            ) : (
+              <div className="space-y-2">
+                {members.map(({ m, index }) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => onSelectApplicant(index)}
+                    className={`w-full text-left p-3 rounded-xl border transition-all flex items-start gap-3 ${
+                      stFormData.applicantMemberIndex === index
+                        ? 'border-indigo-500 bg-indigo-50/50 ring-1 ring-indigo-200'
+                        : 'border-slate-200 hover:border-indigo-200 hover:bg-slate-50'
+                    }`}
+                  >
+                    <UserCircle2
+                      size={20}
+                      className={stFormData.applicantMemberIndex === index ? 'text-indigo-600' : 'text-slate-400'}
+                    />
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-slate-800 truncate">{m.name || '(Tanpa nama)'}</p>
+                      <p className="text-[10px] text-slate-500 mt-0.5">
+                        {m.relationship || '-'} · NIK {m.nik || '-'}
+                      </p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <>
+            <section className="space-y-3">
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Data Pemohon {isJp ? '(Jepang)' : '(Indonesia)'}
+              </h3>
+              <label className="block space-y-1">
+                <span className="text-[10px] font-semibold text-slate-500">Nama</span>
+                <input
+                  className={inputCls}
+                  value={getApplicantVal('name', 'nameJp')}
+                  onChange={(e) => handleApplicant('name', 'nameJp', e.target.value)}
+                />
+              </label>
+              {isJp ? (
+                <label className="block space-y-1">
+                  <span className="text-[10px] font-semibold text-slate-500">Nama (Katakana)</span>
+                  <input
+                    className={inputCls}
+                    value={stFormData.applicant.nameKatakana}
+                    onChange={(e) => updateApplicant('nameKatakana', e.target.value)}
+                  />
+                </label>
+              ) : null}
+              <div className="grid grid-cols-2 gap-2">
+                <label className="block space-y-1">
+                  <span className="text-[10px] font-semibold text-slate-500">Jenis Kelamin</span>
+                  <input
+                    className={inputCls}
+                    value={getApplicantVal('gender', 'genderJp')}
+                    onChange={(e) => handleApplicant('gender', 'genderJp', e.target.value)}
+                  />
+                </label>
+                <label className="block space-y-1">
+                  <span className="text-[10px] font-semibold text-slate-500">Tgl Lahir (DD-MM-YYYY)</span>
+                  <input
+                    className={inputCls}
+                    value={stFormData.applicant.dob}
+                    onChange={(e) => updateApplicant('dob', e.target.value)}
+                  />
+                </label>
+              </div>
+              <label className="block space-y-1">
+                <span className="text-[10px] font-semibold text-slate-500">NIK</span>
+                <input
+                  className={inputCls}
+                  value={stFormData.applicant.nik}
+                  onChange={(e) => updateApplicant('nik', e.target.value)}
+                />
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                <label className="block space-y-1">
+                  <span className="text-[10px] font-semibold text-slate-500">Tgl Terbit KTP</span>
+                  <input
+                    className={inputCls}
+                    value={isJp ? stFormData.applicant.ktpIssueDateJp : stFormData.applicant.ktpIssueDate}
+                    onChange={(e) =>
+                      isJp
+                        ? updateApplicant('ktpIssueDateJp', e.target.value)
+                        : updateApplicant('ktpIssueDate', e.target.value)
+                    }
+                  />
+                </label>
+                <label className="block space-y-1">
+                  <span className="text-[10px] font-semibold text-slate-500">Kewarganegaraan</span>
+                  <input
+                    className={inputCls}
+                    value={getApplicantVal('nationality', 'nationalityJp')}
+                    onChange={(e) => handleApplicant('nationality', 'nationalityJp', e.target.value)}
+                  />
+                </label>
+              </div>
+              <label className="block space-y-1">
+                <span className="text-[10px] font-semibold text-slate-500">Domisili</span>
+                <input
+                  className={inputCls}
+                  value={getApplicantVal('domisili', 'domisiliJp')}
+                  onChange={(e) => handleApplicant('domisili', 'domisiliJp', e.target.value)}
+                />
+              </label>
+              {isJp ? (
+                <label className="block space-y-1">
+                  <span className="text-[10px] font-semibold text-slate-500">Domisili (Katakana)</span>
+                  <input
+                    className={inputCls}
+                    value={stFormData.applicant.domisiliKatakana}
+                    onChange={(e) => updateApplicant('domisiliKatakana', e.target.value)}
+                  />
+                </label>
+              ) : null}
+            </section>
+
+            <section className="space-y-3">
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Daftar Tanggungan</h3>
+              {stFormData.dependents.map((dep, idx) => (
+                <div key={idx} className="border border-slate-100 rounded-xl p-3 space-y-2 bg-slate-50/40">
+                  <p className="text-[10px] font-bold text-indigo-700">Baris {idx + 1}</p>
+                  <label className="block space-y-1">
+                    <span className="text-[10px] font-semibold text-slate-500">Hubungan</span>
+                    <input
+                      className={inputCls}
+                      value={isJp ? dep.relationshipJp : dep.relationship}
+                      onChange={(e) => handleDep(idx, 'relationship', 'relationshipJp', e.target.value)}
+                    />
+                  </label>
+                  <label className="block space-y-1">
+                    <span className="text-[10px] font-semibold text-slate-500">Nama</span>
+                    <input
+                      className={inputCls}
+                      value={isJp ? dep.nameJp : dep.name}
+                      onChange={(e) => handleDep(idx, 'name', 'nameJp', e.target.value)}
+                    />
+                  </label>
+                  {isJp ? (
+                    <label className="block space-y-1">
+                      <span className="text-[10px] font-semibold text-slate-500">Nama (Katakana)</span>
+                      <input
+                        className={inputCls}
+                        value={dep.nameKatakana}
+                        onChange={(e) => updateDependent(idx, 'nameKatakana', e.target.value)}
+                      />
+                    </label>
+                  ) : null}
+                  <label className="block space-y-1">
+                    <span className="text-[10px] font-semibold text-slate-500">Tanggal Lahir</span>
+                    <input
+                      className={inputCls}
+                      value={dep.dob}
+                      onChange={(e) => updateDependent(idx, 'dob', e.target.value)}
+                    />
+                  </label>
+                </div>
+              ))}
+            </section>
+
+            <section className="space-y-3">
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Tanda Tangan</h3>
+              <div className="grid grid-cols-3 gap-2">
+                <label className="block space-y-1 col-span-3">
+                  <span className="text-[10px] font-semibold text-slate-500">Kota / Kabupaten</span>
+                  <input
+                    className={inputCls}
+                    value={isJp ? stFormData.locationJp : stFormData.locationId}
+                    onChange={(e) =>
+                      isJp ? updateMeta('locationJp', e.target.value) : updateMeta('locationId', e.target.value.toUpperCase())
+                    }
+                  />
+                </label>
+                {isJp ? (
+                  <label className="block space-y-1 col-span-3">
+                    <span className="text-[10px] font-semibold text-slate-500">Nama Desa (村御中)</span>
+                    <input
+                      className={inputCls}
+                      value={stFormData.villageNameJp}
+                      onChange={(e) => updateMeta('villageNameJp', e.target.value)}
+                    />
+                  </label>
+                ) : null}
+                <label className="block space-y-1">
+                  <span className="text-[10px] font-semibold text-slate-500">Tahun</span>
+                  <input
+                    className={inputCls}
+                    value={stFormData.signDateYear}
+                    onChange={(e) => updateMeta('signDateYear', e.target.value)}
+                  />
+                </label>
+                <label className="block space-y-1">
+                  <span className="text-[10px] font-semibold text-slate-500">Bulan</span>
+                  <input
+                    className={inputCls}
+                    value={stFormData.signDateMonth}
+                    onChange={(e) => updateMeta('signDateMonth', e.target.value)}
+                  />
+                </label>
+                <label className="block space-y-1">
+                  <span className="text-[10px] font-semibold text-slate-500">Hari</span>
+                  <input
+                    className={inputCls}
+                    value={stFormData.signDateDay}
+                    onChange={(e) => updateMeta('signDateDay', e.target.value)}
+                  />
+                </label>
+              </div>
+            </section>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
