@@ -1,4 +1,7 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { ImageIcon, FileText } from 'lucide-react';
 import { KkFormData } from '../types';
 import { resolveJpEnumField, resolveJpRomanjiField, translateToId, translateToJp } from '../utils/translations';
 import { KK_FONT_ID, KK_FONT_JP } from '../utils/kkFonts';
@@ -40,13 +43,16 @@ const cellPad = (paddingLeft = '2px') => ({
 
 const TABLE_CELL = {
   border: '1px solid #000' as const,
-  ...cellPad('2px'),
+  ...cellPad('4px'),
+  textAlign: 'left' as const,
 };
 
 const TABLE_HEAD = {
   ...TABLE_CELL,
   background: '#f5f5f5',
   fontWeight: 'bold' as const,
+  textAlign: 'center' as const,
+  ...cellPad('2px'),
 };
 
 const JP_TABLE_HEAD = {
@@ -77,8 +83,8 @@ const JP_TABLE_CELL = {
 
 const JP_TABLE_CELL_NO = {
   ...JP_TABLE_CELL,
-  textAlign: 'center' as const,
-  ...cellPad('2px'),
+  textAlign: 'left' as const,
+  ...cellPad('4px'),
   fontWeight: 'bold' as const,
 };
 
@@ -101,6 +107,8 @@ interface DocumentPreviewProps {
   viewLanguage: 'id' | 'jp';
   formData: KkFormData;
   printAreaId?: string;
+  sourceImageUrl?: string | null;
+  sourceFileName?: string;
 }
 
 export const DocumentPreview: React.FC<DocumentPreviewProps> = ({
@@ -110,7 +118,15 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({
   viewLanguage,
   formData,
   printAreaId = 'kk-print-area',
+  sourceImageUrl,
+  sourceFileName,
 }) => {
+  const [previewPane, setPreviewPane] = useState<'source' | 'generated'>('generated');
+  const showSourceFlip = Boolean(sourceImageUrl) && viewLanguage === 'id';
+
+  useEffect(() => {
+    if (viewLanguage === 'jp') setPreviewPane('generated');
+  }, [viewLanguage]);
   const { wPx: pageW, hPx: pageH } = getKkPageSize(viewLanguage);
   const isJp = viewLanguage === 'jp';
   const jpKepalaName = resolveJpRomanjiField(formData.basic.kepalaKeluargaJp, formData.basic.kepalaKeluarga);
@@ -165,25 +181,18 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({
     </div>
   );
 
-  return (
+  const generatedPreview = (
     <div
-      ref={containerRef}
-      className={`
-        ${activeMobileTab === 'preview' ? 'flex' : 'hidden lg:flex'}
-        flex-1 flex items-start justify-center overflow-auto min-h-[500px] lg:min-h-0 lg:h-full bg-slate-100/50 border border-slate-200/60 rounded-2xl p-4 lg:p-6 print:border-none print:bg-transparent print:p-0 print:m-0 relative
-      `}
+      className="print:!w-auto print:!h-auto print:!m-0"
+      style={{
+        width: pageW * currentScale,
+        height: pageH * currentScale,
+        flexShrink: 0,
+        position: 'relative',
+        transition: 'width 0.2s cubic-bezier(0.4, 0, 0.2, 1), height 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+        margin: '0 auto',
+      }}
     >
-      <div
-        style={{
-          width: pageW * currentScale,
-          height: pageH * currentScale,
-          flexShrink: 0,
-          position: 'relative',
-          transition: 'width 0.2s cubic-bezier(0.4, 0, 0.2, 1), height 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-          margin: '0 auto',
-        }}
-        className="print:!w-auto print:!h-auto print:!m-0"
-      >
         <div
           id={printAreaId}
           data-kk-variant={viewLanguage}
@@ -306,7 +315,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({
 
           {/* ─── TABLE 1 ─── */}
           {viewLanguage === 'id' ? (
-            <table style={{ width: '100%', borderCollapse: 'collapse', border: '1.5px solid #000', tableLayout: 'fixed', fontSize: '8.5px', textAlign: 'center', marginBottom: '4px' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', border: '1.5px solid #000', tableLayout: 'fixed', fontSize: '8.5px', textAlign: 'left', marginBottom: '4px' }}>
               <colgroup>
                 <col style={{ width: '3%' }} />
                 <col style={{ width: '19%' }} />
@@ -337,7 +346,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({
                 {formData.members.map((row, idx) => (
                   <tr key={idx} style={{ height: TABLE_ROW_H }}>
                     <td style={{ ...TABLE_CELL, fontWeight: 'bold' }}>{idx + 1}</td>
-                    <td style={{ ...TABLE_CELL, ...cellPad(row.name ? '4px' : '2px'), textAlign: row.name ? 'left' : 'center', fontSize: '8px' }}>{row.name || '-'}</td>
+                    <td style={{ ...TABLE_CELL, fontSize: '8px' }}>{row.name || '-'}</td>
                     <td style={{ ...TABLE_CELL, fontSize: '8px' }}>{row.nik || '-'}</td>
                     <td style={{ ...TABLE_CELL, fontSize: '8px' }}>{translateToId('gender', row.gender) || '-'}</td>
                     <td style={{ ...TABLE_CELL, fontSize: '8px' }}>{row.pob || '-'}</td>
@@ -403,7 +412,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({
 
           {/* ─── TABLE 2 ─── */}
           {viewLanguage === 'id' ? (
-            <table style={{ width: '100%', borderCollapse: 'collapse', border: '1.5px solid #000', tableLayout: 'fixed', fontSize: '8.5px', textAlign: 'center', marginBottom: '6px' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', border: '1.5px solid #000', tableLayout: 'fixed', fontSize: '8.5px', textAlign: 'left', marginBottom: '6px' }}>
               <colgroup>
                 <col style={{ width: '3%' }} />
                 <col style={{ width: '10%' }} />
@@ -656,6 +665,74 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({
               </div>
             </>
           )}
+        </div>
+    </div>
+  );
+
+  return (
+    <div
+      ref={containerRef}
+      className={`
+        ${activeMobileTab === 'preview' ? 'flex' : 'hidden lg:flex'}
+        flex-1 flex flex-col min-h-[500px] lg:min-h-0 lg:h-full bg-slate-100/50 border border-slate-200/60 rounded-2xl p-4 lg:p-6 print:border-none print:bg-transparent print:p-0 print:m-0 relative overflow-hidden
+      `}
+    >
+      {showSourceFlip ? (
+        <div className="flex items-center gap-2 mb-3 shrink-0 print:hidden">
+          <div className="flex flex-1 gap-1 p-1 bg-white rounded-xl border border-slate-200 shadow-sm">
+            <button
+              type="button"
+              onClick={() => setPreviewPane('source')}
+              className={`flex-1 py-2 px-3 text-xs font-bold rounded-lg flex items-center justify-center gap-1.5 transition-all ${
+                previewPane === 'source'
+                  ? 'bg-indigo-900 text-white shadow-sm'
+                  : 'text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <ImageIcon size={14} />
+              KK Asli
+            </button>
+            <button
+              type="button"
+              onClick={() => setPreviewPane('generated')}
+              className={`flex-1 py-2 px-3 text-xs font-bold rounded-lg flex items-center justify-center gap-1.5 transition-all ${
+                previewPane === 'generated'
+                  ? 'bg-indigo-900 text-white shadow-sm'
+                  : 'text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <FileText size={14} />
+              Hasil Screening
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      <div className="flex-1 min-h-0 overflow-auto flex items-start justify-center w-full">
+        {showSourceFlip && previewPane === 'source' ? (
+          <div className="w-full max-w-full print:hidden">
+            {sourceFileName ? (
+              <p className="text-[10px] text-slate-500 mb-2 px-1 truncate" title={sourceFileName}>
+                {sourceFileName}
+              </p>
+            ) : null}
+            <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-auto">
+              <img
+                src={sourceImageUrl!}
+                alt="Kartu Keluarga asli"
+                className="w-full h-auto block"
+                draggable={false}
+              />
+            </div>
+          </div>
+        ) : null}
+
+        <div
+          className={`print:!w-auto print:!h-auto print:!m-0 ${
+            showSourceFlip && previewPane === 'source' ? 'hidden print:block' : 'block'
+          }`}
+        >
+          {generatedPreview}
         </div>
       </div>
     </div>

@@ -60,6 +60,7 @@ const emptyMember = {
 };
 
 import { getKkPageSize } from '@/app/student-dashboard/kartu-keluarga/utils/kkPageSize';
+import { useKkSourceImage } from '@/app/student-dashboard/kartu-keluarga/utils/useKkSourceImage';
 
 const EMPTY_KK_DATA: KkFormData = {
   header: { number: '' },
@@ -99,6 +100,7 @@ export default function KkOcrEditorPage({ noPeserta, backHref, backLabel }: Prop
   const [containerWidth, setContainerWidth] = useState(1122);
   const [containerHeight, setContainerHeight] = useState(794);
   const previewContainerRef = useRef<HTMLDivElement>(null);
+  const { sourceUrl, fileName: sourceFileName, setSourceFile } = useKkSourceImage();
 
   const [formData, setFormData] = useState<KkFormData>(EMPTY_KK_DATA);
   const [isFetching, setIsFetching] = useState(true);
@@ -224,11 +226,12 @@ export default function KkOcrEditorPage({ noPeserta, backHref, backLabel }: Prop
     const file = e.target.files?.[0];
     if (!file) return;
 
+    setSourceFile(file);
     const newFormData = await parseKkDocument(file, formData, setOcrLoading);
     if (newFormData) {
       setFormData(newFormData);
       setActiveTab('edit_id');
-      setActiveMobileTab('edit');
+      setActiveMobileTab('preview');
     }
     e.target.value = '';
   };
@@ -471,6 +474,8 @@ export default function KkOcrEditorPage({ noPeserta, backHref, backLabel }: Prop
           currentScale={currentScale}
           viewLanguage={viewLanguage}
           formData={formData}
+          sourceImageUrl={sourceUrl}
+          sourceFileName={sourceFileName}
         />
       </div>
 

@@ -2,6 +2,8 @@ import React from 'react';
 import { Upload, Loader2, Sparkles } from 'lucide-react';
 import { KkFormData } from '../types';
 import { keepRomanji, translateToJp, translateToId } from '../utils/translations';
+import { KK_EDUCATION_OPTIONS, normalizeEducationId } from '../utils/educationOptions';
+import { KK_OCCUPATION_OPTIONS, normalizeOccupationId } from '../utils/occupationOptions';
 
 interface EditorPanelProps {
   activeMobileTab: 'edit' | 'preview';
@@ -21,19 +23,8 @@ interface EditorPanelProps {
   autoTranslateNames?: boolean;
 }
 
-const EDUCATION_OPTIONS = [
-  { id: 'BELUM SEKOLAH', jp: '未就学' },
-  { id: 'TIDAK/BELUM SEKOLAH', jp: '学歴なし' },
-  { id: 'BELUM TAMAT SD/SEDERAJAT', jp: '小学校未卒' },
-  { id: 'TAMAT SD/SEDERAJAT', jp: '小学校卒業' },
-  { id: 'SLTP/SEDERAJAT', jp: '中学校卒業' },
-  { id: 'SLTA/SEDERAJAT', jp: '高校卒業' },
-  { id: 'DIPLOMA I/II', jp: '短大' },
-  { id: 'AKADEMI/DIPLOMA III', jp: '専門学校' },
-  { id: 'S1/DIV', jp: '大学' },
-  { id: 'STRATA II', jp: '大学院' },
-  { id: 'STRATA III', jp: '博士課程' },
-];
+const EDUCATION_OPTIONS = KK_EDUCATION_OPTIONS;
+const OCCUPATION_OPTIONS = KK_OCCUPATION_OPTIONS;
 
 const BLOOD_TYPE_OPTIONS = [
   { id: 'A', jp: 'A型' },
@@ -41,33 +32,6 @@ const BLOOD_TYPE_OPTIONS = [
   { id: 'AB', jp: 'AB型' },
   { id: 'O', jp: 'O型' },
   { id: 'TIDAK TAHU', jp: '不明' },
-];
-
-const OCCUPATION_OPTIONS = [
-  { id: 'BELUM/TIDAK BEKERJA', jp: '未就労' },
-  { id: 'MENGURUS RUMAH TANGGA', jp: '家事' },
-  { id: 'PENSIUNAN', jp: '定年' },
-  { id: 'PEGAWAI NEGERI SIPIL', jp: '公務員' },
-  { id: 'TNI/POLRI', jp: '軍人' },
-  { id: 'PETANI/PEKEBUN', jp: '農家' },
-  { id: 'PETERNAK', jp: '畜産' },
-  { id: 'KARYAWAN SWASTA', jp: '会社員' },
-  { id: 'BURUH HARIAN LEPAS', jp: 'アルバイト' },
-  { id: 'BURUH TANI/PERKEBUNAN', jp: '農民' },
-  { id: 'PEMBANTU RUMAH TANGGA', jp: '家事手伝い' },
-  { id: 'PELAJAR/MAHASISWA', jp: '学生' },
-  { id: 'TUKANG CUKUR', jp: '理容師' },
-  { id: 'TUKANG LISTRIK', jp: '電気技師' },
-  { id: 'TUKANG BATU', jp: '石工' },
-  { id: 'TUKANG KAYU', jp: '大工' },
-  { id: 'WARTAWAN', jp: '記者' },
-  { id: 'USTADZ/MUBALIGH', jp: '牧師' },
-  { id: 'GURU', jp: '教師' },
-  { id: 'SOPIR', jp: '運転手' },
-  { id: 'PEDAGANG', jp: '商人' },
-  { id: 'PERANGKAT DESA', jp: '役人' },
-  { id: 'KEPALA DESA', jp: '村長' },
-  { id: 'WIRASWASTA', jp: '自営業' },
 ];
 
 export const EditorPanel: React.FC<EditorPanelProps> = ({
@@ -415,7 +379,16 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                       <label className="block text-[9px] uppercase font-bold text-slate-450 mb-1 tracking-wider">Pendidikan</label>
                       {(() => {
                         const eduVal = getMemberVal(member, 'education', 'educationJp', translateToJp, 'education');
-                        const showEduInput = eduVal !== '' && !EDUCATION_OPTIONS.some(o => isJp ? o.jp === eduVal : o.id === eduVal);
+                        const showEduInput =
+                          eduVal !== '' &&
+                          !EDUCATION_OPTIONS.some(
+                            (o) =>
+                              isJp
+                                ? o.jp === eduVal
+                                : o.id === eduVal ||
+                                  o.label.toUpperCase() === eduVal ||
+                                  normalizeEducationId(eduVal) === o.id,
+                          );
                         return (
                           <>
                             <select
@@ -425,7 +398,7 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                             >
                               <option value="">-</option>
                               {EDUCATION_OPTIONS.map(o => (
-                                <option key={o.id} value={isJp ? o.jp : o.id}>{isJp ? o.jp : o.id}</option>
+                                <option key={o.id} value={isJp ? o.jp : o.id}>{isJp ? o.jp : o.label}</option>
                               ))}
                               <option value="LAINNYA">LAINNYA (KETIK MANUAL)</option>
                             </select>
@@ -446,7 +419,16 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                       <label className="block text-[9px] uppercase font-bold text-slate-450 mb-1 tracking-wider">Pekerjaan</label>
                       {(() => {
                         const occVal = getMemberVal(member, 'occupation', 'occupationJp', translateToJp, 'occupation');
-                        const showOccInput = occVal !== '' && !OCCUPATION_OPTIONS.some(o => isJp ? o.jp === occVal : o.id === occVal);
+                        const showOccInput =
+                          occVal !== '' &&
+                          !OCCUPATION_OPTIONS.some(
+                            (o) =>
+                              isJp
+                                ? o.jp === occVal
+                                : o.id === occVal ||
+                                  o.label.toUpperCase() === occVal ||
+                                  normalizeOccupationId(occVal) === o.id,
+                          );
                         return (
                           <>
                             <select
@@ -456,7 +438,7 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                             >
                               <option value="">-</option>
                               {OCCUPATION_OPTIONS.map(o => (
-                                <option key={o.id} value={isJp ? o.jp : o.id}>{isJp ? o.jp : o.id}</option>
+                                <option key={o.id} value={isJp ? o.jp : o.id}>{isJp ? o.jp : o.label}</option>
                               ))}
                               <option value="LAINNYA">LAINNYA (KETIK MANUAL)</option>
                             </select>

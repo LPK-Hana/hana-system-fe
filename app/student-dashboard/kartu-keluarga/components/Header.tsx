@@ -1,7 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Printer, ZoomIn, ZoomOut, Maximize2, Minimize2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Printer, ZoomIn, ZoomOut, Maximize2, Minimize2, ChevronLeft, ChevronRight, FileHeart } from 'lucide-react';
 import { exportKKToPDF } from '../utils/exportKkPdf';
+
+export type KkHeaderDocument = 'kk' | 'tanggungan';
 
 interface HeaderProps {
   viewLanguage: 'id' | 'jp';
@@ -19,6 +21,8 @@ interface HeaderProps {
   backLabel?: string;
   printAreaId?: string;
   pdfFileName?: string;
+  activeDocument?: KkHeaderDocument;
+  onDocumentChange?: (doc: KkHeaderDocument) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -37,7 +41,11 @@ export const Header: React.FC<HeaderProps> = ({
   backLabel = 'Kembali ke Dashboard',
   printAreaId = 'kk-print-area',
   pdfFileName = 'Kartu_Keluarga.pdf',
+  activeDocument = 'kk',
+  onDocumentChange,
 }) => {
+  const showDocumentSwitcher = Boolean(onDocumentChange);
+
   return (
     <header className="border-b border-slate-200/80 bg-white/80 backdrop-blur-md px-4 md:px-8 py-3.5 flex flex-wrap gap-4 items-center justify-between print:hidden sticky top-0 z-20 shadow-sm/5">
       <Link
@@ -50,6 +58,31 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Dynamic Controls Group */}
       <div className="flex flex-wrap items-center gap-3 md:gap-4">
+        {showDocumentSwitcher ? (
+          <>
+            <div className="flex items-center gap-0.5 bg-slate-100 p-0.5 rounded-lg border border-slate-200 print:hidden shadow-sm/5">
+              <button
+                type="button"
+                onClick={() => onDocumentChange!('kk')}
+                className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all flex items-center gap-1.5 ${activeDocument === 'kk' ? 'bg-white text-indigo-950 shadow-sm border border-slate-200/40' : 'text-slate-500 hover:text-slate-800'}`}
+              >
+                <span className="text-[13px]">KK</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => onDocumentChange!('tanggungan')}
+                className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all flex items-center gap-1.5 ${activeDocument === 'tanggungan' ? 'bg-white text-indigo-950 shadow-sm border border-slate-200/40' : 'text-slate-500 hover:text-slate-800'}`}
+              >
+                <FileHeart size={13} />
+                <span className="text-[13px] hidden sm:inline">Surat Tanggungan</span>
+                <span className="text-[13px] sm:hidden">Tanggungan</span>
+              </button>
+            </div>
+
+            <div className="hidden sm:block w-px h-5 bg-slate-200 print:hidden" />
+          </>
+        ) : null}
+
         {/* Language Switcher Toggle */}
         <div className="flex items-center gap-0.5 bg-slate-100 p-0.5 rounded-lg border border-slate-200 print:hidden shadow-sm/5">
           <button
@@ -124,7 +157,7 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           onClick={() => exportKKToPDF(printAreaId, pdfFileName, viewLanguage)}
           disabled={isDataEmpty}
-          className={`inline-flex items-center gap-2 px-4.5 py-1.5 text-white text-xs md:text-sm font-semibold rounded-lg transition-all ${isDataEmpty ? 'bg-slate-400 cursor-not-allowed shadow-none opacity-70' : 'bg-indigo-900 hover:bg-indigo-850 active:scale-95 shadow-md shadow-indigo-950/10 hover:shadow-indigo-950/15'}`}
+          className={`inline-flex items-center gap-2 px-4.5 py-1.5 text-white text-xs md:text-sm font-semibold rounded-lg transition-all ${isDataEmpty || activeDocument === 'tanggungan' ? 'bg-slate-400 cursor-not-allowed shadow-none opacity-70' : 'bg-indigo-900 hover:bg-indigo-850 active:scale-95 shadow-md shadow-indigo-950/10 hover:shadow-indigo-950/15'}`}
         >
           <Printer size={15} strokeWidth={2} />
           <span>Cetak / Simpan PDF</span>

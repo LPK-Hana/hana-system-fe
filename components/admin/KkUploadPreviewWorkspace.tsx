@@ -3,13 +3,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { Edit3, Eye } from 'lucide-react';
 import { initialFormData, KkFormData } from '@/app/student-dashboard/kartu-keluarga/types';
-import { Header } from '@/app/student-dashboard/kartu-keluarga/components/Header';
+import { Header, KkHeaderDocument } from '@/app/student-dashboard/kartu-keluarga/components/Header';
 import { EditorPanel } from '@/app/student-dashboard/kartu-keluarga/components/EditorPanel';
 import { DocumentPreview } from '@/app/student-dashboard/kartu-keluarga/components/DocumentPreview';
+import { SuratTanggunganPreview } from '@/app/student-dashboard/kartu-keluarga/components/SuratTanggunganPreview';
+import { SuratTanggunganEditorPanel, StEditorTab } from '@/app/student-dashboard/kartu-keluarga/components/SuratTanggunganEditorPanel';
 import { parseKkDocument } from '@/app/student-dashboard/kartu-keluarga/utils/ocrParser';
-import { syncBasicIdToJp, syncMemberIdToJp } from '@/app/student-dashboard/kartu-keluarga/utils/translations';
+import { syncBasicIdToJp, syncMemberIdToJp, translateToJp } from '@/app/student-dashboard/kartu-keluarga/utils/translations';
+import { initialSuratTanggunganData } from '@/app/student-dashboard/kartu-keluarga/types/suratTanggunganTypes';
+import { buildSuratTanggunganFromKk } from '@/app/student-dashboard/kartu-keluarga/utils/suratTanggunganMapper';
 
 import { getKkPageSize } from '@/app/student-dashboard/kartu-keluarga/utils/kkPageSize';
+import {
+  getSuratTanggunganPageSize,
+  getSuratTanggunganTotalHeightPx,
+} from '@/app/student-dashboard/kartu-keluarga/utils/suratTanggunganPageSize';
+import { useKkSourceImage } from '@/app/student-dashboard/kartu-keluarga/utils/useKkSourceImage';
 
 export default function KkUploadPreviewWorkspace() {
   const [scale, setScale] = useState(0.78);
@@ -21,8 +30,18 @@ export default function KkUploadPreviewWorkspace() {
   const [activeMobileTab, setActiveMobileTab] = useState<'edit' | 'preview'>('edit');
   const [containerWidth, setContainerWidth] = useState(1122);
   const [containerHeight, setContainerHeight] = useState(794);
-  const [formData, setFormData] = useState<KkFormData>(initialFormData);
+  const [activeDocument, setActiveDocument] = useState<KkHeaderDocument>('kk');
   const previewContainerRef = useRef<HTMLDivElement>(null);
+  const { sourceUrl, fileName: sourceFileName, setSourceFile } = useKkSourceImage();
+  const [formData, setFormData] = useState<KkFormData>(initialFormData);
+  const [stFormData, setStFormData] = useState(initialSuratTanggunganData);
+  const [stActiveTab, setStActiveTab] = useState<StEditorTab>('select');
+
+  useEffect(() => {
+    if (activeDocument === 'tanggungan') {
+      setActiveMobileTab('edit');
+    }
+  }, [activeDocument]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -49,9 +68,13 @@ export default function KkUploadPreviewWorkspace() {
     }
 
     return () => resizeObserver.disconnect();
-  }, [activeMobileTab, isEditorCollapsed]);
+  }, [activeMobileTab, isEditorCollapsed, activeDocument]);
 
-  const { wPx: pageW, hPx: pageH } = getKkPageSize(viewLanguage);
+  const kkPageSize = getKkPageSize(viewLanguage);
+  const stPageSize = getSuratTanggunganPageSize();
+  const isTanggungan = activeDocument === 'tanggungan';
+  const pageW = isTanggungan ? stPageSize.wPx : kkPageSize.wPx;
+  const pageH = isTanggungan ? getSuratTanggunganTotalHeightPx() : kkPageSize.hPx;
 
   const scaleByWidth = (containerWidth - 64) / pageW;
   const scaleByHeight = (containerHeight - 64) / pageH;
@@ -94,6 +117,7 @@ export default function KkUploadPreviewWorkspace() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    setSourceFile(file);
     const newFormData = await parseKkDocument(file, formData, setOcrLoading);
     if (newFormData) {
       setFormData(newFormData);
@@ -109,8 +133,65 @@ export default function KkUploadPreviewWorkspace() {
     !formData.basic.alamat.trim() &&
     formData.members.every((m) => !m.name.trim() && !m.nik.trim());
 
-  const pdfFileName =
-    viewLanguage === 'id' ? 'KK_Preview_Indonesia.pdf' : 'KK_Preview_Jepang.pdf';
+  const isStEmpty =
+    stFormData.applicantMemberIndex === null || !stFormData.applicant.name.trim();
+
+  const headerDataEmpty = isTanggungan ? isStEmpty : isDataEmpty;
+
+  const pdfFileName = isTanggungan
+    ? viewLanguage === 'id'
+      ? 'Surat_Tanggungan_Indonesia.pdf'
+      : 'Surat_Tanggungan_Jepang.pdf'
+    : viewLanguage === 'id'
+      ? 'KK_Preview_Indonesia.pdf'
+      : 'KK_Preview_Jepang.pdf';
+
+  const handleSelectApplicant = (memberIndex: number) => {
+    try {
+      const built = buildSuratTanggunganFromKk(formData, memberIndex);
+      setStFormData(built);
+      setStActiveTab('edit_id');
+      setViewLanguage('id');
+    } catch {
+      // ignore invalid selection
+    }
+  };
+
+  const updateStApplicant = (field: string, value: string, syncJpField?: string) => {
+    setStFormData((prev) => ({
+      ...prev,
+      applicant: {
+        ...prev.applicant,
+        [field]: value,
+        ...(syncJpField
+          ? {
+              [syncJpField]:
+                field === 'gender'
+                  ? translateToJp('gender', value)
+                  : syncJpField === 'nationalityJp'
+                    ? translateToJp('nationality', value)
+                    : value,
+            }
+          : {}),
+      },
+    }));
+  };
+
+  const updateStDependent = (idx: number, field: string, value: string, syncJpField?: string) => {
+    setStFormData((prev) => {
+      const dependents = [...prev.dependents];
+      dependents[idx] = {
+        ...dependents[idx],
+        [field]: value,
+        ...(syncJpField ? { [syncJpField]: value } : {}),
+      };
+      return { ...prev, dependents };
+    });
+  };
+
+  const updateStMeta = (field: keyof typeof stFormData, value: string) => {
+    setStFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   return (
     <main className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50/50 font-sans text-slate-800 pb-20 lg:pb-0 flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
@@ -123,53 +204,108 @@ export default function KkUploadPreviewWorkspace() {
         setScale={setScale}
         isEditorCollapsed={isEditorCollapsed}
         setIsEditorCollapsed={setIsEditorCollapsed}
-        isDataEmpty={isDataEmpty}
+        isDataEmpty={headerDataEmpty}
         backHref="/admin-dashboard/pemberkasan"
         backLabel="Kembali ke Pemberkasan"
         pdfFileName={pdfFileName}
+        printAreaId={isTanggungan ? 'surat-tanggungan-print-area' : 'kk-print-area'}
+        activeDocument={activeDocument}
+        onDocumentChange={setActiveDocument}
       />
 
       <div className="lg:hidden flex border-b border-slate-200/80 bg-white sticky top-[61px] z-15 shadow-sm/2 print:hidden">
-        <button
-          type="button"
-          onClick={() => setActiveMobileTab('edit')}
-          className={`flex-1 py-3 text-xs md:text-sm font-bold flex items-center justify-center gap-2 transition-all ${activeMobileTab === 'edit' ? 'text-indigo-900 border-b-2 border-indigo-900 bg-indigo-50/10' : 'text-slate-500 hover:text-slate-800'}`}
-        >
-          <Edit3 size={15} />
-          1. Edit Data Formulir
-        </button>
-        <button
-          type="button"
-          onClick={() => setActiveMobileTab('preview')}
-          className={`flex-1 py-3 text-xs md:text-sm font-bold flex items-center justify-center gap-2 transition-all ${activeMobileTab === 'preview' ? 'text-indigo-900 border-b-2 border-indigo-900 bg-indigo-50/10' : 'text-slate-500 hover:text-slate-800'}`}
-        >
-          <Eye size={15} />
-          2. Lihat Dokumen A4 ({viewLanguage === 'id' ? 'ID' : 'JP'})
-        </button>
+        {activeDocument === 'kk' ? (
+          <>
+            <button
+              type="button"
+              onClick={() => setActiveMobileTab('edit')}
+              className={`flex-1 py-3 text-xs md:text-sm font-bold flex items-center justify-center gap-2 transition-all ${activeMobileTab === 'edit' ? 'text-indigo-900 border-b-2 border-indigo-900 bg-indigo-50/10' : 'text-slate-500 hover:text-slate-800'}`}
+            >
+              <Edit3 size={15} />
+              1. Edit Data Formulir
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveMobileTab('preview')}
+              className={`flex-1 py-3 text-xs md:text-sm font-bold flex items-center justify-center gap-2 transition-all ${activeMobileTab === 'preview' ? 'text-indigo-900 border-b-2 border-indigo-900 bg-indigo-50/10' : 'text-slate-500 hover:text-slate-800'}`}
+            >
+              <Eye size={15} />
+              2. Lihat Dokumen A4 ({viewLanguage === 'id' ? 'ID' : 'JP'})
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={() => setActiveMobileTab('edit')}
+              className={`flex-1 py-3 text-xs md:text-sm font-bold flex items-center justify-center gap-2 transition-all ${activeMobileTab === 'edit' ? 'text-indigo-900 border-b-2 border-indigo-900 bg-indigo-50/10' : 'text-slate-500 hover:text-slate-800'}`}
+            >
+              <Edit3 size={15} />
+              Edit Surat Tanggungan
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveMobileTab('preview')}
+              className={`flex-1 py-3 text-xs md:text-sm font-bold flex items-center justify-center gap-2 transition-all ${activeMobileTab === 'preview' ? 'text-indigo-900 border-b-2 border-indigo-900 bg-indigo-50/10' : 'text-slate-500 hover:text-slate-800'}`}
+            >
+              <Eye size={15} />
+              Preview ({viewLanguage === 'id' ? 'Lembar 1' : 'Lembar 2'})
+            </button>
+          </>
+        )}
       </div>
 
       <div className="w-full max-w-[1600px] mx-auto px-4 lg:px-8 py-6 flex flex-col lg:flex-row gap-6 flex-1 min-h-0 lg:overflow-hidden print:block print:p-0 print:m-0">
-        <EditorPanel
-          activeMobileTab={activeMobileTab}
-          isEditorCollapsed={isEditorCollapsed}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          setViewLanguage={setViewLanguage}
-          ocrLoading={ocrLoading}
-          handleFileUpload={handleFileUpload}
-          formData={formData}
-          updateHeader={updateHeader}
-          updateBasic={updateBasic}
-          updateMember={updateMember}
-          updateFooter={updateFooter}
-        />
-        <DocumentPreview
-          activeMobileTab={activeMobileTab}
-          containerRef={previewContainerRef}
-          currentScale={currentScale}
-          viewLanguage={viewLanguage}
-          formData={formData}
-        />
+        {activeDocument === 'kk' ? (
+          <EditorPanel
+            activeMobileTab={activeMobileTab}
+            isEditorCollapsed={isEditorCollapsed}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            setViewLanguage={setViewLanguage}
+            ocrLoading={ocrLoading}
+            handleFileUpload={handleFileUpload}
+            formData={formData}
+            updateHeader={updateHeader}
+            updateBasic={updateBasic}
+            updateMember={updateMember}
+            updateFooter={updateFooter}
+          />
+        ) : (
+          <SuratTanggunganEditorPanel
+            activeMobileTab={activeMobileTab}
+            isEditorCollapsed={isEditorCollapsed}
+            activeTab={stActiveTab}
+            setActiveTab={setStActiveTab}
+            setViewLanguage={setViewLanguage}
+            kkFormData={formData}
+            stFormData={stFormData}
+            onSelectApplicant={handleSelectApplicant}
+            updateApplicant={updateStApplicant}
+            updateDependent={updateStDependent}
+            updateMeta={updateStMeta}
+          />
+        )}
+
+        {activeDocument === 'kk' ? (
+          <DocumentPreview
+            activeMobileTab={activeMobileTab}
+            containerRef={previewContainerRef}
+            currentScale={currentScale}
+            viewLanguage={viewLanguage}
+            formData={formData}
+            sourceImageUrl={sourceUrl}
+            sourceFileName={sourceFileName}
+          />
+        ) : (
+          <SuratTanggunganPreview
+            activeMobileTab={activeMobileTab}
+            containerRef={previewContainerRef}
+            currentScale={currentScale}
+            viewLanguage={viewLanguage}
+            formData={stFormData}
+          />
+        )}
       </div>
 
       <style jsx global>{`
@@ -202,12 +338,25 @@ export default function KkUploadPreviewWorkspace() {
           font-family: inherit;
         }
 
+        .st-a4-page,
+        .st-a4-page * {
+          font-family: inherit;
+        }
+
+        .st-a4-page {
+          text-rendering: geometricPrecision !important;
+          -webkit-font-smoothing: auto !important;
+          -moz-osx-font-smoothing: auto !important;
+        }
+
         @media print {
           body * {
             visibility: hidden;
           }
           .kk-a4,
-          .kk-a4 * {
+          .kk-a4 *,
+          .st-a4-page,
+          .st-a4-page * {
             visibility: visible;
           }
           body {
@@ -227,9 +376,46 @@ export default function KkUploadPreviewWorkspace() {
             padding: 12mm 15mm !important;
             zoom: 1 !important;
           }
+          #surat-tanggungan-print-area {
+            position: static !important;
+            width: auto !important;
+            height: auto !important;
+            transform: none !important;
+          }
+          #surat-tanggungan-print-area > div {
+            position: static !important;
+            transform: none !important;
+            display: block !important;
+            gap: 0 !important;
+          }
+          .st-a4-page {
+            position: relative !important;
+            width: 210mm !important;
+            height: 297mm !important;
+            transform: none !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+            page-break-after: always;
+            break-after: page;
+          }
+          .st-page-inner {
+            transform: scale(1.07) !important;
+            transform-origin: top left !important;
+          }
+          .st-a4-page:last-child {
+            page-break-after: auto;
+            break-after: auto;
+          }
           @page {
+            size: A4 portrait;
+            margin: 0;
+          }
+          @page kk-landscape {
             size: A4 landscape;
             margin: 0;
+          }
+          .kk-a4 {
+            page: kk-landscape;
           }
           ::-webkit-scrollbar {
             display: none;

@@ -14,6 +14,7 @@ import { toast } from 'react-hot-toast';
 import LoadingOverlay from '@/components/LoadingOverlay';
 
 import { getKkPageSize } from './utils/kkPageSize';
+import { useKkSourceImage } from './utils/useKkSourceImage';
 
 export default function KartuKeluargaPage() {
   const [scale, setScale] = useState(0.78);
@@ -27,6 +28,7 @@ export default function KartuKeluargaPage() {
   const [containerWidth, setContainerWidth] = useState(1122);
   const [containerHeight, setContainerHeight] = useState(794);
   const previewContainerRef = useRef<HTMLDivElement>(null);
+  const { sourceUrl, fileName: sourceFileName, setSourceFile } = useKkSourceImage();
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -247,11 +249,14 @@ export default function KartuKeluargaPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    setSourceFile(file);
     const newFormData = await parseKkDocument(file, formData, setOcrLoading);
     if (newFormData) {
       setFormData(newFormData);
       setActiveTab('edit_id');
+      setActiveMobileTab('preview');
     }
+    e.target.value = '';
   };
 
   const handleSaveData = async () => {
@@ -372,6 +377,8 @@ export default function KartuKeluargaPage() {
           currentScale={currentScale}
           viewLanguage={viewLanguage}
           formData={formData}
+          sourceImageUrl={sourceUrl}
+          sourceFileName={sourceFileName}
         />
       </div>
 

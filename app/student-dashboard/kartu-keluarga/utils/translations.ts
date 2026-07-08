@@ -1,4 +1,6 @@
 import { toKatakana } from '@/lib/katakana-master';
+import { educationIdToJp, educationJpToId } from './educationOptions';
+import { occupationIdToJp, occupationJpToId } from './occupationOptions';
 
 /** Konversi nama/teks Indonesia ke Katakana (Katakana Master) */
 export const translateToKatakana = (text: string): string => {
@@ -100,46 +102,11 @@ export const translateToJp = (field: string, val: string) => {
   }
 
   if (field === 'education') {
-    if (cleanVal === 'BELUM SEKOLAH' || cleanVal.includes('BELUM MASUK')) return '未就学';
-    if (cleanVal.includes('TIDAK') && cleanVal.includes('SEKOLAH') || cleanVal.includes('BELUM SEKOLAH') || cleanVal.includes('学歴なし')) return '学歴なし';
-    if (cleanVal.includes('BELUM TAMAT SD')) return '小学校未卒';
-    if (cleanVal.includes('TAMAT SD') || cleanVal === 'SD/SEDERAJAT') return '小学校卒業';
-    if (cleanVal.includes('SLTP') || cleanVal.includes('SMP')) return '中学校卒業';
-    if (cleanVal.includes('SLTA') || cleanVal.includes('SMA')) return '高校卒業';
-    if (cleanVal.includes('DIPLOMA I') || cleanVal.includes('DIPLOMA II') || cleanVal.includes('D1') || cleanVal.includes('D2')) return '短大';
-    if (cleanVal.includes('AKADEMI') || cleanVal.includes('DIPLOMA III') || cleanVal.includes('SARJANA MUDA') || cleanVal.includes('D3')) return '専門学校';
-    if (cleanVal.includes('DIPLOMA IV') || cleanVal.includes('STRATA I') || cleanVal.includes('S1')) return '大学';
-    if (cleanVal.includes('STRATA II') || cleanVal.includes('S2')) return '大学院';
-    if (cleanVal.includes('STRATA III') || cleanVal.includes('S3')) return '博士課程';
-    return val;
+    return educationIdToJp(val);
   }
 
   if (field === 'occupation') {
-    if (cleanVal.includes('BELUM') && cleanVal.includes('BEKERJA') || cleanVal.includes('TIDAK BEKERJA')) return '未就労';
-    if (cleanVal.includes('MENGURUS RUMAH TANGGA')) return '家事';
-    if (cleanVal.includes('PENSIUNAN')) return '定年';
-    if (cleanVal.includes('PEGAWAI NEGERI SIPIL') || cleanVal === 'PNS') return '公務員';
-    if (cleanVal.includes('TENTARA') || cleanVal === 'TNI' || cleanVal === 'POLRI') return '軍人';
-    if (cleanVal.includes('PETANI') || cleanVal.includes('PEKEBUN')) return '農家';
-    if (cleanVal.includes('PETERNAK')) return '畜産';
-    if (cleanVal.includes('KARYAWAN SWASTA')) return '会社員';
-    if (cleanVal.includes('BURUH HARIAN LEPAS')) return 'アルバイト';
-    if (cleanVal.includes('BURUH TANI') || cleanVal.includes('PERKEBUNAN')) return '農民';
-    if (cleanVal.includes('PEMBANTU RUMAH TANGGA') || cleanVal.includes('PRT')) return '家事手伝い';
-    if (cleanVal.includes('PELAJAR') || cleanVal.includes('MAHASISWA')) return '学生';
-    if (cleanVal.includes('TUKANG CUKUR')) return '理容師';
-    if (cleanVal.includes('TUKANG LISTRIK')) return '電気技師';
-    if (cleanVal.includes('TUKANG BATU')) return '石工';
-    if (cleanVal.includes('TUKANG KAYU')) return '大工';
-    if (cleanVal.includes('WARTAWAN')) return '記者';
-    if (cleanVal.includes('USTADZ') || cleanVal.includes('MUBALIGH')) return '牧師';
-    if (cleanVal.includes('GURU')) return '教師';
-    if (cleanVal.includes('SOPIR') || cleanVal.includes('SUPIR')) return '運転手';
-    if (cleanVal.includes('PEDAGANG')) return '商人';
-    if (cleanVal.includes('PERANGKAT DESA')) return '役人';
-    if (cleanVal.includes('KEPALA DESA')) return '村長';
-    if (cleanVal.includes('WIRASWASTA')) return '自営業';
-    return val;
+    return occupationIdToJp(val);
   }
 
   return val;
@@ -204,46 +171,11 @@ export const translateToId = (field: string, val: string) => {
   }
 
   if (field === 'education') {
-    if (cleanVal === '未就学') return 'BELUM SEKOLAH';
-    if (cleanVal === '学歴なし') return 'TIDAK/BELUM SEKOLAH';
-    if (cleanVal === '小学校未卒') return 'BELUM TAMAT SD/SEDERAJAT';
-    if (cleanVal === '小学校卒業') return 'TAMAT SD/SEDERAJAT';
-    if (cleanVal === '中学校卒業') return 'SLTP/SEDERAJAT';
-    if (cleanVal === '高校卒業') return 'SLTA/SEDERAJAT';
-    if (cleanVal === '短大') return 'DIPLOMA I/II';
-    if (cleanVal === '専門学校') return 'AKADEMI/DIPLOMA III';
-    if (cleanVal === '大学') return 'S1/DIV';
-    if (cleanVal === '大学院') return 'STRATA II';
-    if (cleanVal === '博士課程') return 'STRATA III';
-    return val;
+    return educationJpToId(val);
   }
 
   if (field === 'occupation') {
-    if (cleanVal === '未就労') return 'BELUM/TIDAK BEKERJA';
-    if (cleanVal === '家事' || cleanVal === '主婦') return 'MENGURUS RUMAH TANGGA';
-    if (cleanVal === '定年') return 'PENSIUNAN';
-    if (cleanVal === '公務員') return 'PEGAWAI NEGERI SIPIL';
-    if (cleanVal === '軍人') return 'TNI';
-    if (cleanVal === '農家') return 'PETANI/PEKEBUN';
-    if (cleanVal === '畜産') return 'PETERNAK';
-    if (cleanVal === '会社員') return 'KARYAWAN SWASTA';
-    if (cleanVal === 'アルバイト') return 'BURUH HARIAN LEPAS';
-    if (cleanVal === '農民') return 'BURUH TANI/PERKEBUNAN';
-    if (cleanVal === '家事手伝い') return 'PEMBANTU RUMAH TANGGA';
-    if (cleanVal === '学生') return 'PELAJAR/MAHASISWA';
-    if (cleanVal === '理容師') return 'TUKANG CUKUR';
-    if (cleanVal === '電気技師') return 'TUKANG LISTRIK';
-    if (cleanVal === '石工') return 'TUKANG BATU';
-    if (cleanVal === '大工') return 'TUKANG KAYU';
-    if (cleanVal === '記者') return 'WARTAWAN';
-    if (cleanVal === '牧師') return 'USTADZ/MUBALIGH';
-    if (cleanVal === '教師') return 'GURU';
-    if (cleanVal === '運転手') return 'SOPIR';
-    if (cleanVal === '商人') return 'PEDAGANG';
-    if (cleanVal === '役人') return 'PERANGKAT DESA';
-    if (cleanVal === '村長') return 'KEPALA DESA';
-    if (cleanVal === '自営業') return 'WIRASWASTA';
-    return val;
+    return occupationJpToId(val);
   }
 
   return val;

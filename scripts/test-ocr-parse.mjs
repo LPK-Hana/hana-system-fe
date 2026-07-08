@@ -15,10 +15,19 @@ const emptyMember = {
   passport: '', kitas: '', father: '', mother: '', bloodType: '',
 };
 
-const samples = ['cuntoh', 'testkk2', 'testkk3'];
+const samples = process.argv.slice(2).length
+  ? process.argv.slice(2)
+  : ['cuntoh', 'testkk2', 'testkk3'];
 
 for (const name of samples) {
-  const text = fs.readFileSync(path.join(outDir, `${name}-raw.txt`), 'utf8');
+  const browserPath = path.join(outDir, `${name}.txt`);
+  const rawPath = path.join(outDir, `${name}-raw.txt`);
+  const readPath = fs.existsSync(browserPath)
+    ? browserPath
+    : fs.existsSync(rawPath)
+      ? rawPath
+      : path.join(outDir, `${name}.txt`);
+  const text = fs.readFileSync(readPath, 'utf8');
   const lines = text.split('\n').map((l) => l.trim()).filter(Boolean);
   const kkNumber = text.match(/\b\d{16}\b/)?.[0] || '';
   const basic = parseBasicInfo(lines);
@@ -30,6 +39,9 @@ for (const name of samples) {
   for (const m of members.filter((x) => x.nik)) {
     console.log({
       nama: m.name,
+      pob: m.pob,
+      pendidikan: m.education,
+      pekerjaan: m.occupation,
       kawin: m.maritalStatus,
       tglKawin: m.marriageDate,
       hub: m.relationship,

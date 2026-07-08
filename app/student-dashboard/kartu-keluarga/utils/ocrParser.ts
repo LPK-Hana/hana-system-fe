@@ -163,7 +163,10 @@ export const parseKkDocument = async (
       provinsi,
     } = basicInfo;
 
-    if (!kodePos) kodePos = text.match(/\b\d{5}\b/)?.[0] || '';
+    if (!kodePos) {
+      const headerSlice = lines.slice(0, 25).join('\n');
+      kodePos = headerSlice.match(/Kode\s*Pos[^\d\n]*(\d{5})/i)?.[1] || '';
+    }
     if (!rtRw) rtRw = text.match(/\b\d{2,3}\s*\/\s*\d{2,3}\b/)?.[0]?.replace(/\s+/g, '') || '';
 
     const allNiks = text.match(/\b\d{16}\b/g) || [];

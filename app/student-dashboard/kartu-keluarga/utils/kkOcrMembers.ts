@@ -1,5 +1,7 @@
 import { KkMember } from '../types';
 import { OcrWord, parseMemberNamesFromWords } from './kkOcrBasicInfo';
+import { normalizeEducationId } from './educationOptions';
+import { matchOccupationInText, normalizeOccupationId } from './occupationOptions';
 
 const GENDER_RE = /\b(LAKI\s*-\s*LAKI|LAKI-LAKI|LAKI|PEREMPUAN|PRIA|WANITA)\b/gi;
 const DOB_RE = /\b(\d{2}[-/.]\d{2}[-/.]\d{4})\b/g;
@@ -10,18 +12,26 @@ const NATIONALITY_RE = /\b(WNI|WNA)\b/gi;
 const BLOOD_RE = /\b(TIDAK TAHU|TIDAK DIKETAHUI|AB|A|B|O)\b/gi;
 
 const EDU_PATTERNS: { pattern: RegExp; value: string }[] = [
-  { pattern: /DIPLOMA\s*IV/i, value: 'DIPLOMA IV/STRATA I' },
+  { pattern: /DIPLOMA\s*IV\s*(?:\/\s*STRATA\s*I)?/i, value: 'DIPLOMA IV/STRATA I' },
+  { pattern: /STRATA\s*III/i, value: 'STRATA III' },
+  { pattern: /STRATA\s*II/i, value: 'STRATA II' },
+  { pattern: /AKADEMI\s*(?:\/\s*DIPLOMA\s*III)?/i, value: 'AKADEMI/DIPLOMA III' },
+  { pattern: /DIPLOMA\s*(?:I\s*\/\s*II|1\s*\/\s*2)/i, value: 'DIPLOMA I/II' },
+  { pattern: /DIPLOMA\s*IVISTRATAI?/i, value: 'DIPLOMA IV/STRATA I' },
   { pattern: /TIDAK\s*\/\s*BELUM\s*SEKOLAH/i, value: 'TIDAK/BELUM SEKOLAH' },
+  { pattern: /TIDAK\s+BELUM\s+SEKOLAH/i, value: 'TIDAK/BELUM SEKOLAH' },
   { pattern: /BELUM\s*\/\s*TIDAK\s*SEKOLAH/i, value: 'TIDAK/BELUM SEKOLAH' },
   { pattern: /BELUM\s*TAMAT\s*SD\s*(?:\/\s*SEDERAJAT)?/i, value: 'BELUM TAMAT SD/SEDERAJAT' },
   { pattern: /TAMAT\s*SD\s*(?:\/\s*SEDERAJAT)?/i, value: 'TAMAT SD/SEDERAJAT' },
   { pattern: /SLTA\s*(?:\/\s*SEDERAJAT)?/i, value: 'SLTA/SEDERAJAT' },
   { pattern: /SLTP\s*(?:\/\s*SEDERAJAT)?/i, value: 'SLTP/SEDERAJAT' },
-  { pattern: /SD\s*\/\s*SEDERAJAT/i, value: 'SD/SEDERAJAT' },
+  { pattern: /SD\s*\/\s*SEDERAJAT/i, value: 'TAMAT SD/SEDERAJAT' },
 ];
 
-const OCCUPATION_RE =
-  /\b(GURU|MENGURUS RUMAH TANGGA|PELAJAR\s*\/\s*MAHASISWA|PELAJAR|MAHASISWA|KARYAWAN SWASTA|BELUM\s*\/\s*TIDAK BEKERJA|WIRASWASTA|PENSIUNAN)\b/gi;
+
+function extractOccupation(context: string, index: number): string {
+  return normalizeOccupationId(matchOccupationInText(context, index));
+}
 
 function nthMatch<T extends RegExp>(text: string, regex: T, index: number): string {
   const flags = regex.flags.includes('g') ? regex.flags : `${regex.flags}g`;
@@ -165,6 +175,7 @@ function dedupeNameWords(name: string): string {
 function stripTable2Metadata(line: string): string {
   return line
     .replace(/^\d+(?:\s+\d+)?\s*/, '')
+    .replace(/\(\s*\d+\s*\)/g, '')
     .replace(/\b(KAWIN TERCATAT|KAWIN BELUM TERCATAT|BELUM KAWIN|CERAI HIDUP|CERAI MATI|KAWIN)\b/gi, '')
     .replace(DOB_RE, '')
     .replace(RELATIONSHIP_RE, '')
@@ -199,7 +210,13 @@ function splitParentNames(text: string): { father: string; mother: string } {
     if (honorific.test(words[1])) {
       return { father: dedupeNameWords(words[0]), mother: dedupeNameWords(words.slice(1).join(' ')) };
     }
-    return { father: dedupeNameWords(words[0]), mother: dedupeNameWords(words.slice(1).join(' ')) };
+    if (words[1].length < 5) {
+      return { father: dedupeNameWords(words[0]), mother: dedupeNameWords(words.slice(1).join(' ')) };
+    }
+    return {
+      father: dedupeNameWords(words.slice(0, 2).join(' ')),
+      mother: dedupeNameWords(words[2]),
+    };
   }
   if (words.length === 2) {
     return { father: dedupeNameWords(words[0]), mother: dedupeNameWords(words[1]) };
@@ -211,17 +228,22 @@ function splitParentNames(text: string): { father: string; mother: string } {
 function isParentOnlyLine(line: string): boolean {
   const t = line.trim();
   if (!t || isTable2DataLine(t)) return false;
-  if (/^\(\s*\d+\s*\)/.test(t)) return false;
-  if (/Perkawinan|Hubungan|Kewarganegaraan|Orang\s*Tua|Imigrasi|Dokumen/i.test(t)) return false;
+  if (/Perkawinan|Hubungan|Kewarganegaraan|Imigrasi|Dokumen/i.test(t)) return false;
+  if (/^Nama\s+Orang\s*Tua/i.test(t)) return false;
   const stripped = stripTable2Metadata(t);
+  if (!stripped || stripped.length < 2) return false;
+  if (/^(NO\.?\s*)?(PASPOR|KITAP|AYAH|IBU|ORANG|TU)(\s+(PASPOR|KITAP|AYAH|IBU|ORANG|TU))*$/i.test(stripped)) return false;
+  if (/^NO\.?\s*AYAH$/i.test(stripped)) return false;
+  if (/^AYAH\s+IBU$/i.test(stripped)) return false;
   if (/^(KEPALA\s*KELUARGA|ISTRI|ANAK|SUAMI|MENANTU)$/i.test(stripped)) return false;
-  return stripped.length >= 3 && /[A-Z]{2,}/i.test(stripped);
+  return /[A-Z]{2,}/i.test(stripped);
 }
 
 function isParentNameToken(line: string): boolean {
   const t = line.trim();
   if (!t || t.length < 2) return false;
-  if (/^(WNI|KEPALA\s*KELUARGA|ISTRI|ANAK|KAWIN|BELUM|AYAH|IBU|NAMA|ORANG|TU|-\s*|Dokumen|No\.?|Kewarganegaraan|Imigrasi)$/i.test(t)) return false;
+  if (/^(WNI|KEPALA\s*KELUARGA|ISTRI|ANAK|KAWIN|BELUM|AYAH|IBU|NAMA|ORANG|TU|STATUS|TANGGAL|DALAM|KELUARGA|PERKAWINAN|PASPOR|KITAP|-\s*|Dokumen|No\.?|Kewarganegaraan|Imigrasi)$/i.test(t)) return false;
+  if (/^AYAH\s+IBU$/i.test(t)) return false;
   if (/^\(\s*\d+\s*\)$/.test(t)) return false;
   if (/^NIP/i.test(t)) return false;
   if (/^Dr\.|^KEPALA\s+DINAS/i.test(t)) return false;
@@ -246,6 +268,7 @@ function isTable2ColumnLayout(section: string[]): boolean {
   const namaIdx = section.findIndex((l) => /Nama\s+Orang\s+Tua/i.test(l));
   const parentsAfterFooter = dikeluarkanIdx >= 0 && namaIdx > dikeluarkanIdx;
 
+  if (inlineStatusRows >= 2 && !parentsAfterFooter) return false;
   if (inlineStatusRows >= 2) return parentsAfterFooter;
   return standaloneRowNums >= 2 && verticalMarital >= 2 && namaOrangTua;
 }
@@ -467,6 +490,73 @@ function unpackParents(data: Table2RowData): { father: string; mother: string } 
   return parseParentsFromParentLine(data.parentLine);
 }
 
+function consumeParentPair(
+  parentLines: string[],
+  idx: number,
+): { father: string; mother: string; nextIdx: number } {
+  while (idx < parentLines.length) {
+    const line = parentLines[idx];
+    if (!isParentOnlyLine(line)) {
+      idx++;
+      continue;
+    }
+
+    const wide = splitParentNames(line);
+    if (wide.father && wide.mother) {
+      return { father: wide.father, mother: wide.mother, nextIdx: idx + 1 };
+    }
+
+    const singleName = dedupeNameWords(stripTable2Metadata(line));
+    if (idx + 1 < parentLines.length && isParentOnlyLine(parentLines[idx + 1])) {
+      const nextName = dedupeNameWords(stripTable2Metadata(parentLines[idx + 1]));
+      const nextWide = splitParentNames(parentLines[idx + 1]);
+      if (!nextWide.mother && nextName) {
+        return { father: singleName, mother: nextName, nextIdx: idx + 2 };
+      }
+    }
+
+    if (singleName) {
+      return { father: singleName, mother: '', nextIdx: idx + 1 };
+    }
+    idx++;
+  }
+  return { father: '', mother: '', nextIdx: idx };
+}
+
+function extractMaritalForField(text: string, fieldIndex: number): string {
+  const relationship = nthMatch(text, RELATIONSHIP_RE, fieldIndex).toUpperCase();
+  const all = [...text.matchAll(new RegExp(MARITAL_RE.source, 'gi'))].map((m) =>
+    normalizeMaritalStatus(m[0]),
+  );
+  const dates = [...text.matchAll(new RegExp(DOB_RE.source, 'g'))];
+
+  if (relationship === 'ANAK') return 'BELUM KAWIN';
+
+  if (all.length > fieldIndex) {
+    let status = all[fieldIndex];
+    if (status === 'KAWIN' && relationship === 'ANAK') return 'BELUM KAWIN';
+    if (status === 'KAWIN' && /ANAK/i.test(text) && fieldIndex > 0) return 'BELUM KAWIN';
+    if (
+      fieldIndex === 0 &&
+      status.includes('BELUM TERCATAT') &&
+      dates.length > 0 &&
+      /ISTRI/i.test(text)
+    ) {
+      return 'KAWIN TERCATAT';
+    }
+    if (status === 'KAWIN' && dates.length > fieldIndex && /ISTRI|KEPALA/i.test(text)) {
+      return 'KAWIN TERCATAT';
+    }
+    if (status === 'KAWIN' && !/TERCATAT|BELUM/.test(status)) {
+      const hasBelumKawin = all.some((s) => s.includes('BELUM KAWIN'));
+      if (hasBelumKawin && fieldIndex > 0) return 'BELUM KAWIN';
+    }
+    return status;
+  }
+
+  return '';
+}
+
 function extractParentsAfterWni(line: string, fieldIndex: number): { father: string; mother: string } {
   const segments = line.split(/\bWNI\b/i);
   if (fieldIndex + 1 >= segments.length) return { father: '', mother: '' };
@@ -499,8 +589,8 @@ function mergeTable2Row(primary: Table2RowData, secondary: Table2RowData): Table
 
   const colParents = unpackParents(secondary);
   const priParents = unpackParents(primary);
-  const father = colParents.father || priParents.father;
-  const mother = colParents.mother || priParents.mother;
+  const father = priParents.father || colParents.father;
+  const mother = priParents.mother || colParents.mother;
 
   return {
     statusLine: `${rowNum} ${maritalStatus} ${marriageDate} ${relationship}`.trim(),
@@ -608,12 +698,13 @@ function parseTable2Horizontal(section: string[]): Map<number, Table2RowData> {
         continue;
       }
 
-      if (parentIdx < parentLines.length) {
-        const split = splitParentNames(parentLines[parentIdx++]);
+      const pair = consumeParentPair(parentLines, parentIdx);
+      parentIdx = pair.nextIdx;
+      if (pair.father || pair.mother) {
         Object.assign(entry, {
-          father: split.father,
-          mother: split.mother,
-          parentLine: packParents(split.father, split.mother),
+          father: pair.father,
+          mother: pair.mother,
+          parentLine: packParents(pair.father, pair.mother),
         });
       }
     }
@@ -653,7 +744,7 @@ function normalizeMaritalStatus(raw: string): string {
 
 function extractTable2Fields(statusLine: string, fieldIndex: number) {
   const text = statusLine.replace(/^\d+(?:\s+\d+)?\s*/, '');
-  const maritalStatus = normalizeMaritalStatus(nthMatch(text, MARITAL_RE, fieldIndex));
+  const maritalStatus = extractMaritalForField(text, fieldIndex);
   const marriageDate = nthMatch(text, DOB_RE, fieldIndex).replace(/\./g, '-');
   const relationship = nthMatch(text, RELATIONSHIP_RE, fieldIndex).toUpperCase();
   const nationality = nthMatch(text, NATIONALITY_RE, fieldIndex).toUpperCase();
@@ -690,7 +781,7 @@ function extractPob(context: string, genderIndex: number): string {
     .match(/\b[A-Z]{3,}\b/g)
     ?.filter((w) => !/LAKI|PEREMPUAN|PRIA|WANITA|ISLAM|KAWIN|WNI|ANAK|ISTRI|TAMAT|BELUM|SEDERAJAT|DIPLOMA|GURU|TIDAK|TAHU|SD|SLTA|SLTP|PELAJAR|MAHASISWA|MENGURUS|RUMAH|TANGGA|BEKERJA|SEKOLAH/i.test(w));
   if (!places?.length) return '';
-  return places[places.length - 1];
+  return places[Math.min(genderIndex, places.length - 1)] ?? places[0];
 }
 
 function extractEducation(context: string, index: number): string {
@@ -700,16 +791,11 @@ function extractEducation(context: string, index: number): string {
     let match: RegExpExecArray | null;
     let i = 0;
     while ((match = re.exec(context)) !== null) {
-      if (i === index) return value;
+      if (i === index) return normalizeEducationId(value);
       i++;
     }
   }
   return '';
-}
-
-function extractOccupation(context: string, index: number): string {
-  const val = nthMatch(context, OCCUPATION_RE, index);
-  return val ? val.toUpperCase().replace(/\s+/g, ' ') : '';
 }
 
 function extractBloodType(context: string, index: number): string {
@@ -805,7 +891,9 @@ export function parseMembersFromOcr(
     const dob = nthMatch(context, DOB_RE, Math.max(0, nikIndexOnLine >= 0 ? nikIndexOnLine : t1FieldIndex)).replace(/\./g, '-');
     const religion = nthMatch(context, RELIGION_RE, Math.max(0, nikIndexOnLine >= 0 ? nikIndexOnLine : t1FieldIndex)).toUpperCase();
     const pob = extractPob(context, Math.max(0, nikIndexOnLine >= 0 ? nikIndexOnLine : t1FieldIndex));
-    const education = extractEducation(context, Math.max(0, nikIndexOnLine >= 0 ? nikIndexOnLine : t1FieldIndex));
+    const education = normalizeEducationId(
+      extractEducation(context, Math.max(0, nikIndexOnLine >= 0 ? nikIndexOnLine : t1FieldIndex)),
+    );
     const occupation = extractOccupation(context, Math.max(0, nikIndexOnLine >= 0 ? nikIndexOnLine : t1FieldIndex));
     const bloodType = extractBloodType(context, Math.max(0, nikIndexOnLine >= 0 ? nikIndexOnLine : t1FieldIndex));
 
@@ -817,10 +905,7 @@ export function parseMembersFromOcr(
     let parents = t2Row ? unpackParents(t2Row) : { father: '', mother: '' };
 
     if ((!parents.father || !parents.mother) && relationship === 'ANAK' && idx >= 0) {
-      const kepala = members.find((m) => /KEPALA\s*KELUARGA/i.test(m.relationship));
-      const istri = members.find((m) => /\bISTRI\b/i.test(m.relationship));
-      if (!parents.father && kepala?.name) parents.father = kepala.name.split(',')[0].trim();
-      if (!parents.mother && istri?.name) parents.mother = istri.name;
+      // deferred to post-process after all rows have relationship
     }
 
     members[idx] = {
@@ -843,6 +928,54 @@ export function parseMembersFromOcr(
       mother: parents.mother,
     };
   });
+
+  const memberNames = members.filter((m) => m.nik).map((m) => m.name.replace(/,.*/, '').trim());
+  const kepala = members.find((m) => /KEPALA\s*KELUARGA/i.test(m.relationship));
+  const istri = members.find((m) => /\bISTRI\b/i.test(m.relationship));
+
+  const cleanBleed = (name: string): string => {
+    if (!name || name.split(/\s+/).length < 2) return name;
+    let cleaned = name;
+    for (const mn of memberNames) {
+      for (const part of mn.split(/\s+/).filter((w) => w.length >= 4)) {
+        cleaned = cleaned.replace(
+          new RegExp(`\\b${part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi'),
+          '',
+        );
+      }
+    }
+    return dedupeNameWords(cleaned);
+  };
+
+  for (const m of members) {
+    if (!m.nik) continue;
+    if (m.relationship !== 'ANAK') {
+      if (m.father && m.father.split(/\s+/).length >= 3) m.father = cleanBleed(m.father);
+      if (m.mother) m.mother = cleanBleed(m.mother);
+    }
+
+    if (m.relationship === 'ANAK') {
+      const kepalaName = kepala?.name?.replace(/,.*/, '').trim() || '';
+      const istriName = istri?.name?.replace(/,.*/, '').trim() || '';
+      if (kepalaName && (!m.father || m.father.length < 4 || /^(STATUS|TANGGAL|DALAM|NO\.)/i.test(m.father) || /\bNENG\b/i.test(m.father))) {
+        m.father = kepalaName;
+      } else if (kepalaName && kepalaName.toUpperCase().startsWith(m.father.toUpperCase())) {
+        m.father = kepalaName;
+      }
+      if (istriName && (!m.mother || m.mother.length < 4 || /^(STATUS|TANGGAL|KELUARGA|IBU)/i.test(m.mother))) {
+        m.mother = istriName;
+      } else if (
+        istriName &&
+        m.mother &&
+        m.mother.includes(istriName.split(/\s+/)[0]) &&
+        m.mother.length > istriName.length
+      ) {
+        m.mother = istriName;
+      }
+    }
+    if (m.father && /^(STATUS|TANGGAL|DALAM|NO\.?\s*AYAH)$/i.test(m.father.trim())) m.father = '';
+    if (m.mother && /^(TANGGAL|KELUARGA|IBU|AYAH\s+IBU)$/i.test(m.mother.trim())) m.mother = '';
+  }
 
   return members;
 }
