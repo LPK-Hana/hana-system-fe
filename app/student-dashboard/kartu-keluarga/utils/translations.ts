@@ -97,7 +97,9 @@ export const translateToJp = (field: string, val: string) => {
     if (cleanVal.includes('ANAK') || cleanVal === 'CHILD' || cleanVal === '子供') return '子';
     if (cleanVal.includes('MENANTU')) return '婿・嫁';
     if (cleanVal.includes('CUCU')) return '孫';
-    if (cleanVal.includes('ORANG TUA') || cleanVal.includes('ORANGTUA') || cleanVal === 'AYAH' || cleanVal === 'IBU') return '父母';
+    if (cleanVal === 'AYAH' || cleanVal.includes('AYAH')) return '父';
+    if (cleanVal === 'IBU' || cleanVal.includes('IBU')) return '母';
+    if (cleanVal.includes('ORANG TUA') || cleanVal.includes('ORANGTUA')) return '父母';
     if (cleanVal.includes('MERTUA')) return '義父母';
     if (cleanVal.includes('FAMILI LAIN')) return 'その他の親族';
     if (cleanVal.includes('PEMBANTU')) return '使用人';
@@ -168,6 +170,8 @@ export const translateToId = (field: string, val: string) => {
     if (cleanVal === '子' || cleanVal.includes('子供')) return 'ANAK';
     if (cleanVal.includes('婿') || cleanVal.includes('嫁')) return 'MENANTU';
     if (cleanVal.includes('孫')) return 'CUCU';
+    if (cleanVal === '父') return 'AYAH';
+    if (cleanVal === '母') return 'IBU';
     if (cleanVal.includes('父母') || cleanVal.includes('両親')) return 'ORANG TUA';
     if (cleanVal.includes('義父母') || cleanVal.includes('義理の親')) return 'MERTUA';
     if (cleanVal.includes('その他の親族') || cleanVal.includes('他の家族')) return 'FAMILI LAIN';

@@ -1,4 +1,4 @@
-import suratTanggunganJpTemplate from '@/app/admin-dashboard/contoh-data/template/Surat_Tanggungan_Jepang.lpk-hana-template-update.json';
+import suratTanggunganJpTemplate from '@/app/admin-dashboard/contoh-data/template/Surat_Tanggungan_Jepang.lpk-hana-template-update-1.json';
 import type { SuratTanggunganFormData } from '../types/suratTanggunganTypes';
 import { keepRomanji } from './translations';
 
