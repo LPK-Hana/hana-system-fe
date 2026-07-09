@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Printer, ZoomIn, ZoomOut, Maximize2, Minimize2, ChevronLeft, ChevronRight, FileHeart } from 'lucide-react';
+import { ArrowLeft, Download, Printer, ZoomIn, ZoomOut, Maximize2, Minimize2, ChevronLeft, ChevronRight, FileHeart } from 'lucide-react';
 import { exportKKToPDF } from '../utils/exportKkPdf';
+import { exportSuratTanggunganBothToPDF } from '../utils/exportSuratTanggunganPdf';
 
 export type KkHeaderDocument = 'kk' | 'tanggungan';
 
@@ -23,6 +24,9 @@ interface HeaderProps {
   pdfFileName?: string;
   activeDocument?: KkHeaderDocument;
   onDocumentChange?: (doc: KkHeaderDocument) => void;
+  showBulkDownload?: boolean;
+  isBulkEmpty?: boolean;
+  onBulkDownload?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -43,6 +47,9 @@ export const Header: React.FC<HeaderProps> = ({
   pdfFileName = 'Kartu_Keluarga.pdf',
   activeDocument = 'kk',
   onDocumentChange,
+  showBulkDownload = false,
+  isBulkEmpty = false,
+  onBulkDownload,
 }) => {
   const showDocumentSwitcher = Boolean(onDocumentChange);
 
@@ -155,13 +162,32 @@ export const Header: React.FC<HeaderProps> = ({
         )}
 
         <button
-          onClick={() => exportKKToPDF(printAreaId, pdfFileName, viewLanguage)}
+          onClick={() => {
+            if (activeDocument === 'tanggungan') {
+              void exportSuratTanggunganBothToPDF(pdfFileName);
+            } else {
+              void exportKKToPDF(printAreaId, pdfFileName, viewLanguage);
+            }
+          }}
           disabled={isDataEmpty}
-          className={`inline-flex items-center gap-2 px-4.5 py-1.5 text-white text-xs md:text-sm font-semibold rounded-lg transition-all ${isDataEmpty || activeDocument === 'tanggungan' ? 'bg-slate-400 cursor-not-allowed shadow-none opacity-70' : 'bg-indigo-900 hover:bg-indigo-850 active:scale-95 shadow-md shadow-indigo-950/10 hover:shadow-indigo-950/15'}`}
+          className={`inline-flex items-center gap-2 px-4.5 py-1.5 text-white text-xs md:text-sm font-semibold rounded-lg transition-all ${isDataEmpty ? 'bg-slate-400 cursor-not-allowed shadow-none opacity-70' : 'bg-indigo-900 hover:bg-indigo-850 active:scale-95 shadow-md shadow-indigo-950/10 hover:shadow-indigo-950/15'}`}
         >
           <Printer size={15} strokeWidth={2} />
-          <span>Cetak / Simpan PDF</span>
+          <span>{activeDocument === 'tanggungan' ? 'Cetak ST (ID+JP)' : 'Cetak / Simpan PDF'}</span>
         </button>
+
+        {showBulkDownload ? (
+          <button
+            type="button"
+            onClick={() => onBulkDownload?.()}
+            disabled={isBulkEmpty}
+            className={`inline-flex items-center gap-2 px-4.5 py-1.5 text-white text-xs md:text-sm font-semibold rounded-lg transition-all ${isBulkEmpty ? 'bg-slate-400 cursor-not-allowed shadow-none opacity-70' : 'bg-violet-700 hover:bg-violet-800 active:scale-95 shadow-md shadow-violet-950/10 hover:shadow-violet-950/15'}`}
+          >
+            <Download size={15} strokeWidth={2} />
+            <span className="hidden sm:inline">Download Bulk</span>
+            <span className="sm:hidden">Bulk</span>
+          </button>
+        ) : null}
 
         {onSave && !readOnly && (
           <button

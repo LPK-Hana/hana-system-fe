@@ -9,15 +9,21 @@ import { DocumentPreview } from '@/app/student-dashboard/kartu-keluarga/componen
 import { SuratTanggunganPreview } from '@/app/student-dashboard/kartu-keluarga/components/SuratTanggunganPreview';
 import { SuratTanggunganEditorPanel, StEditorTab } from '@/app/student-dashboard/kartu-keluarga/components/SuratTanggunganEditorPanel';
 import { parseKkDocument } from '@/app/student-dashboard/kartu-keluarga/utils/ocrParser';
-import { syncBasicIdToJp, syncMemberIdToJp, translateToJp } from '@/app/student-dashboard/kartu-keluarga/utils/translations';
-import { initialSuratTanggunganData } from '@/app/student-dashboard/kartu-keluarga/types/suratTanggunganTypes';
+import { syncBasicFieldIdToJp, syncMemberIdToJp } from '@/app/student-dashboard/kartu-keluarga/utils/translations';
+import { emptyStDependent, initialSuratTanggunganData, parseSignDateId } from '@/app/student-dashboard/kartu-keluarga/types/suratTanggunganTypes';
 import { buildSuratTanggunganFromKk } from '@/app/student-dashboard/kartu-keluarga/utils/suratTanggunganMapper';
+import {
+  syncStApplicantField,
+  syncStDependentField,
+  syncStMetaField,
+} from '@/app/student-dashboard/kartu-keluarga/utils/suratTanggunganSync';
 
 import { getKkPageSize } from '@/app/student-dashboard/kartu-keluarga/utils/kkPageSize';
 import {
   getSuratTanggunganPageSize,
   getSuratTanggunganTotalHeightPx,
 } from '@/app/student-dashboard/kartu-keluarga/utils/suratTanggunganPageSize';
+import { exportBulkKkJpAndSuratTanggungan } from '@/app/student-dashboard/kartu-keluarga/utils/exportPemberkasanBulk';
 import { useKkSourceImage } from '@/app/student-dashboard/kartu-keluarga/utils/useKkSourceImage';
 
 export default function KkUploadPreviewWorkspace() {
@@ -88,7 +94,7 @@ export default function KkUploadPreviewWorkspace() {
       basic: {
         ...prev.basic,
         [field]: value,
-        ...(syncJpField ? { [syncJpField]: syncBasicIdToJp(value) } : {}),
+        ...(syncJpField ? { [syncJpField]: syncBasicFieldIdToJp(field, value) } : {}),
       },
     }));
   };
@@ -137,11 +143,15 @@ export default function KkUploadPreviewWorkspace() {
     stFormData.applicantMemberIndex === null || !stFormData.applicant.name.trim();
 
   const headerDataEmpty = isTanggungan ? isStEmpty : isDataEmpty;
+  const isBulkEmpty = isDataEmpty || isStEmpty;
+
+  const needHiddenKkJp = !isDataEmpty && !(activeDocument === 'kk' && viewLanguage === 'jp');
+  const needHiddenSt = !isStEmpty && activeDocument !== 'tanggungan';
+
+  const exportBufferRef = useRef<HTMLDivElement>(null);
 
   const pdfFileName = isTanggungan
-    ? viewLanguage === 'id'
-      ? 'Surat_Tanggungan_Indonesia.pdf'
-      : 'Surat_Tanggungan_Jepang.pdf'
+    ? 'Surat_Tanggungan.pdf'
     : viewLanguage === 'id'
       ? 'KK_Preview_Indonesia.pdf'
       : 'KK_Preview_Jepang.pdf';
@@ -157,40 +167,78 @@ export default function KkUploadPreviewWorkspace() {
     }
   };
 
-  const updateStApplicant = (field: string, value: string, syncJpField?: string) => {
-    setStFormData((prev) => ({
-      ...prev,
-      applicant: {
-        ...prev.applicant,
-        [field]: value,
-        ...(syncJpField
-          ? {
-              [syncJpField]:
-                field === 'gender'
-                  ? translateToJp('gender', value)
-                  : syncJpField === 'nationalityJp'
-                    ? translateToJp('nationality', value)
-                    : value,
-            }
-          : {}),
-      },
-    }));
+  const updateStApplicant = (field: string, value: string) => {
+    setStFormData((prev) => {
+      const applicant = { ...prev.applicant, [field]: value };
+      if (!field.endsWith('Jp') && field !== 'nameKatakana') {
+        Object.assign(applicant, syncStApplicantField(field, value, formData.basic));
+      }
+      return { ...prev, applicant };
+    });
   };
 
-  const updateStDependent = (idx: number, field: string, value: string, syncJpField?: string) => {
+  const updateStDependent = (idx: number, field: string, value: string) => {
     setStFormData((prev) => {
       const dependents = [...prev.dependents];
-      dependents[idx] = {
-        ...dependents[idx],
-        [field]: value,
-        ...(syncJpField ? { [syncJpField]: value } : {}),
-      };
+      const row = { ...dependents[idx], [field]: value };
+      if (!field.endsWith('Jp') && field !== 'nameKatakana') {
+        Object.assign(row, syncStDependentField(field, value));
+      }
+      dependents[idx] = row;
       return { ...prev, dependents };
     });
   };
 
+  const updateStDependentRelationship = (idx: number, relationship: string, relationshipJp: string) => {
+    setStFormData((prev) => {
+      const dependents = [...prev.dependents];
+      dependents[idx] = { ...dependents[idx], relationship, relationshipJp };
+      return { ...prev, dependents };
+    });
+  };
+
+  const addStDependent = () => {
+    setStFormData((prev) => ({
+      ...prev,
+      dependents: [...prev.dependents, emptyStDependent()],
+    }));
+  };
+
+  const removeStDependent = (idx: number) => {
+    setStFormData((prev) => ({
+      ...prev,
+      dependents: prev.dependents.filter((_, i) => i !== idx),
+    }));
+  };
+
   const updateStMeta = (field: keyof typeof stFormData, value: string) => {
-    setStFormData((prev) => ({ ...prev, [field]: value }));
+    setStFormData((prev) => {
+      if (field === 'signDateId') {
+        const parts = parseSignDateId(value);
+        return {
+          ...prev,
+          signDateId: value,
+          signDateDay: parts.day,
+          signDateMonth: parts.month,
+          signDateYear: parts.year,
+        };
+      }
+      if (field === 'signDateYear' || field === 'signDateMonth' || field === 'signDateDay') {
+        const next = { ...prev, [field]: value };
+        const day = field === 'signDateDay' ? value : prev.signDateDay;
+        const month = field === 'signDateMonth' ? value : prev.signDateMonth;
+        const year = field === 'signDateYear' ? value : prev.signDateYear;
+        if (day && month && year) {
+          next.signDateId = `${day.padStart(2, '0')}-${month.padStart(2, '0')}-${year}`;
+        }
+        return next;
+      }
+      const patch: Partial<typeof stFormData> = { [field]: value };
+      if (field !== 'locationJp' && field !== 'villageNameJp' && field !== 'applicantMemberIndex') {
+        Object.assign(patch, syncStMetaField(field, value, formData.basic));
+      }
+      return { ...prev, ...patch };
+    });
   };
 
   return (
@@ -211,6 +259,9 @@ export default function KkUploadPreviewWorkspace() {
         printAreaId={isTanggungan ? 'surat-tanggungan-print-area' : 'kk-print-area'}
         activeDocument={activeDocument}
         onDocumentChange={setActiveDocument}
+        showBulkDownload
+        isBulkEmpty={isBulkEmpty}
+        onBulkDownload={() => void exportBulkKkJpAndSuratTanggungan()}
       />
 
       <div className="lg:hidden flex border-b border-slate-200/80 bg-white sticky top-[61px] z-15 shadow-sm/2 print:hidden">
@@ -283,7 +334,10 @@ export default function KkUploadPreviewWorkspace() {
             onSelectApplicant={handleSelectApplicant}
             updateApplicant={updateStApplicant}
             updateDependent={updateStDependent}
+            updateDependentRelationship={updateStDependentRelationship}
             updateMeta={updateStMeta}
+            onAddDependent={addStDependent}
+            onRemoveDependent={removeStDependent}
           />
         )}
 
@@ -306,6 +360,32 @@ export default function KkUploadPreviewWorkspace() {
             formData={stFormData}
           />
         )}
+      </div>
+
+      {/* Buffer off-screen untuk export bulk / export saat tab tidak aktif */}
+      <div
+        className="fixed -left-[20000px] top-0 w-px h-px overflow-hidden opacity-0 pointer-events-none"
+        aria-hidden
+      >
+        {needHiddenKkJp ? (
+          <DocumentPreview
+            activeMobileTab="preview"
+            containerRef={exportBufferRef}
+            currentScale={1}
+            viewLanguage="jp"
+            formData={formData}
+            printAreaId="kk-print-area-jp-export"
+          />
+        ) : null}
+        {needHiddenSt ? (
+          <SuratTanggunganPreview
+            activeMobileTab="preview"
+            containerRef={exportBufferRef}
+            currentScale={1}
+            viewLanguage="id"
+            formData={stFormData}
+          />
+        ) : null}
       </div>
 
       <style jsx global>{`
