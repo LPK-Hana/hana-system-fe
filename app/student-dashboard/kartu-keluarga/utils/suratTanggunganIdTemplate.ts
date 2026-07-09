@@ -1,5 +1,6 @@
-import suratTanggunganTemplate from '@/app/admin-dashboard/contoh-data/template/Surat_Tanggungan_Indo.lpk-hana-template.json';
+import suratTanggunganTemplate from '@/app/admin-dashboard/contoh-data/template/Surat_Tanggungan_Indo.lpk-hana-template-update-1.json';
 import type { SuratTanggunganFormData } from '../types/suratTanggunganTypes';
+import { relationshipDisplayId } from './relationshipOptions';
 
 export const SURAT_TANGGUNGAN_ID_TEMPLATE = suratTanggunganTemplate.template;
 
@@ -100,7 +101,7 @@ export function buildSuratTanggunganIdHtml(data: SuratTanggunganFormData): strin
   html = replaceMany(
     html,
     'hubungan',
-    dependents.map((d) => d.relationship || ''),
+    dependents.map((d) => relationshipDisplayId(d.relationship || '')),
   );
   html = replaceMany(
     html,

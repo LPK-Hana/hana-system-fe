@@ -14,6 +14,8 @@ export const KK_RELATIONSHIP_OPTIONS: RelationshipOption[] = [
   { id: 'MENANTU', labelId: 'Menantu', jp: '婿・嫁' },
   { id: 'CUCU', labelId: 'Cucu', jp: '孫' },
   { id: 'ORANG TUA', labelId: 'Orang Tua', jp: '父母' },
+  { id: 'AYAH', labelId: 'Ayah', jp: '父' },
+  { id: 'IBU', labelId: 'Ibu', jp: '母' },
   { id: 'MERTUA', labelId: 'Mertua', jp: '義父母' },
   { id: 'FAMILI LAIN', labelId: 'Famili Lain', jp: 'その他の親族' },
   { id: 'LAINNYA', labelId: 'Lainnya', jp: 'その他', custom: true },
