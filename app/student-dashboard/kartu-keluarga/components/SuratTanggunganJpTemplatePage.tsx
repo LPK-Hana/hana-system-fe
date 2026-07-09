@@ -82,6 +82,64 @@ export const SuratTanggunganJpTemplatePage: React.FC<{ data: SuratTanggunganForm
           margin: 0.35em 0;
           line-height: 1.5;
         }
+
+        /* Nama: dua tableWrapper asli template, jarak katakana + 氏名 dirapatkan */
+        .surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper:first-child {
+          margin-bottom: 0 !important;
+        }
+
+        .surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper + .tableWrapper {
+          margin-top: 0 !important;
+        }
+
+        .surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper:first-child table {
+          margin-bottom: 0 !important;
+        }
+
+        .surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper + .tableWrapper table {
+          margin-top: 0 !important;
+        }
+
+        .surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper:first-child td {
+          padding-bottom: 0 !important;
+          vertical-align: bottom;
+        }
+
+        .surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper:first-child p {
+          margin: 0 !important;
+          line-height: 1.15 !important;
+        }
+
+        .surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper + .tableWrapper td {
+          padding-top: 0 !important;
+          vertical-align: top;
+        }
+
+        .surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper + .tableWrapper p {
+          margin: 0 !important;
+          line-height: 1.15 !important;
+        }
+
+        /* 本籍: tabel asli 147px 2 kolom, baris katakana + romaji dirapatkan */
+        .surat-tanggungan-jp-template .st-jp-stack-table tr:first-child td {
+          padding-bottom: 0 !important;
+          vertical-align: bottom;
+        }
+
+        .surat-tanggungan-jp-template .st-jp-stack-table tr:first-child p {
+          margin: 0 !important;
+          line-height: 1.15 !important;
+        }
+
+        .surat-tanggungan-jp-template .st-jp-stack-table tr:nth-child(2) td {
+          padding-top: 0 !important;
+          vertical-align: top;
+        }
+
+        .surat-tanggungan-jp-template .st-jp-stack-table tr:nth-child(2) p {
+          margin: 0 !important;
+          line-height: 1.15 !important;
+        }
       `}</style>
     </>
   );
