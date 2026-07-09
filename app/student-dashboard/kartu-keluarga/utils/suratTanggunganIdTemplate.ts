@@ -1,4 +1,4 @@
-import suratTanggunganTemplate from '@/app/admin-dashboard/contoh-data/template/Surat_Tanggungan_Indo.lpk-hana-template-update-1.json';
+import suratTanggunganTemplate from '@/app/admin-dashboard/contoh-data/template/Surat_Tanggungan_Indo.lpk-hana-template-update-3.json';
 import type { SuratTanggunganFormData } from '../types/suratTanggunganTypes';
 import { relationshipDisplayId } from './relationshipOptions';
 
@@ -57,6 +57,14 @@ function replaceNikValue(html: string, nik: string): string {
   return html.replace(/:\s*(&lt;nik&gt;|<nik>)/gi, `: ${safe}`);
 }
 
+/** Penerbit KTP: baris 1 ":Dinas Kependudukan" / baris 2 "dan Pencatatan Sipil" */
+function fixPenerbitKtpLineBreak(html: string): string {
+  return html.replace(
+    /(<p><span style="font-size: 11pt;">Penerbit KTP<\/span><\/p><\/td><td colspan="1" rowspan="1" style=")(white-space: normal; overflow-wrap: break-word; vertical-align: top;)("><p><span style="font-size: 11pt;">): Dinas Kependudukan dan Pencatatan Sipil(<\/span><\/p><\/td>)/,
+    '$1$2min-width: 11em;$3: Dinas&nbsp;Kependudukan<br>dan Pencatatan Sipil$4',
+  );
+}
+
 function expandDependentRows(html: string, rowCount: number): string {
   const rowRe = /<tr>[\s\S]*?(&lt;hubungan&gt;|<hubungan>)[\s\S]*?<\/tr>/gi;
   const rows = html.match(rowRe) ?? [];
@@ -85,6 +93,7 @@ export function buildSuratTanggunganIdHtml(data: SuratTanggunganFormData): strin
 
   let html = expandDependentRows(BASE_HTML, rowCount);
 
+  html = fixPenerbitKtpLineBreak(html);
   html = replaceAll(html, 'nama-peserta', a.name || '');
   html = replaceAll(html, 'L/P', formatGenderDisplay(a.gender || ''));
   html = replaceNikValue(html, a.nik || '');
