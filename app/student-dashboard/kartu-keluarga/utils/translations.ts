@@ -95,6 +95,10 @@ export const translateToJp = (field: string, val: string) => {
     if (cleanVal.includes('SUAMI') || cleanVal === 'HUSBAND') return '夫';
     if (cleanVal.includes('ISTRI') || cleanVal === 'WIFE') return '妻';
     if (cleanVal.includes('ANAK') || cleanVal === 'CHILD' || cleanVal === '子供') return '子';
+    if (cleanVal.includes('KAKAK LAKI') || cleanVal === 'KAKAK L') return '兄';
+    if (cleanVal.includes('KAKAK PEREMPUAN') || cleanVal === 'KAKAK P') return '姉';
+    if (cleanVal.includes('ADIK LAKI') || cleanVal === 'ADIK L') return '弟';
+    if (cleanVal.includes('ADIK PEREMPUAN') || cleanVal === 'ADIK P') return '妹';
     if (cleanVal.includes('MENANTU')) return '婿・嫁';
     if (cleanVal.includes('CUCU')) return '孫';
     if (cleanVal === 'AYAH' || cleanVal.includes('AYAH')) return '父';
@@ -168,6 +172,10 @@ export const translateToId = (field: string, val: string) => {
     if (cleanVal.includes('夫')) return 'SUAMI';
     if (cleanVal.includes('妻')) return 'ISTRI';
     if (cleanVal === '子' || cleanVal.includes('子供')) return 'ANAK';
+    if (cleanVal === '兄') return 'KAKAK LAKI-LAKI';
+    if (cleanVal === '姉') return 'KAKAK PEREMPUAN';
+    if (cleanVal === '弟') return 'ADIK LAKI-LAKI';
+    if (cleanVal === '妹') return 'ADIK PEREMPUAN';
     if (cleanVal.includes('婿') || cleanVal.includes('嫁')) return 'MENANTU';
     if (cleanVal.includes('孫')) return 'CUCU';
     if (cleanVal === '父') return 'AYAH';
