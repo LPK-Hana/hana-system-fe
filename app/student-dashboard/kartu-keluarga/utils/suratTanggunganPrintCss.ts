@@ -118,4 +118,48 @@ export const SURAT_TANGGUNGAN_JP_PRINT_CSS = `
   margin: 0.35em 0;
   line-height: 1.5;
 }
+.surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper:first-child {
+  margin-bottom: 0 !important;
+}
+.surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper + .tableWrapper {
+  margin-top: 0 !important;
+}
+.surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper:first-child table {
+  margin-bottom: 0 !important;
+}
+.surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper + .tableWrapper table {
+  margin-top: 0 !important;
+}
+.surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper:first-child td {
+  padding-bottom: 0 !important;
+  vertical-align: bottom;
+}
+.surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper:first-child p {
+  margin: 0 !important;
+  line-height: 1.15 !important;
+}
+.surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper + .tableWrapper td {
+  padding-top: 0 !important;
+  vertical-align: top;
+}
+.surat-tanggungan-jp-template .st-jp-stack-group > .tableWrapper + .tableWrapper p {
+  margin: 0 !important;
+  line-height: 1.15 !important;
+}
+.surat-tanggungan-jp-template .st-jp-stack-table tr:first-child td {
+  padding-bottom: 0 !important;
+  vertical-align: bottom;
+}
+.surat-tanggungan-jp-template .st-jp-stack-table tr:first-child p {
+  margin: 0 !important;
+  line-height: 1.15 !important;
+}
+.surat-tanggungan-jp-template .st-jp-stack-table tr:nth-child(2) td {
+  padding-top: 0 !important;
+  vertical-align: top;
+}
+.surat-tanggungan-jp-template .st-jp-stack-table tr:nth-child(2) p {
+  margin: 0 !important;
+  line-height: 1.15 !important;
+}
 `;

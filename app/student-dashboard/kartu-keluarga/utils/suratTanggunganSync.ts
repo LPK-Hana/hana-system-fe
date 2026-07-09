@@ -51,8 +51,8 @@ export function syncStApplicantField(
         if (i === parts.length - 2) return translateCityToJp(p);
         return translateRegionToJp(p);
       });
-      patch.domisiliJp = jpParts.join(', ');
-      patch.domisiliKatakana = jpParts.join(', ');
+      patch.domisiliJp = jpParts.join('・');
+      patch.domisiliKatakana = jpParts.join('・');
       break;
     }
     case 'ktpIssueDate': {

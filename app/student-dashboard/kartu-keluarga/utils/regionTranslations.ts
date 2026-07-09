@@ -85,7 +85,7 @@ export function buildDomisiliJpFromParts(parts: {
   const kec = parts.kecamatanJp?.trim() || translateRegionToJp(parts.kecamatan || '');
   const kab = parts.kabKotaJp?.trim() || translateCityToJp(parts.kabKota || '');
   const prov = parts.provinsiJp?.trim() || translateProvinceToJp(parts.provinsi || '');
-  return [kel, kec, kab, prov].filter(Boolean).join(', ');
+  return [kel, kec, kab, prov].filter(Boolean).join('・');
 }
 
 export function buildDomisiliKatakanaFromParts(parts: {
