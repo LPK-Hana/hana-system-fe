@@ -1,11 +1,12 @@
 'use client';
 
 import React from 'react';
-import { UserCircle2 } from 'lucide-react';
+import { Minus, Plus, UserCircle2 } from 'lucide-react';
 import { KkFormData } from '../types';
 import { SuratTanggunganFormData } from '../types/suratTanggunganTypes';
 import { kkMembersWithData } from '../utils/suratTanggunganMapper';
-import { translateToKatakana } from '../utils/translations';
+import { RelationshipField } from './RelationshipField';
+import { PreservedTextInput } from './PreservedTextInput';
 
 export type StEditorTab = 'select' | 'edit_id' | 'edit_jp';
 
@@ -18,9 +19,12 @@ interface SuratTanggunganEditorPanelProps {
   kkFormData: KkFormData;
   stFormData: SuratTanggunganFormData;
   onSelectApplicant: (memberIndex: number) => void;
-  updateApplicant: (field: string, value: string, syncJpField?: string) => void;
-  updateDependent: (idx: number, field: string, value: string, syncJpField?: string) => void;
+  updateApplicant: (field: string, value: string) => void;
+  updateDependent: (idx: number, field: string, value: string) => void;
+  updateDependentRelationship: (idx: number, relationship: string, relationshipJp: string) => void;
   updateMeta: (field: keyof SuratTanggunganFormData, value: string) => void;
+  onAddDependent: () => void;
+  onRemoveDependent: (idx: number) => void;
 }
 
 const inputCls =
@@ -37,7 +41,10 @@ export const SuratTanggunganEditorPanel: React.FC<SuratTanggunganEditorPanelProp
   onSelectApplicant,
   updateApplicant,
   updateDependent,
+  updateDependentRelationship,
   updateMeta,
+  onAddDependent,
+  onRemoveDependent,
 }) => {
   const isJp = activeTab === 'edit_jp';
   const hasApplicant = stFormData.applicantMemberIndex !== null;
@@ -51,31 +58,12 @@ export const SuratTanggunganEditorPanel: React.FC<SuratTanggunganEditorPanelProp
     return a[field] ?? '';
   };
 
-  const handleApplicant = (field: string, jpField: string, val: string) => {
-    const upper = field === 'gender' || field === 'genderJp' ? val : val.toUpperCase();
-    if (isJp) {
-      updateApplicant(jpField, upper);
-      return;
-    }
-    updateApplicant(field, upper, jpField);
-    if (field === 'name') updateApplicant('nameKatakana', translateToKatakana(upper));
-    if (field === 'domisili') updateApplicant('domisiliKatakana', translateToKatakana(upper));
+  const handleApplicant = (field: string, val: string) => {
+    updateApplicant(field, val);
   };
 
-  const handleDep = (idx: number, field: string, jpField: string, val: string) => {
-    const upper = val.toUpperCase();
-    if (isJp) {
-      updateDependent(idx, jpField, upper);
-      return;
-    }
-    updateDependent(idx, field, upper, jpField);
-    if (field === 'name') updateDependent(idx, 'nameKatakana', translateToKatakana(upper));
-    if (field === 'relationship') {
-      const jpRel =
-        ({ Ayah: '父', Ibu: '母', 'Adik Perempuan': '妹', 'Adik Laki-laki': '弟' } as Record<string, string>)[upper] ||
-        upper;
-      updateDependent(idx, 'relationshipJp', jpRel);
-    }
+  const handleDep = (idx: number, field: string, val: string) => {
+    updateDependent(idx, field, val);
   };
 
   return (
@@ -160,16 +148,32 @@ export const SuratTanggunganEditorPanel: React.FC<SuratTanggunganEditorPanelProp
           </div>
         ) : (
           <>
+            {!isJp ? (
+              <section className="space-y-3">
+                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Tanggal Surat</h3>
+                <label className="block space-y-1">
+                  <span className="text-[10px] font-semibold text-slate-500">Tanggal (DD-MM-YYYY)</span>
+                  <input
+                    className={inputCls}
+                    placeholder="06-01-2021"
+                    value={stFormData.signDateId}
+                    onChange={(e) => updateMeta('signDateId', e.target.value)}
+                  />
+                </label>
+              </section>
+            ) : null}
+
             <section className="space-y-3">
               <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                 Data Pemohon {isJp ? '(Jepang)' : '(Indonesia)'}
               </h3>
               <label className="block space-y-1">
                 <span className="text-[10px] font-semibold text-slate-500">Nama</span>
-                <input
+                <PreservedTextInput
                   className={inputCls}
                   value={getApplicantVal('name', 'nameJp')}
-                  onChange={(e) => handleApplicant('name', 'nameJp', e.target.value)}
+                  onChange={(val) => handleApplicant(isJp ? 'nameJp' : 'name', val)}
+                  uppercase={!isJp}
                 />
               </label>
               {isJp ? (
@@ -188,7 +192,7 @@ export const SuratTanggunganEditorPanel: React.FC<SuratTanggunganEditorPanelProp
                   <input
                     className={inputCls}
                     value={getApplicantVal('gender', 'genderJp')}
-                    onChange={(e) => handleApplicant('gender', 'genderJp', e.target.value)}
+                    onChange={(e) => handleApplicant(isJp ? 'genderJp' : 'gender', e.target.value)}
                   />
                 </label>
                 <label className="block space-y-1">
@@ -226,16 +230,17 @@ export const SuratTanggunganEditorPanel: React.FC<SuratTanggunganEditorPanelProp
                   <input
                     className={inputCls}
                     value={getApplicantVal('nationality', 'nationalityJp')}
-                    onChange={(e) => handleApplicant('nationality', 'nationalityJp', e.target.value)}
+                    onChange={(e) => handleApplicant(isJp ? 'nationalityJp' : 'nationality', e.target.value)}
                   />
                 </label>
               </div>
               <label className="block space-y-1">
                 <span className="text-[10px] font-semibold text-slate-500">Domisili</span>
-                <input
+                <PreservedTextInput
                   className={inputCls}
                   value={getApplicantVal('domisili', 'domisiliJp')}
-                  onChange={(e) => handleApplicant('domisili', 'domisiliJp', e.target.value)}
+                  onChange={(val) => handleApplicant(isJp ? 'domisiliJp' : 'domisili', val)}
+                  uppercase={!isJp}
                 />
               </label>
               {isJp ? (
@@ -251,24 +256,52 @@ export const SuratTanggunganEditorPanel: React.FC<SuratTanggunganEditorPanelProp
             </section>
 
             <section className="space-y-3">
-              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Daftar Tanggungan</h3>
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Daftar Tanggungan</h3>
+                <button
+                  type="button"
+                  onClick={onAddDependent}
+                  className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-semibold text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-lg hover:bg-indigo-100 transition-colors"
+                >
+                  <Plus size={12} />
+                  Tambah
+                </button>
+              </div>
+              {stFormData.dependents.length === 0 ? (
+                <p className="text-[10px] text-slate-500 text-center py-4 border border-dashed border-slate-200 rounded-xl">
+                  Belum ada tanggungan. Klik Tambah untuk menambah baris.
+                </p>
+              ) : null}
               {stFormData.dependents.map((dep, idx) => (
                 <div key={idx} className="border border-slate-100 rounded-xl p-3 space-y-2 bg-slate-50/40">
-                  <p className="text-[10px] font-bold text-indigo-700">Baris {idx + 1}</p>
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-[10px] font-bold text-indigo-700">Baris {idx + 1}</p>
+                    <button
+                      type="button"
+                      onClick={() => onRemoveDependent(idx)}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-semibold text-rose-600 hover:bg-rose-50 rounded-md transition-colors"
+                    >
+                      <Minus size={12} />
+                      Hapus
+                    </button>
+                  </div>
                   <label className="block space-y-1">
                     <span className="text-[10px] font-semibold text-slate-500">Hubungan</span>
-                    <input
-                      className={inputCls}
-                      value={isJp ? dep.relationshipJp : dep.relationship}
-                      onChange={(e) => handleDep(idx, 'relationship', 'relationshipJp', e.target.value)}
+                    <RelationshipField
+                      value={dep.relationship}
+                      valueJp={dep.relationshipJp}
+                      isJp={isJp}
+                      inputClassName={inputCls}
+                      onChange={(rel, relJp) => updateDependentRelationship(idx, rel, relJp)}
                     />
                   </label>
                   <label className="block space-y-1">
                     <span className="text-[10px] font-semibold text-slate-500">Nama</span>
-                    <input
+                    <PreservedTextInput
                       className={inputCls}
                       value={isJp ? dep.nameJp : dep.name}
-                      onChange={(e) => handleDep(idx, 'name', 'nameJp', e.target.value)}
+                      onChange={(val) => handleDep(idx, isJp ? 'nameJp' : 'name', val)}
+                      uppercase={!isJp}
                     />
                   </label>
                   {isJp ? (
@@ -302,7 +335,7 @@ export const SuratTanggunganEditorPanel: React.FC<SuratTanggunganEditorPanelProp
                     className={inputCls}
                     value={isJp ? stFormData.locationJp : stFormData.locationId}
                     onChange={(e) =>
-                      isJp ? updateMeta('locationJp', e.target.value) : updateMeta('locationId', e.target.value.toUpperCase())
+                      isJp ? updateMeta('locationJp', e.target.value) : updateMeta('locationId', e.target.value)
                     }
                   />
                 </label>

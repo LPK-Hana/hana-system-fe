@@ -1,9 +1,5 @@
-import suratTanggunganTemplate from '@/app/admin-dashboard/contoh-data/template/surat-tanggungan.json';
+import suratTanggunganTemplate from '@/app/admin-dashboard/contoh-data/template/Surat_Tanggungan_Indo.lpk-hana-template.json';
 import type { SuratTanggunganFormData } from '../types/suratTanggunganTypes';
-import {
-  buildApplicantBorderlessTableHtml,
-  buildSignFooterBorderlessHtml,
-} from './suratTanggunganIdApplicantLayout';
 
 export const SURAT_TANGGUNGAN_ID_TEMPLATE = suratTanggunganTemplate.template;
 
@@ -29,27 +25,35 @@ function phRegex(key: string): RegExp {
   return new RegExp(`(&lt;${escaped}&gt;|<${escaped}>)`, 'gi');
 }
 
+function replaceAll(html: string, key: string, value: string): string {
+  return html.replace(phRegex(key), escapeHtml(value) || '\u00A0');
+}
+
 function replaceMany(html: string, key: string, values: string[]): string {
   let i = 0;
   return html.replace(phRegex(key), () => escapeHtml(values[i++] ?? '') || '\u00A0');
 }
 
-/** Ganti blok paragraf+tab data pemohon dengan tabel tanpa garis 3 kolom */
-function injectApplicantLayout(html: string, data: SuratTanggunganFormData): string {
-  const applicantHtml = buildApplicantBorderlessTableHtml(data);
-  const re =
-    /(Kepala Desa\/Kelurahan<\/span><\/p>)([\s\S]*?)(<p[^>]*>[\s\S]*?Dengan ini saya menyatakan)/i;
-  if (!re.test(html)) return html;
-  return html.replace(re, `$1${applicantHtml}$3`);
+function formatGenderDisplay(gender: string): string {
+  const g = gender.toUpperCase();
+  if (g.startsWith('L') || g.includes('LAKI') || g === 'M' || g === 'L') return 'Laki-laki';
+  if (g.startsWith('P') || g.includes('PEREMPUAN') || g === 'F' || g === 'P') return 'Perempuan';
+  return gender;
 }
 
-/** Ganti footer berbasis tab dengan tabel tanpa garis */
-function injectSignFooter(html: string, data: SuratTanggunganFormData): string {
-  const footerHtml = buildSignFooterBorderlessHtml(data);
-  const re =
-    /(<p>[\s\S]*?(&lt;tgl&gt;|<tgl>)[\s\S]*?<\/p>)(\s*<p>[\s\S]*?Legalisasi[\s\S]*?<\/p>)(\s*<p[^>]*>[\s\S]*?<\/p>){0,4}(\s*<p[^>]*>[\s\S]*?(&lt;nama-peserta-romanji&gt;|<nama-peserta-romanji>)[\s\S]*?<\/p>)\s*$/i;
-  if (!re.test(html)) return html;
-  return html.replace(re, footerHtml);
+function replaceDomisili(html: string, domisili: string): string {
+  const value = escapeHtml(domisili) || '\u00A0';
+  return html.replace(/DESA,\s*KECAMATAN,\s*KAB\/KOTA,\s*PROVINSI(?:\s*ALFABET)?/gi, value);
+}
+
+function replaceSignDatePlaceholder(html: string, data: SuratTanggunganFormData): string {
+  const dateText = data.signDateId?.trim() || 'tgl bln thn';
+  return html.replace(/tgl\s+bln\s+thn/gi, dateText);
+}
+
+function replaceNikValue(html: string, nik: string): string {
+  const safe = escapeHtml(nik) || '\u00A0';
+  return html.replace(/:\s*(&lt;nik&gt;|<nik>)/gi, `: ${safe}`);
 }
 
 function expandDependentRows(html: string, rowCount: number): string {
@@ -74,11 +78,24 @@ function expandDependentRows(html: string, rowCount: number): string {
 }
 
 export function buildSuratTanggunganIdHtml(data: SuratTanggunganFormData): string {
-  const dependents = data.dependents.length > 0 ? data.dependents : [];
-  const rowCount = Math.max(dependents.length, 2);
+  const a = data.applicant;
+  const dependents = data.dependents;
+  const rowCount = dependents.length;
 
-  let html = injectApplicantLayout(BASE_HTML, data);
-  html = expandDependentRows(html, rowCount);
+  let html = expandDependentRows(BASE_HTML, rowCount);
+
+  html = replaceAll(html, 'nama-peserta', a.name || '');
+  html = replaceAll(html, 'L/P', formatGenderDisplay(a.gender || ''));
+  html = replaceNikValue(html, a.nik || '');
+  // Template terbaru pakai <kk> untuk tanggal terbit KK; <tgl> tetap didukung.
+  html = replaceAll(html, 'kk', a.ktpIssueDate || '');
+  html = replaceAll(html, 'tgl', a.ktpIssueDate || '');
+  html = replaceDomisili(html, a.domisili || '');
+
+  html = replaceMany(html, 'tgl-lahir', [
+    a.dob || '',
+    ...dependents.map((d) => d.dob || ''),
+  ]);
 
   html = replaceMany(
     html,
@@ -90,13 +107,9 @@ export function buildSuratTanggunganIdHtml(data: SuratTanggunganFormData): strin
     'nama',
     dependents.map((d) => d.name || ''),
   );
-  html = replaceMany(
-    html,
-    'tgl-lahir',
-    dependents.map((d) => d.dob || ''),
-  );
 
-  html = injectSignFooter(html, data);
+  html = replaceAll(html, 'kota', (data.locationId || '').trim());
+  html = replaceSignDatePlaceholder(html, data);
 
   return html;
 }

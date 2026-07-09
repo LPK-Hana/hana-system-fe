@@ -2,6 +2,8 @@ import React from 'react';
 import { Upload, Loader2, Sparkles } from 'lucide-react';
 import { KkFormData } from '../types';
 import { keepRomanji, translateToJp, translateToId } from '../utils/translations';
+import { RelationshipField } from './RelationshipField';
+import { PreservedTextInput } from './PreservedTextInput';
 import { KK_EDUCATION_OPTIONS, normalizeEducationId } from '../utils/educationOptions';
 import { KK_OCCUPATION_OPTIONS, normalizeOccupationId } from '../utils/occupationOptions';
 
@@ -73,21 +75,19 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
   };
 
   const handleBasicChange = (field: string, jpField: string, val: string) => {
-    const upper = val.toUpperCase();
     if (isJp) {
-      updateBasic(jpField, upper);
+      updateBasic(jpField, val);
       return;
     }
-    updateBasic(field, upper, jpField);
+    updateBasic(field, val, jpField);
   };
 
   const handleMemberChange = (idx: number, field: string, jpField: string, val: string) => {
-    const upper = val.toUpperCase();
     if (isJp) {
-      updateMember(idx, jpField, upper);
+      updateMember(idx, jpField, val);
       return;
     }
-    updateMember(idx, field, upper, jpField);
+    updateMember(idx, field, val, jpField);
   };
 
   const toDateInputValue = (ddmmyyyy: string) => {
@@ -200,20 +200,20 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                 </div>
                 <div className="col-span-2">
                   <label className="block text-[10px] uppercase font-bold text-slate-450 mb-1 tracking-wider">Nama Kepala Keluarga (家長名)</label>
-                  <input
-                    type="text"
+                  <PreservedTextInput
                     value={getBasicVal('kepalaKeluarga', 'kepalaKeluargaJp', keepRomanji)}
-                    onChange={e => handleBasicChange('kepalaKeluarga', 'kepalaKeluargaJp', e.target.value)}
+                    onChange={val => handleBasicChange('kepalaKeluarga', 'kepalaKeluargaJp', val)}
+                    uppercase
                     className="w-full uppercase bg-slate-50/50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-650 rounded-lg px-3 py-1.5 font-medium text-slate-800 transition-all placeholder:text-slate-350"
                     placeholder="Nama Kepala Keluarga"
                   />
                 </div>
                 <div className="col-span-2">
                   <label className="block text-[10px] uppercase font-bold text-slate-450 mb-1 tracking-wider">Alamat (住所)</label>
-                  <input
-                    type="text"
+                  <PreservedTextInput
                     value={getBasicVal('alamat', 'alamatJp', keepRomanji)}
-                    onChange={e => handleBasicChange('alamat', 'alamatJp', e.target.value)}
+                    onChange={val => handleBasicChange('alamat', 'alamatJp', val)}
+                    uppercase
                     className="w-full uppercase bg-slate-50/50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-650 rounded-lg px-3 py-1.5 font-medium text-slate-800 transition-all placeholder:text-slate-350"
                     placeholder="Jalan, Gang, Blok"
                   />
@@ -306,10 +306,10 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                   <div className="p-4 grid grid-cols-2 gap-3 bg-white text-[11px] border-t border-slate-150/60 transition-all duration-300">
                     <div className="col-span-2">
                       <label className="block text-[9px] uppercase font-bold text-slate-450 mb-1 tracking-wider">Nama Lengkap (姓名)</label>
-                      <input
-                        type="text"
+                      <PreservedTextInput
                         value={getMemberVal(member, 'name', 'nameJp', keepRomanji)}
-                        onChange={e => handleMemberChange(idx, 'name', 'nameJp', e.target.value)}
+                        onChange={val => handleMemberChange(idx, 'name', 'nameJp', val)}
+                        uppercase
                         className="w-full uppercase bg-slate-50/50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-650 rounded-lg px-2.5 py-1.2 font-medium text-slate-800 transition-all"
                       />
                     </div>
@@ -336,10 +336,10 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                     </div>
                     <div>
                       <label className="block text-[9px] uppercase font-bold text-slate-450 mb-1 tracking-wider">Tempat Lahir</label>
-                      <input
-                        type="text"
+                      <PreservedTextInput
                         value={getMemberVal(member, 'pob', 'pobJp', keepRomanji)}
-                        onChange={e => handleMemberChange(idx, 'pob', 'pobJp', e.target.value)}
+                        onChange={val => handleMemberChange(idx, 'pob', 'pobJp', val)}
+                        uppercase
                         className="w-full uppercase bg-slate-50/50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-650 rounded-lg px-2.5 py-1.2 font-medium text-slate-800 transition-all"
                       />
                     </div>
@@ -476,12 +476,20 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                     </div>
                     <div>
                       <label className="block text-[9px] uppercase font-bold text-slate-450 mb-1 tracking-wider">Hub. Keluarga</label>
-                      <input
-                        type="text"
-                        value={getMemberVal(member, 'relationship', 'relationshipJp', translateToJp, 'relationship')}
-                        onChange={e => handleMemberChange(idx, 'relationship', 'relationshipJp', e.target.value)}
-                        className="w-full uppercase bg-slate-50/50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-650 rounded-lg px-2.5 py-1.2 font-medium text-slate-800 transition-all"
-                        placeholder="KEPALA KELUARGA / Anak"
+                      <RelationshipField
+                        value={member.relationship}
+                        valueJp={member.relationshipJp}
+                        isJp={isJp}
+                        inputClassName="w-full uppercase bg-slate-50/50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-650 rounded-lg px-2.5 py-1.2 font-medium text-slate-800 transition-all"
+                        onChange={(rel, relJp) => {
+                          if (isJp) {
+                            updateMember(idx, 'relationshipJp', relJp);
+                            if (rel && rel !== 'LAINNYA') updateMember(idx, 'relationship', rel);
+                            else if (rel === 'LAINNYA' && relJp) updateMember(idx, 'relationship', relJp.toUpperCase());
+                          } else {
+                            updateMember(idx, 'relationship', rel, 'relationshipJp');
+                          }
+                        }}
                       />
                     </div>
                     <div>
@@ -514,19 +522,19 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                     </div>
                     <div className="col-span-2">
                       <label className="block text-[9px] uppercase font-bold text-slate-450 mb-1 tracking-wider">Nama Ayah (父)</label>
-                      <input
-                        type="text"
+                      <PreservedTextInput
                         value={getMemberVal(member, 'father', 'fatherJp', keepRomanji)}
-                        onChange={e => handleMemberChange(idx, 'father', 'fatherJp', e.target.value)}
+                        onChange={val => handleMemberChange(idx, 'father', 'fatherJp', val)}
+                        uppercase
                         className="w-full uppercase bg-slate-50/50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-650 rounded-lg px-2.5 py-1.2 font-medium text-slate-800 transition-all"
                       />
                     </div>
                     <div className="col-span-2">
                       <label className="block text-[9px] uppercase font-bold text-slate-450 mb-1 tracking-wider">Nama Ibu (母)</label>
-                      <input
-                        type="text"
+                      <PreservedTextInput
                         value={getMemberVal(member, 'mother', 'motherJp', keepRomanji)}
-                        onChange={e => handleMemberChange(idx, 'mother', 'motherJp', e.target.value)}
+                        onChange={val => handleMemberChange(idx, 'mother', 'motherJp', val)}
+                        uppercase
                         className="w-full uppercase bg-slate-50/50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-650 rounded-lg px-2.5 py-1.2 font-medium text-slate-800 transition-all"
                       />
                     </div>

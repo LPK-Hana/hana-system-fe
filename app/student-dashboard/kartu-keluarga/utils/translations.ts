@@ -1,6 +1,10 @@
 import { toKatakana } from '@/lib/katakana-master';
 import { educationIdToJp, educationJpToId } from './educationOptions';
 import { occupationIdToJp, occupationJpToId } from './occupationOptions';
+import {
+  findRelationshipOption,
+} from './relationshipOptions';
+import { translateRegionToJp } from './regionTranslations';
 
 /** Konversi nama/teks Indonesia ke Katakana (Katakana Master) */
 export const translateToKatakana = (text: string): string => {
@@ -81,15 +85,21 @@ export const translateToJp = (field: string, val: string) => {
   }
 
   if (field === 'relationship') {
-    if (cleanVal.includes('KEPALA KELUARGA') || cleanVal === 'KEPALA' || cleanVal === '世帯主' || cleanVal === '家長') return '家長';
+    const opt = findRelationshipOption(cleanVal);
+    if (opt) {
+      if (opt.custom) return val.trim();
+      return opt.jp;
+    }
+    // Legacy / OCR aliases
+    if (cleanVal.includes('KEPALA KELUARGA') || cleanVal === 'KEPALA' || cleanVal === '世帯主' || cleanVal === '家長') return '世帯主';
     if (cleanVal.includes('SUAMI') || cleanVal === 'HUSBAND') return '夫';
     if (cleanVal.includes('ISTRI') || cleanVal === 'WIFE') return '妻';
-    if (cleanVal.includes('ANAK') || cleanVal === 'CHILD' || cleanVal === '子供') return '子供';
-    if (cleanVal.includes('MENANTU')) return '義理の子';
+    if (cleanVal.includes('ANAK') || cleanVal === 'CHILD' || cleanVal === '子供') return '子';
+    if (cleanVal.includes('MENANTU')) return '婿・嫁';
     if (cleanVal.includes('CUCU')) return '孫';
-    if (cleanVal.includes('ORANG TUA') || cleanVal.includes('ORANGTUA') || cleanVal === 'AYAH' || cleanVal === 'IBU') return '両親';
-    if (cleanVal.includes('MERTUA')) return '義理の親';
-    if (cleanVal.includes('FAMILI LAIN')) return '他の家族';
+    if (cleanVal.includes('ORANG TUA') || cleanVal.includes('ORANGTUA') || cleanVal === 'AYAH' || cleanVal === 'IBU') return '父母';
+    if (cleanVal.includes('MERTUA')) return '義父母';
+    if (cleanVal.includes('FAMILI LAIN')) return 'その他の親族';
     if (cleanVal.includes('PEMBANTU')) return '使用人';
     if (cleanVal.includes('LAINNYA')) return 'その他';
     return val;
@@ -150,15 +160,17 @@ export const translateToId = (field: string, val: string) => {
   }
 
   if (field === 'relationship') {
+    const opt = findRelationshipOption(cleanVal);
+    if (opt && !opt.custom) return opt.id;
     if (cleanVal.includes('世帯主') || cleanVal.includes('家長')) return 'KEPALA KELUARGA';
     if (cleanVal.includes('夫')) return 'SUAMI';
     if (cleanVal.includes('妻')) return 'ISTRI';
-    if (cleanVal.includes('子')) return 'ANAK';
-    if (cleanVal.includes('義理の親') || cleanVal.includes('義親')) return 'MERTUA';
-    if (cleanVal.includes('両親') || cleanVal.includes('親')) return 'ORANG TUA';
-    if (cleanVal.includes('義理の子')) return 'MENANTU';
+    if (cleanVal === '子' || cleanVal.includes('子供')) return 'ANAK';
+    if (cleanVal.includes('婿') || cleanVal.includes('嫁')) return 'MENANTU';
     if (cleanVal.includes('孫')) return 'CUCU';
-    if (cleanVal.includes('他の家族') || cleanVal.includes('親族')) return 'FAMILI LAIN';
+    if (cleanVal.includes('父母') || cleanVal.includes('両親')) return 'ORANG TUA';
+    if (cleanVal.includes('義父母') || cleanVal.includes('義理の親')) return 'MERTUA';
+    if (cleanVal.includes('その他の親族') || cleanVal.includes('他の家族')) return 'FAMILI LAIN';
     if (cleanVal.includes('使用人') || cleanVal.includes('雇人')) return 'PEMBANTU';
     if (cleanVal.includes('その他')) return 'LAINNYA';
     return val;
@@ -202,6 +214,17 @@ export function syncMemberIdToJp(idField: string, value: string): string {
   return keepRomanji(upper);
 }
 
+const BASIC_REGION_FIELDS = new Set(['kelurahan', 'kecamatan', 'kabKota', 'provinsi', 'alamat']);
+
+/** Sinkronkan nilai field basic ID → JP saat edit versi Indonesia */
+export function syncBasicFieldIdToJp(field: string, value: string): string {
+  if (BASIC_REGION_FIELDS.has(field)) {
+    return translateRegionToJp(value);
+  }
+  return keepRomanji(value);
+}
+
+/** @deprecated use syncBasicFieldIdToJp */
 export function syncBasicIdToJp(value: string): string {
   return keepRomanji(value);
 }

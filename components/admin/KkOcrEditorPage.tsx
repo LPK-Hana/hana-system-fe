@@ -22,7 +22,7 @@ import { exportKKToPDF } from '@/app/student-dashboard/kartu-keluarga/utils/expo
 import { parseKkDocument } from '@/app/student-dashboard/kartu-keluarga/utils/ocrParser';
 import ApiInputKk from '@/app/api/input-kk/api_input_kk';
 import { mapToKKID, mapToKKJP } from '@/app/student-dashboard/kartu-keluarga/utils/mapper';
-import { syncBasicIdToJp, syncMemberIdToJp, translateToJp } from '@/app/student-dashboard/kartu-keluarga/utils/translations';
+import { syncBasicFieldIdToJp, syncMemberIdToJp, translateToJp } from '@/app/student-dashboard/kartu-keluarga/utils/translations';
 import { toast } from 'react-hot-toast';
 import LoadingOverlay from '@/components/LoadingOverlay';
 
@@ -303,7 +303,7 @@ export default function KkOcrEditorPage({ noPeserta, backHref, backLabel }: Prop
       basic: {
         ...prev.basic,
         [field]: value,
-        ...(syncJpField ? { [syncJpField]: syncBasicIdToJp(value) } : {}),
+        ...(syncJpField ? { [syncJpField]: syncBasicFieldIdToJp(field, value) } : {}),
       },
     }));
 

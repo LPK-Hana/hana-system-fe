@@ -9,7 +9,7 @@ import { EditorPanel } from './components/EditorPanel';
 import { DocumentPreview } from './components/DocumentPreview';
 import ApiInputKk from '@/app/api/input-kk/api_input_kk';
 import { mapToKKID, mapToKKJP } from './utils/mapper';
-import { syncBasicIdToJp, syncMemberIdToJp, translateToJp } from './utils/translations';
+import { syncBasicFieldIdToJp, syncMemberIdToJp, translateToJp } from './utils/translations';
 import { toast } from 'react-hot-toast';
 import LoadingOverlay from '@/components/LoadingOverlay';
 
@@ -219,7 +219,7 @@ export default function KartuKeluargaPage() {
       basic: {
         ...prev.basic,
         [field]: value,
-        ...(syncJpField ? { [syncJpField]: syncBasicIdToJp(value) } : {}),
+        ...(syncJpField ? { [syncJpField]: syncBasicFieldIdToJp(field, value) } : {}),
       },
     }));
   };

@@ -18,7 +18,7 @@ export const SuratTanggunganIdTemplatePage: React.FC<{ data: SuratTanggunganForm
       <style jsx global>{`
         .surat-tanggungan-id-template {
           font-family: Aptos, 'Segoe UI', Calibri, 'Helvetica Neue', Arial, sans-serif;
-          font-size: 10.5pt;
+          font-size: 11pt;
           line-height: 1.5;
           color: #000;
         }
@@ -34,14 +34,15 @@ export const SuratTanggunganIdTemplatePage: React.FC<{ data: SuratTanggunganForm
         .surat-tanggungan-id-template .doc-table {
           border-collapse: collapse;
           width: 100%;
+          max-width: 100%;
           table-layout: fixed;
-          margin: 0.5em 0;
+          margin: 0.35em 0;
         }
 
         .surat-tanggungan-id-template .doc-table td,
         .surat-tanggungan-id-template .doc-table th {
           border: 1px solid #000;
-          padding: 4px 6px;
+          padding: 2px 4px;
           vertical-align: top;
           white-space: normal;
           overflow-wrap: break-word;
@@ -54,39 +55,31 @@ export const SuratTanggunganIdTemplatePage: React.FC<{ data: SuratTanggunganForm
           font-weight: bold;
         }
 
-        /* Tabel tanpa garis — label ： nilai (titik dua sejajar) */
-        .surat-tanggungan-id-template .st-borderless-table,
-        .surat-tanggungan-id-template .st-borderless-table td,
-        .surat-tanggungan-id-template .st-borderless-table th {
+        /* Tabel tanpa garis — biodata & footer */
+        .surat-tanggungan-id-template .doc-borderless-table,
+        .surat-tanggungan-id-template table[data-table-variant='borderless'] {
+          border-collapse: collapse;
+          width: 100%;
+          max-width: 100%;
+          table-layout: fixed;
+          margin: 0.35em 0;
+          border: none;
+        }
+
+        .surat-tanggungan-id-template .doc-borderless-table td,
+        .surat-tanggungan-id-template .doc-borderless-table th,
+        .surat-tanggungan-id-template table[data-table-variant='borderless'] td,
+        .surat-tanggungan-id-template table[data-table-variant='borderless'] th {
           border: none !important;
           background: transparent !important;
           box-shadow: none !important;
-        }
-
-        .surat-tanggungan-id-template .st-field-3col {
-          table-layout: fixed;
-        }
-
-        .surat-tanggungan-id-template .st-label-col {
-          white-space: nowrap;
-        }
-
-        .surat-tanggungan-id-template .st-colon-col {
-          white-space: nowrap;
-        }
-
-        .surat-tanggungan-id-template .st-value-col {
-          white-space: normal;
-          overflow-wrap: break-word;
-          word-break: break-word;
-        }
-
-        .surat-tanggungan-id-template .st-applicant-grid {
-          table-layout: fixed;
+          padding: 0;
+          vertical-align: top;
         }
 
         .surat-tanggungan-id-template .tableWrapper {
           display: block;
+          width: 100%;
           max-width: 100%;
           line-height: 1.5;
         }

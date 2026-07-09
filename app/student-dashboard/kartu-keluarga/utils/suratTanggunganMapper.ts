@@ -1,17 +1,23 @@
 import { KkFormData, KkMember } from '../types';
 import {
-  emptyStApplicant,
-  emptyStDependent,
+  defaultSignDateId,
+  parseSignDateId,
   StDependent,
   SuratTanggunganFormData,
 } from '../types/suratTanggunganTypes';
 import {
+  buildDomisiliJpFromParts,
+  buildDomisiliKatakanaFromParts,
+  translateCityToJp,
+  translateRegionToJp,
+} from './regionTranslations';
+import { relationshipJpFromId, relationshipDropdownValue } from './relationshipOptions';
+import {
   keepRomanji,
-  translateToId,
   translateToJp,
   translateToKatakana,
 } from './translations';
-import { formatJpCalendarDate } from './kkJpFormat';
+import { formatJpIssueDate } from './kkJpFormat';
 
 function formatDobId(dob: string): string {
   if (!dob) return '';
@@ -22,78 +28,63 @@ function formatDobId(dob: string): string {
   return raw;
 }
 
+/** Format JP: 1992年10月　11日 */
+export function formatStDobJpDisplay(dob: string | undefined): string {
+  if (!dob) return '';
+  const raw = dob.includes('T') ? dob.split('T')[0] : dob;
+  const parts = raw.split('-');
+  if (parts.length !== 3) return raw;
+  let y: string;
+  let m: string;
+  let d: string;
+  if (parts[0].length === 4) {
+    [y, m, d] = parts;
+  } else {
+    [d, m, y] = parts;
+  }
+  return `${+y}年${+m}月${+d}日`;
+}
+
 function formatGenderId(gender: string): string {
   const g = gender.toUpperCase();
-  if (g.startsWith('L') || g.includes('LAKI') || g === 'M') return 'Laki - laki';
+  if (g.startsWith('L') || g.includes('LAKI') || g === 'M') return 'Laki-laki';
   if (g.startsWith('P') || g.includes('PEREMPUAN') || g === 'F') return 'Perempuan';
   return gender;
 }
 
-function relationshipToStId(member: KkMember, applicant: KkMember): string {
-  const name = member.name.trim().toUpperCase();
-  if (applicant.father && name === applicant.father.trim().toUpperCase()) return 'Ayah';
-  if (applicant.mother && name === applicant.mother.trim().toUpperCase()) return 'Ibu';
-
-  const rel = member.relationship.toUpperCase();
-  if (rel.includes('KEPALA')) return 'Ayah';
-  if (rel.includes('ISTRI')) return 'Ibu';
-  if (rel.includes('ANAK')) {
-    const g = member.gender.toUpperCase();
-    if (g.startsWith('P') || g.includes('PEREMPUAN')) return 'Adik Perempuan';
-    return 'Adik Laki-laki';
-  }
-  if (rel.includes('SUAMI')) return 'Suami';
-  if (rel.includes('SAUDARA')) {
-    const g = member.gender.toUpperCase();
-    if (g.startsWith('P') || g.includes('PEREMPUAN')) return 'Adik Perempuan';
-    return 'Adik Laki-laki';
-  }
-  return translateToId('relationship', member.relationship) || member.relationship;
-}
-
-const ST_REL_JP: Record<string, string> = {
-  Ayah: '父',
-  Ibu: '母',
-  'Adik Perempuan': '妹',
-  'Adik Laki-laki': '弟',
-  'Kakak Perempuan': '姉',
-  'Kakak Laki-laki': '兄',
-  Suami: '夫',
-  Istri: '妻',
-  Anak: '子',
-};
-
-function relationshipToStJp(idLabel: string): string {
-  return ST_REL_JP[idLabel] || idLabel;
+function titleCasePart(text: string): string {
+  const trimmed = text.trim();
+  if (!trimmed) return '';
+  return trimmed
+    .toLowerCase()
+    .split(/\s+/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 function buildDomisili(basic: KkFormData['basic']): string {
   return [basic.kelurahan, basic.kecamatan, basic.kabKota, basic.provinsi]
-    .map((s) => s.trim())
-    .filter(Boolean)
-    .join(', ')
-    .toUpperCase();
-}
-
-function buildDomisiliJp(basic: KkFormData['basic']): string {
-  const parts = [
-    basic.kelurahanJp || basic.kelurahan,
-    basic.kecamatanJp || basic.kecamatan,
-    basic.kabKotaJp || basic.kabKota,
-    basic.provinsiJp || basic.provinsi,
-  ];
-  return parts
-    .map((s) => keepRomanji(s))
+    .map((s) => titleCasePart(s))
     .filter(Boolean)
     .join(', ');
 }
 
-function memberToDependent(member: KkMember, applicant: KkMember): StDependent {
-  const relationship = relationshipToStId(member, applicant);
+function relationshipFromKkJp(member: KkMember): string {
+  const rel = member.relationship.trim();
+  if (!rel) return member.relationshipJp || '';
+  if (member.relationshipJp?.trim()) return member.relationshipJp.trim();
+  if (relationshipDropdownValue(rel) === 'LAINNYA') {
+    return relationshipJpFromId('LAINNYA', rel);
+  }
+  return relationshipJpFromId(rel) || translateToJp('relationship', rel) || rel;
+}
+
+function memberToDependent(member: KkMember): StDependent {
   const name = member.name.trim().toUpperCase();
+  const relationship = member.relationship.trim() || '';
   return {
     relationship,
-    relationshipJp: relationshipToStJp(relationship),
+    relationshipJp: relationshipFromKkJp(member),
     name,
     nameJp: member.nameJp || keepRomanji(name),
     nameKatakana: translateToKatakana(name),
@@ -101,67 +92,12 @@ function memberToDependent(member: KkMember, applicant: KkMember): StDependent {
   };
 }
 
-function findMemberByName(members: KkMember[], name: string): KkMember | undefined {
-  if (!name.trim()) return undefined;
-  const target = name.trim().toUpperCase();
-  return members.find((m) => m.name.trim().toUpperCase() === target);
-}
-
-function collectDependents(kk: KkFormData, applicantIdx: number, applicant: KkMember): StDependent[] {
-  const rows: StDependent[] = [];
-  const used = new Set<string>();
-
-  const push = (dep: StDependent) => {
-    const key = dep.name.trim().toUpperCase();
-    if (!key || used.has(key)) return;
-    used.add(key);
-    rows.push(dep);
-  };
-
-  if (applicant.father.trim()) {
-    const fatherMember = findMemberByName(kk.members, applicant.father);
-    push(
-      fatherMember
-        ? memberToDependent(fatherMember, applicant)
-        : {
-            ...emptyStDependent(),
-            relationship: 'Ayah',
-            relationshipJp: '父',
-            name: applicant.father.trim().toUpperCase(),
-            nameJp: keepRomanji(applicant.father),
-            nameKatakana: translateToKatakana(applicant.father),
-            dob: fatherMember ? formatDobId(fatherMember.dob) : '',
-          },
-    );
-  }
-
-  if (applicant.mother.trim()) {
-    const motherMember = findMemberByName(kk.members, applicant.mother);
-    push(
-      motherMember
-        ? memberToDependent(motherMember, applicant)
-        : {
-            ...emptyStDependent(),
-            relationship: 'Ibu',
-            relationshipJp: '母',
-            name: applicant.mother.trim().toUpperCase(),
-            nameJp: keepRomanji(applicant.mother),
-            nameKatakana: translateToKatakana(applicant.mother),
-            dob: motherMember ? formatDobId(motherMember.dob) : '',
-          },
-    );
-  }
-
-  kk.members.forEach((m, i) => {
-    if (i === applicantIdx || !m.name.trim()) return;
-    const rel = m.relationship.toUpperCase();
-    if (rel.includes('ANAK') || rel.includes('SAUDARA') || rel.includes('MENANTU') || rel.includes('CUCU')) {
-      push(memberToDependent(m, applicant));
-    }
-  });
-
-  while (rows.length < 3) rows.push(emptyStDependent());
-  return rows.slice(0, 3);
+/** Hanya anggota KK (nama lengkap) selain pemohon — bukan nama orang tua di field terpisah */
+function collectDependents(kk: KkFormData, applicantIdx: number): StDependent[] {
+  return kk.members
+    .map((m, i) => ({ m, i }))
+    .filter(({ m, i }) => i !== applicantIdx && m.name.trim())
+    .map(({ m }) => memberToDependent(m));
 }
 
 export function buildSuratTanggunganFromKk(
@@ -174,8 +110,16 @@ export function buildSuratTanggunganFromKk(
   }
 
   const domisili = buildDomisili(kk.basic);
-  const domisiliJp = buildDomisiliJp(kk.basic);
+  const domisiliJp = buildDomisiliJpFromParts(kk.basic);
+  const domisiliKatakana = buildDomisiliKatakanaFromParts(kk.basic);
   const name = applicantMember.name.trim().toUpperCase();
+  const issueDateId =
+    kk.footer.issueDate && kk.footer.issueMonth && kk.footer.issueYear
+      ? `${kk.footer.issueDate.padStart(2, '0')}-${kk.footer.issueMonth.padStart(2, '0')}-${kk.footer.issueYear}`
+      : '';
+
+  const signDateId = defaultSignDateId();
+  const signParts = parseSignDateId(signDateId);
 
   const applicant = {
     name,
@@ -185,40 +129,33 @@ export function buildSuratTanggunganFromKk(
     genderJp: translateToJp('gender', applicantMember.gender) || '男',
     dob: formatDobId(applicantMember.dob),
     nik: applicantMember.nik,
-    ktpIssueDate: '',
-    ktpIssueDateJp: '',
+    ktpIssueDate: issueDateId,
+    ktpIssueDateJp: formatJpIssueDate(kk.footer.issueYear, kk.footer.issueMonth, kk.footer.issueDate),
     domisili,
     domisiliJp,
-    domisiliKatakana: translateToKatakana(domisili),
+    domisiliKatakana,
     nationality: 'Indonesia',
     nationalityJp: 'インドネシア',
   };
 
-  const kab = kk.basic.kabKota.trim().toUpperCase();
-  const kabJp = kk.basic.kabKotaJp || keepRomanji(kk.basic.kabKota);
+  const kab = titleCasePart(kk.basic.kabKota);
 
   return {
     applicantMemberIndex,
     applicant,
-    dependents: collectDependents(kk, applicantMemberIndex, applicantMember),
+    dependents: collectDependents(kk, applicantMemberIndex),
     locationId: kab,
-    locationJp: translateToKatakana(kab) || kabJp,
-    signDateYear: '',
-    signDateMonth: '',
-    signDateDay: '',
-    villageNameJp: kk.basic.kelurahanJp
-      ? translateToKatakana(kk.basic.kelurahan)
-      : translateToKatakana(kk.basic.kelurahan),
+    locationJp: kk.basic.kabKotaJp?.trim() || translateCityToJp(kk.basic.kabKota),
+    signDateId,
+    signDateYear: signParts.year,
+    signDateMonth: signParts.month,
+    signDateDay: signParts.day,
+    villageNameJp: kk.basic.kelurahanJp?.trim() || translateRegionToJp(kk.basic.kelurahan),
   };
 }
 
 export function formatStDobJp(dobId: string): string {
-  if (!dobId) return '';
-  const parts = dobId.split('-');
-  if (parts.length === 3 && parts[0].length === 2) {
-    return formatJpCalendarDate(`${parts[2]}-${parts[1]}-${parts[0]}`);
-  }
-  return formatJpCalendarDate(dobId);
+  return formatStDobJpDisplay(dobId);
 }
 
 export function kkMembersWithData(kk: KkFormData) {
