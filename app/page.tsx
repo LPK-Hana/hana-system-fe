@@ -84,13 +84,9 @@ export default function HomePage() {
 
         <div className="mb-2">
           <h1 className="text-2xl md:text-3xl font-serif text-emerald-900 tracking-[0.12em] uppercase text-center leading-snug">
-            Hana System
+            LPK Hana Karya
           </h1>
         </div>
-
-        <h2 className="text-[9px] md:text-[10px] font-semibold text-gray-400 tracking-[0.25em] md:tracking-[0.3em] uppercase mb-6 md:mb-8 text-center">
-          Hana System Administration
-        </h2>
 
         <div className="flex items-center w-full max-w-[200px] md:max-w-xs mb-6 md:mb-8">
           <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>

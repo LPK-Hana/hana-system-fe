@@ -1,5 +1,5 @@
-import ImigrasiPerusahaanTemplatePreview from './components/ImigrasiPerusahaanTemplatePreview';
+import ImigrasiPerusahaanGenerateForm from './components/ImigrasiPerusahaanGenerateForm';
 
 export default function Page() {
-  return <ImigrasiPerusahaanTemplatePreview />;
+  return <ImigrasiPerusahaanGenerateForm />;
 }
