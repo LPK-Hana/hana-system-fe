@@ -1,5 +1,5 @@
-import PemberkasanPlaceholderPage from "../_components/PemberkasanPlaceholderPage";
+import ImigrasiPerusahaanTemplatePreview from './components/ImigrasiPerusahaanTemplatePreview';
 
 export default function Page() {
-  return <PemberkasanPlaceholderPage title="Dokumen Imigrasi Perusahaan" />;
+  return <ImigrasiPerusahaanTemplatePreview />;
 }

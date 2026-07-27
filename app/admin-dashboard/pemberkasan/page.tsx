@@ -26,12 +26,12 @@ type DocCard = {
 };
 
 const DOC_CARDS: DocCard[] = [
-  { title: "Dokumen Jishusei", href: "/admin-dashboard/pemberkasan/jishusei", icon: Users, cta: "Lihat Daftar" },
-  { title: "Dokumen Perusahaan", href: "/admin-dashboard/pemberkasan/perusahaan", icon: Building2, cta: "Lihat Daftar" },
-  { title: "Dokumen Imigrasi Perusahaan", href: "/admin-dashboard/pemberkasan/imigrasi-perusahaan", icon: Stamp, cta: "Lihat Daftar" },
+  { title: "Dokumen Jishusei", href: "/admin-dashboard/pemberkasan/jishusei", icon: Users, cta: "Isi & Unduh" },
+  { title: "Dokumen Perusahaan", href: "/admin-dashboard/pemberkasan/perusahaan", icon: Building2, cta: "Preview Template" },
+  { title: "Dokumen Imigrasi Perusahaan", href: "/admin-dashboard/pemberkasan/imigrasi-perusahaan", icon: Stamp, cta: "Preview Template" },
   { title: "Dokumen KK", href: "/admin-dashboard/pemberkasan/kk", icon: Home, cta: "Lihat Daftar" },
   { title: "Tanggungan Keluarga", href: "/admin-dashboard/pemberkasan/tanggungan-keluarga", icon: Heart, cta: "Lihat Daftar" },
-  { title: "Dokumen Imigrasi Peserta", href: "/admin-dashboard/pemberkasan/imigrasi-peserta", icon: UserCheck, cta: "Lihat Daftar" },
+  { title: "Dokumen Imigrasi Peserta", href: "/admin-dashboard/pemberkasan/imigrasi-peserta", icon: UserCheck, cta: "Preview Template" },
 ];
 
 export default function PemberkasanPage() {

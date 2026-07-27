@@ -1,5 +1,5 @@
-import PemberkasanPlaceholderPage from "../_components/PemberkasanPlaceholderPage";
+import PerusahaanTemplatePreview from './components/PerusahaanTemplatePreview';
 
-export default function DokumenPerusahaanPage() {
-  return <PemberkasanPlaceholderPage title="Dokumen Perusahaan" />;
+export default function Page() {
+  return <PerusahaanTemplatePreview />;
 }
