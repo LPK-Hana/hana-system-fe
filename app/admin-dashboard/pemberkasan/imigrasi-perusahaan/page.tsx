@@ -1,5 +1,5 @@
-import PemberkasanPlaceholderPage from "../_components/PemberkasanPlaceholderPage";
+import ImigrasiPerusahaanGenerateForm from './components/ImigrasiPerusahaanGenerateForm';
 
 export default function Page() {
-  return <PemberkasanPlaceholderPage title="Dokumen Imigrasi Perusahaan" />;
+  return <ImigrasiPerusahaanGenerateForm />;
 }

@@ -5,11 +5,8 @@ import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   Users,
-  Building2,
   Stamp,
   Home,
-  Heart,
-  UserCheck,
   LucideIcon,
 } from "lucide-react";
 
@@ -26,12 +23,9 @@ type DocCard = {
 };
 
 const DOC_CARDS: DocCard[] = [
-  { title: "Dokumen Jishusei", href: "/admin-dashboard/pemberkasan/jishusei", icon: Users, cta: "Lihat Daftar" },
-  { title: "Dokumen Perusahaan", href: "/admin-dashboard/pemberkasan/perusahaan", icon: Building2, cta: "Lihat Daftar" },
-  { title: "Dokumen Imigrasi Perusahaan", href: "/admin-dashboard/pemberkasan/imigrasi-perusahaan", icon: Stamp, cta: "Lihat Daftar" },
+  { title: "Dokumen Imigrasi Jishusei", href: "/admin-dashboard/pemberkasan/jishusei", icon: Users, cta: "Isi & Unduh" },
+  { title: "Dokumen Imigrasi Perusahaan", href: "/admin-dashboard/pemberkasan/imigrasi-perusahaan", icon: Stamp, cta: "Isi & Unduh" },
   { title: "Dokumen KK", href: "/admin-dashboard/pemberkasan/kk", icon: Home, cta: "Lihat Daftar" },
-  { title: "Tanggungan Keluarga", href: "/admin-dashboard/pemberkasan/tanggungan-keluarga", icon: Heart, cta: "Lihat Daftar" },
-  { title: "Dokumen Imigrasi Peserta", href: "/admin-dashboard/pemberkasan/imigrasi-peserta", icon: UserCheck, cta: "Lihat Daftar" },
 ];
 
 export default function PemberkasanPage() {
