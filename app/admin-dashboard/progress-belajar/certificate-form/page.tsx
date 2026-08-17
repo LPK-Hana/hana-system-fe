@@ -253,15 +253,15 @@ function CertificateModal({ rows, startIndex, onClose }: CertModalProps) {
             </div>
 
             {/* 8. Paragraf Bahasa Indonesia */}
-            <div className="absolute w-full flex justify-center" style={{ top: '690px' }}>
+            <div className="absolute w-full flex justify-center" style={{ top: '700px' }}>
               <p className="text-center font-semibold" style={{ width: '600px', fontSize: '15px', lineHeight: '1.6' }}>
                 di LPK Gada Wirya Karsa. Dengan ini dinyatakan telah menyelesaikan pendidikan dengan baik dan menunjukkan sikap profesional serta kemampuan kerja yang baik.
               </p>
             </div>
 
             {/* 9. Paragraf Bahasa Jepang */}
-            <div className="absolute w-full flex justify-center" style={{ top: '750px' }}>
-              <p className="text-center font-bold" style={{ width: '650px', fontSize: '17px', lineHeight: '1.5' }}>
+            <div className="absolute w-full flex justify-center" style={{ top: '850px' }}>
+              <p className="text-center font-bold" style={{ width: '650px', fontSize: '17px', lineHeight: '1.6' }}>
                 上記の者は、LPK Gada Wirya Karsa における<br />
                 日本文化研修 と {level}レベルの日本語 を 修了し、<br />
                 優れた成果を上げ、プロフェッショナルな態度と優れた業務能力 を示したことを<br />
@@ -273,7 +273,7 @@ function CertificateModal({ rows, startIndex, onClose }: CertModalProps) {
             <div
               className="absolute flex items-center justify-center overflow-hidden"
               style={{
-                top: '870px',
+                top: '900px',
                 left: '145px',
                 width: '135px',
                 height: '180px',
