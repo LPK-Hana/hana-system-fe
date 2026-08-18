@@ -104,7 +104,7 @@ export default function AdminChangePasswordPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F4F7F4] font-sans text-gray-800 p-6 md:p-12 relative overflow-hidden">
+    <main className="min-h-screen bg-[#F5F9FC] font-sans text-gray-800 p-6 md:p-12 relative overflow-hidden">
       <div
         className="fixed inset-0 z-0 opacity-[0.02] pointer-events-none"
         style={{
@@ -116,14 +116,14 @@ export default function AdminChangePasswordPage() {
       <div className="relative z-10 max-w-2xl mx-auto">
         <Link
           href="/admin-dashboard/dashboard"
-          className="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-emerald-900/70 hover:text-emerald-900 mb-8"
+          className="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-raftel-900/70 hover:text-raftel-900 mb-8"
         >
           <ArrowLeft size={14} />
           Kembali ke dashboard
         </Link>
 
         <header className="flex items-start gap-4 mb-10 pb-8 border-b border-gray-200/50">
-          <div className="w-14 h-14 border border-emerald-900/20 flex items-center justify-center text-emerald-900 bg-white shrink-0">
+          <div className="w-14 h-14 border border-raftel-900/20 flex items-center justify-center text-raftel-900 bg-white shrink-0">
             <KeyRound size={26} strokeWidth={1.5} />
           </div>
           <div>
@@ -149,7 +149,7 @@ export default function AdminChangePasswordPage() {
                 autoComplete="current-password"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                className="w-full border border-gray-200 rounded-none pl-4 pr-11 py-3 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-900/25 focus:border-emerald-900/40 transition"
+                className="w-full border border-gray-200 rounded-none pl-4 pr-11 py-3 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-raftel-900/25 focus:border-raftel-900/40 transition"
                 placeholder="••••••••"
               />
               <button
@@ -180,7 +180,7 @@ export default function AdminChangePasswordPage() {
                   className={`w-full border rounded-none pl-4 pr-11 py-3 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 transition ${
                     passwordMismatch
                       ? 'border-red-300 focus:ring-red-400/40 focus:border-red-400'
-                      : 'border-gray-200 focus:ring-emerald-900/25 focus:border-emerald-900/40'
+                      : 'border-gray-200 focus:ring-raftel-900/25 focus:border-raftel-900/40'
                   }`}
                   placeholder="Minimal 8 karakter"
                 />
@@ -208,7 +208,7 @@ export default function AdminChangePasswordPage() {
                   className={`w-full border rounded-none pl-4 pr-11 py-3 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 transition ${
                     passwordMismatch
                       ? 'border-red-300 focus:ring-red-400/40 focus:border-red-400'
-                      : 'border-gray-200 focus:ring-emerald-900/25 focus:border-emerald-900/40'
+                      : 'border-gray-200 focus:ring-raftel-900/25 focus:border-raftel-900/40'
                   }`}
                   placeholder="Ulangi password baru"
                 />
@@ -235,7 +235,7 @@ export default function AdminChangePasswordPage() {
             <button
               type="submit"
               disabled={submitting || passwordMismatch}
-              className="px-8 py-3 text-xs tracking-[0.2em] uppercase font-semibold text-white bg-emerald-900 hover:bg-emerald-950 disabled:opacity-50 disabled:pointer-events-none transition-colors duration-300"
+              className="px-8 py-3 text-xs tracking-[0.2em] uppercase font-semibold text-white bg-raftel-900 hover:bg-raftel-950 disabled:opacity-50 disabled:pointer-events-none transition-colors duration-300"
             >
               {submitting ? 'Memproses…' : 'Simpan password baru'}
             </button>

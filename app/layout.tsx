@@ -31,8 +31,8 @@ const notoSerifJP = Noto_Serif_JP({
 });
 
 export const metadata = {
-  title: "Hana System",
-  description: "Hana System Dashboard",
+  title: "Raftel System",
+  description: "Raftel System Dashboard",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

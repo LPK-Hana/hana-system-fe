@@ -208,7 +208,7 @@ export default function KelolaAdminPage() {
           </div>
         </div>
         <div className="flex items-center gap-1.5 text-xs text-gray-500">
-          <span className={`w-1.5 h-1.5 rounded-full ${showInactive ? 'bg-gray-400' : 'bg-emerald-500'}`} />
+          <span className={`w-1.5 h-1.5 rounded-full ${showInactive ? 'bg-gray-400' : 'bg-raftel-500'}`} />
           <span>{filteredAdmins.length} admin {showInactive ? 'nonaktif' : 'aktif'}</span>
         </div>
       </div>
@@ -240,13 +240,13 @@ export default function KelolaAdminPage() {
                     <div className="flex items-center justify-center gap-1.5 flex-wrap">
                       {!showInactive ? (
                         <>
-                          <button onClick={() => setSelectedEditAdmin(u)} className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-emerald-700 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 transition-colors rounded"><Edit size={12} /> Edit</button>
+                          <button onClick={() => setSelectedEditAdmin(u)} className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-raftel-700 border border-raftel-200 bg-raftel-50 hover:bg-raftel-100 transition-colors rounded"><Edit size={12} /> Edit</button>
                           <button onClick={() => setSelectedPasswordAdmin(u)} className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-purple-700 border border-purple-200 bg-purple-50 hover:bg-purple-100 transition-colors rounded"><Key size={12} /> Password</button>
                           <button onClick={() => handleToggleActive(u.user_id, 1)} className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-200 bg-gray-50 hover:bg-red-100 hover:text-red-700 transition-colors rounded"><Ban size={12} /> Nonaktifkan</button>
                         </>
                       ) : (
                         <>
-                          <button onClick={() => handleToggleActive(u.user_id, 0)} className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-emerald-700 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 transition-colors rounded"><CheckSquare size={12} /> Aktifkan</button>
+                          <button onClick={() => handleToggleActive(u.user_id, 0)} className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-raftel-700 border border-raftel-200 bg-raftel-50 hover:bg-raftel-100 transition-colors rounded"><CheckSquare size={12} /> Aktifkan</button>
                           <button onClick={() => openDeleteModal(u.user_id)} className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-700 border border-red-200 bg-red-50 hover:bg-red-100 transition-colors rounded"><Trash2 size={12} /> Hapus</button>
                         </>
                       )}
@@ -262,7 +262,7 @@ export default function KelolaAdminPage() {
   );
 
   return (
-    <main className="min-h-screen bg-[#F4F7F4] font-sans text-gray-800 flex flex-col">
+    <main className="min-h-screen bg-[#F5F9FC] font-sans text-gray-800 flex flex-col">
       <header className="bg-white border-b border-gray-200 px-4 md:px-8 py-3 flex items-center justify-between gap-3 sticky top-0 z-10 shadow-sm">
         <div className="flex items-center gap-2.5 min-w-0">
           <Link href="/super-admin" className="shrink-0 p-1.5 text-gray-500 hover:text-red-800 border border-gray-200 rounded transition-colors">

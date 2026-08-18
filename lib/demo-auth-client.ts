@@ -27,14 +27,14 @@ const DEMO_PROFILES: Record<
     userId: 101,
   },
   admin: {
-    displayName: 'Admin Hana',
+    displayName: 'Admin Raftel',
     userName: 'admin',
     authRole: 'admin',
     redirect: '/admin-dashboard/dashboard',
     userId: 1,
   },
   superadmin: {
-    displayName: 'Shachou Hana',
+    displayName: 'Shachou Raftel',
     userName: 'shachou',
     authRole: 'superadmin',
     redirect: '/super-admin',
@@ -79,7 +79,7 @@ export function enterDemoRole(role: DemoRole): { redirect: string } {
   }
 
   try {
-    sessionStorage.setItem('hana_demo_entering', '1');
+    sessionStorage.setItem('raftel_demo_entering', '1');
   } catch {
     /* ignore */
   }

@@ -106,7 +106,7 @@ export default function UpdateGuestPasswordModal({
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-4 pr-12 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-emerald-800 transition-colors text-sm font-mono"
+                className="w-full pl-4 pr-12 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-raftel-800 transition-colors text-sm font-mono"
                 placeholder="Masukkan password baru..."
                 required
                 autoFocus
@@ -114,7 +114,7 @@ export default function UpdateGuestPasswordModal({
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-gray-400 hover:text-emerald-800 transition-colors"
+                className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-gray-400 hover:text-raftel-800 transition-colors"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
@@ -130,14 +130,14 @@ export default function UpdateGuestPasswordModal({
                 type={showConfirmPassword ? 'text' : 'password'}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className={`w-full pl-4 pr-12 py-3 border focus:outline-none focus:ring-0 transition-colors text-sm font-mono ${confirmPassword && password !== confirmPassword ? 'border-red-500 focus:border-red-500 bg-red-50' : 'border-gray-300 focus:border-emerald-800'}`}
+                className={`w-full pl-4 pr-12 py-3 border focus:outline-none focus:ring-0 transition-colors text-sm font-mono ${confirmPassword && password !== confirmPassword ? 'border-red-500 focus:border-red-500 bg-red-50' : 'border-gray-300 focus:border-raftel-800'}`}
                 placeholder="Ulangi password..."
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-gray-400 hover:text-emerald-800 transition-colors"
+                className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-gray-400 hover:text-raftel-800 transition-colors"
               >
                 {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
@@ -161,7 +161,7 @@ export default function UpdateGuestPasswordModal({
             <button
               type="submit"
               disabled={isSaving || !password.trim() || (confirmPassword.length > 0 && password !== confirmPassword)}
-              className="flex items-center gap-2 px-5 py-2.5 bg-emerald-900 border border-emerald-900 text-xs tracking-wider uppercase text-white hover:bg-emerald-950 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-5 py-2.5 bg-raftel-900 border border-raftel-900 text-xs tracking-wider uppercase text-white hover:bg-raftel-950 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save size={16} strokeWidth={1.5} />
               {isSaving ? 'Menyimpan…' : 'Simpan Password'}

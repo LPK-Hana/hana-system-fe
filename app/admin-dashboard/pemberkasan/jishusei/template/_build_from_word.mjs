@@ -8,7 +8,7 @@ import fs from "fs";
 const RAW =
   "d:/Job/jukyu-lms/hana-system-fe/app/admin-dashboard/pemberkasan/jishusei/template/_word_export_raw.html";
 const OUT =
-  "d:/Job/jukyu-lms/hana-system-fe/app/admin-dashboard/pemberkasan/jishusei/template/Template_Dokumen_Jishusei.lpk-hana-template.json";
+  "d:/Job/jukyu-lms/hana-system-fe/app/admin-dashboard/pemberkasan/jishusei/template/Template_Dokumen_Jishusei.lpk-raftel-template.json";
 
 let html = fs.readFileSync(RAW, "utf8").replace(/\r\n/g, "\n");
 
@@ -414,7 +414,7 @@ const pages = pageHtmls.map((htmlContent, i) => ({
 }));
 
 const template = {
-  lpkHanaTemplateVersion: 1,
+  lpkRaftelTemplateVersion: 1,
   exportedAt: new Date().toISOString(),
   template: {
     id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",

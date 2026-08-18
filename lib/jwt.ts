@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { resolveDemoMode } from '@/lib/demo-mode';
 
-const DEMO_JWT_FALLBACK = 'hana-mockup-demo-jwt-secret';
+const DEMO_JWT_FALLBACK = 'raftel-mockup-demo-jwt-secret';
 
 export interface JwtPayload {
   user_id?: number;

@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { CVData } from '../types';
-import hanaLogo from '@/logo/hana-logo.png';
+import raftelLogo from '@/logo/raftel-logo.png';
 
 interface Props {
   data: CVData;
@@ -79,8 +79,8 @@ export default function CVTemplate({ data, interviewNumber }: Props) {
         {/* Logo - pojok kiri atas */}
         <div style={{ position: 'absolute', top: 0, left: 0 }}>
           <img
-            src={hanaLogo.src}
-            alt="Hana Logo"
+            src={raftelLogo.src}
+            alt="Raftel Logo"
             crossOrigin="anonymous"
             style={{ width: '80px', height: '80px', objectFit: 'contain' }}
           />

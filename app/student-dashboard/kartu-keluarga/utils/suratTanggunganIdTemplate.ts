@@ -1,4 +1,4 @@
-import suratTanggunganTemplate from '@/app/admin-dashboard/contoh-data/template/Surat_Tanggungan_Indo.lpk-hana-template-update-3.json';
+import suratTanggunganTemplate from '@/app/admin-dashboard/contoh-data/template/Surat_Tanggungan_Indo.lpk-raftel-template-update-3.json';
 import type { SuratTanggunganFormData } from '../types/suratTanggunganTypes';
 import { relationshipDisplayId } from './relationshipOptions';
 

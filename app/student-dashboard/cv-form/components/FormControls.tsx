@@ -58,7 +58,7 @@ export function FormField({
     (readOnly ? 'bg-slate-50 cursor-default text-slate-700 ' : 'bg-white ') +
     (error
       ? 'border-red-400 focus:ring-red-400'
-      : 'border-slate-200 focus:ring-emerald-500');
+      : 'border-slate-200 focus:ring-raftel-500');
 
   const inputHandlers = {
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -134,7 +134,7 @@ export function FormSelect({
           'appearance-auto min-h-[46px] ' +
           (error
             ? 'border-red-400 focus:ring-red-400'
-            : 'border-slate-200 focus:ring-emerald-500')
+            : 'border-slate-200 focus:ring-raftel-500')
         }
       >
         <option value="">{placeholder}</option>

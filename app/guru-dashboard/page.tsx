@@ -27,7 +27,7 @@ export default function GuruDashboardPage() {
       <div
         className="fixed inset-0 z-0 opacity-[0.02] pointer-events-none"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046 8.954-20 20-20v2c-9.941 0-18 8.059-18 18s8.059 18 18 18v2c-11.046 0-20-8.954-20-20zm-20 0c0-11.046 8.954-20 20-20v2C10.059 2 2 10.059 2 20s8.059 18 18 18v2c-11.046 0-20-8.954-20-20z' fill='%23047857' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046 8.954-20 20-20v2c-9.941 0-18 8.059-18 18s8.059 18 18 18v2c-11.046 0-20-8.954-20-20zm-20 0c0-11.046 8.954-20 20-20v2C10.059 2 2 10.059 2 20s8.059 18 18 18v2c-11.046 0-20-8.954-20-20z' fill='%232196F3' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
           backgroundSize: '40px 40px',
         }}
       />
@@ -63,11 +63,11 @@ export default function GuruDashboardPage() {
             <Link
               key={item.href}
               href={item.href}
-              className="group block relative bg-white no-underline text-inherit p-10 md:p-12 border border-gray-200/60 hover:border-emerald-900/30 transition-colors duration-500 overflow-hidden"
+              className="group block relative bg-white no-underline text-inherit p-10 md:p-12 border border-gray-200/60 hover:border-raftel-900/30 transition-colors duration-500 overflow-hidden"
             >
-              <div className="absolute inset-0 bg-emerald-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out z-0" />
+              <div className="absolute inset-0 bg-raftel-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out z-0" />
               <div className="relative z-10">
-                <div className="w-12 h-12 border border-emerald-900/20 flex items-center justify-center mb-6 text-emerald-900 bg-white group-hover:bg-emerald-900 group-hover:text-white transition-colors duration-500">
+                <div className="w-12 h-12 border border-raftel-900/20 flex items-center justify-center mb-6 text-raftel-900 bg-white group-hover:bg-raftel-900 group-hover:text-white transition-colors duration-500">
                   {item.icon}
                 </div>
                 <h2 className="text-xl font-serif text-gray-900 mb-2">{item.label}</h2>

@@ -69,7 +69,7 @@ export default function PersonalDataModal({
                           filename: item.file as string,
                           url: buildFileUrl(item.path, item.file as string),
                         })}
-                        className="mt-2 sm:mt-0 ml-9 sm:ml-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-emerald-700 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 transition-colors rounded-sm shrink-0"
+                        className="mt-2 sm:mt-0 ml-9 sm:ml-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-raftel-700 border border-raftel-200 bg-raftel-50 hover:bg-raftel-100 transition-colors rounded-sm shrink-0"
                       >
                         <Eye size={14} /> Lihat File
                       </button>
@@ -85,7 +85,7 @@ export default function PersonalDataModal({
           </div>
 
           <div className="px-6 py-4 border-t border-gray-200 bg-white flex justify-end">
-            <button onClick={onClose} className="px-5 py-2.5 text-xs tracking-widest uppercase bg-emerald-700 text-white hover:bg-emerald-800 transition-colors">
+            <button onClick={onClose} className="px-5 py-2.5 text-xs tracking-widest uppercase bg-raftel-700 text-white hover:bg-raftel-800 transition-colors">
               Tutup
             </button>
           </div>

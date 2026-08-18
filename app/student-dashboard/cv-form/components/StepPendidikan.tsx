@@ -95,7 +95,7 @@ export default function StepPendidikan({ items, onChange, errors = {} }: Props) 
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <p className="text-sm text-slate-500">学歴を最も古いものから追加してください。</p>
-        <button onClick={add} className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-xl hover:bg-emerald-700 transition">
+        <button onClick={add} className="flex items-center gap-2 px-4 py-2 bg-raftel-600 text-white text-sm font-medium rounded-xl hover:bg-raftel-700 transition">
           <Plus size={16} /> Tambah
         </button>
       </div>
@@ -110,7 +110,7 @@ export default function StepPendidikan({ items, onChange, errors = {} }: Props) 
       {items.map((item, idx) => (
         <div key={item.id} id={`pendidikan-${item.id}`} className="border border-slate-200 rounded-2xl p-5 bg-slate-50 space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold text-emerald-600">学歴 #{idx + 1}</span>
+            <span className="text-sm font-semibold text-raftel-600">学歴 #{idx + 1}</span>
             <button onClick={() => remove(item.id)} className="text-red-400 hover:text-red-600 transition"><Trash2 size={16} /></button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

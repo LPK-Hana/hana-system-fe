@@ -103,7 +103,7 @@ export default function AdminDashboardMainPage() {
       <div
         className="fixed inset-0 z-0 opacity-[0.02] pointer-events-none"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046 8.954-20 20-20v2c-9.941 0-18 8.059-18 18s8.059 18 18 18v2c-11.046 0-20-8.954-20-20zm-20 0c0-11.046 8.954-20 20-20v2C10.059 2 2 10.059 2 20s8.059 18 18 18v2c-11.046 0-20-8.954-20-20z' fill='%23047857' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046 8.954-20 20-20v2c-9.941 0-18 8.059-18 18s8.059 18 18 18v2c-11.046 0-20-8.954-20-20zm-20 0c0-11.046 8.954-20 20-20v2C10.059 2 2 10.059 2 20s8.059 18 18 18v2c-11.046 0-20-8.954-20-20z' fill='%232196F3' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
           backgroundSize: '40px 40px',
         }}
       />
@@ -143,7 +143,7 @@ export default function AdminDashboardMainPage() {
                   Administrator Dashboard
                 </h1>
                 <p className="mt-2 text-sm text-gray-800">
-                  Selamat datang di sistem Hana,{' '}
+                  Selamat datang di sistem Raftel,{' '}
                   <span className="font-medium">{userLabel}</span>
                 </p>
               </div>
@@ -170,20 +170,20 @@ export default function AdminDashboardMainPage() {
         <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 lg:gap-5 flex-1 min-h-0 content-start">
           <Link
             href="/admin-dashboard/profil-siswa"
-            className="group block relative bg-white no-underline text-inherit p-6 md:p-8 border border-gray-200/60 hover:border-emerald-900/30 transition-colors duration-700 ease-out overflow-hidden lg:col-span-2"
+            className="group block relative bg-white no-underline text-inherit p-6 md:p-8 border border-gray-200/60 hover:border-raftel-900/30 transition-colors duration-700 ease-out overflow-hidden lg:col-span-2"
           >
-            <div className="absolute inset-0 bg-emerald-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
+            <div className="absolute inset-0 bg-raftel-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
             <div className="relative z-10">
-              <div className="w-11 h-11 border border-emerald-900/20 flex items-center justify-center mb-4 text-emerald-900 bg-white group-hover:bg-emerald-900 group-hover:text-white transition-colors duration-500 ease-out">
+              <div className="w-11 h-11 border border-raftel-900/20 flex items-center justify-center mb-4 text-raftel-900 bg-white group-hover:bg-raftel-900 group-hover:text-white transition-colors duration-500 ease-out">
                 <Users size={22} strokeWidth={1.5} />
               </div>
-              <h2 className="text-xl font-serif font-normal text-gray-900 mb-3 tracking-wide group-hover:text-emerald-950 transition-colors duration-500">
+              <h2 className="text-xl font-serif font-normal text-gray-900 mb-3 tracking-wide group-hover:text-raftel-950 transition-colors duration-500">
                 Profil Siswa
               </h2>
-              <div className="flex items-center text-xs tracking-widest uppercase text-emerald-900 font-semibold">
+              <div className="flex items-center text-xs tracking-widest uppercase text-raftel-900 font-semibold">
                 <span className="relative">
                   Kelola Profil
-                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-emerald-900 group-hover:w-full transition-all duration-500 ease-out" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-raftel-900 group-hover:w-full transition-all duration-500 ease-out" />
                 </span>
                 <svg className="w-4 h-4 ml-3 transform group-hover:translate-x-2 transition-transform duration-500 ease-out" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -194,20 +194,20 @@ export default function AdminDashboardMainPage() {
 
           <Link
             href="/admin-dashboard/add-account"
-            className="group block relative bg-white no-underline text-inherit p-6 md:p-8 border border-gray-200/60 hover:border-emerald-900/30 transition-colors duration-700 ease-out overflow-hidden lg:col-span-2"
+            className="group block relative bg-white no-underline text-inherit p-6 md:p-8 border border-gray-200/60 hover:border-raftel-900/30 transition-colors duration-700 ease-out overflow-hidden lg:col-span-2"
           >
-            <div className="absolute inset-0 bg-emerald-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
+            <div className="absolute inset-0 bg-raftel-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
             <div className="relative z-10">
-              <div className="w-11 h-11 border border-emerald-900/20 flex items-center justify-center mb-4 text-emerald-900 bg-white group-hover:bg-emerald-900 group-hover:text-white transition-colors duration-500 ease-out">
+              <div className="w-11 h-11 border border-raftel-900/20 flex items-center justify-center mb-4 text-raftel-900 bg-white group-hover:bg-raftel-900 group-hover:text-white transition-colors duration-500 ease-out">
                 <UserPlus size={22} strokeWidth={1.5} />
               </div>
-              <h2 className="text-xl font-serif font-normal text-gray-900 mb-3 tracking-wide group-hover:text-emerald-950 transition-colors duration-500">
+              <h2 className="text-xl font-serif font-normal text-gray-900 mb-3 tracking-wide group-hover:text-raftel-950 transition-colors duration-500">
                 Buat Akun Siswa
               </h2>
-              <div className="flex items-center text-xs tracking-widest uppercase text-emerald-900 font-semibold">
+              <div className="flex items-center text-xs tracking-widest uppercase text-raftel-900 font-semibold">
                 <span className="relative">
                   Buat Akun
-                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-emerald-900 group-hover:w-full transition-all duration-500 ease-out" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-raftel-900 group-hover:w-full transition-all duration-500 ease-out" />
                 </span>
                 <svg className="w-4 h-4 ml-3 transform group-hover:translate-x-2 transition-transform duration-500 ease-out" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -218,20 +218,20 @@ export default function AdminDashboardMainPage() {
 
           <Link
             href="/admin-dashboard/job-management"
-            className="group block relative bg-white no-underline text-inherit p-6 md:p-8 border border-gray-200/60 hover:border-emerald-900/30 transition-colors duration-700 ease-out overflow-hidden lg:col-span-2"
+            className="group block relative bg-white no-underline text-inherit p-6 md:p-8 border border-gray-200/60 hover:border-raftel-900/30 transition-colors duration-700 ease-out overflow-hidden lg:col-span-2"
           >
-            <div className="absolute inset-0 bg-emerald-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
+            <div className="absolute inset-0 bg-raftel-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
             <div className="relative z-10">
-              <div className="w-11 h-11 border border-emerald-900/20 flex items-center justify-center mb-4 text-emerald-900 bg-white group-hover:bg-emerald-900 group-hover:text-white transition-colors duration-500 ease-out">
+              <div className="w-11 h-11 border border-raftel-900/20 flex items-center justify-center mb-4 text-raftel-900 bg-white group-hover:bg-raftel-900 group-hover:text-white transition-colors duration-500 ease-out">
                 <Briefcase size={22} strokeWidth={1.5} />
               </div>
-              <h2 className="text-xl font-serif font-normal text-gray-900 mb-3 tracking-wide group-hover:text-emerald-950 transition-colors duration-500">
+              <h2 className="text-xl font-serif font-normal text-gray-900 mb-3 tracking-wide group-hover:text-raftel-950 transition-colors duration-500">
                 Job Management
               </h2>
-              <div className="flex items-center text-xs tracking-widest uppercase text-emerald-900 font-semibold">
+              <div className="flex items-center text-xs tracking-widest uppercase text-raftel-900 font-semibold">
                 <span className="relative">
                   Kelola Job
-                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-emerald-900 group-hover:w-full transition-all duration-500 ease-out" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-raftel-900 group-hover:w-full transition-all duration-500 ease-out" />
                 </span>
                 <svg className="w-4 h-4 ml-3 transform group-hover:translate-x-2 transition-transform duration-500 ease-out" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -242,20 +242,20 @@ export default function AdminDashboardMainPage() {
 
           <Link
             href="/admin-dashboard/student-account-management"
-            className="group block relative bg-white no-underline text-inherit p-6 md:p-8 border border-gray-200/60 hover:border-emerald-900/30 transition-colors duration-700 ease-out overflow-hidden lg:col-span-2 lg:col-start-2"
+            className="group block relative bg-white no-underline text-inherit p-6 md:p-8 border border-gray-200/60 hover:border-raftel-900/30 transition-colors duration-700 ease-out overflow-hidden lg:col-span-2 lg:col-start-2"
           >
-            <div className="absolute inset-0 bg-emerald-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
+            <div className="absolute inset-0 bg-raftel-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
             <div className="relative z-10">
-              <div className="w-11 h-11 border border-emerald-900/20 flex items-center justify-center mb-4 text-emerald-900 bg-white group-hover:bg-emerald-900 group-hover:text-white transition-colors duration-500 ease-out">
+              <div className="w-11 h-11 border border-raftel-900/20 flex items-center justify-center mb-4 text-raftel-900 bg-white group-hover:bg-raftel-900 group-hover:text-white transition-colors duration-500 ease-out">
                 <UserCog size={22} strokeWidth={1.5} />
               </div>
-              <h2 className="text-xl font-serif font-normal text-gray-900 mb-3 tracking-wide group-hover:text-emerald-950 transition-colors duration-500">
+              <h2 className="text-xl font-serif font-normal text-gray-900 mb-3 tracking-wide group-hover:text-raftel-950 transition-colors duration-500">
                 Student Account Management
               </h2>
-              <div className="flex items-center text-xs tracking-widest uppercase text-emerald-900 font-semibold">
+              <div className="flex items-center text-xs tracking-widest uppercase text-raftel-900 font-semibold">
                 <span className="relative">
                   Kelola Akun
-                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-emerald-900 group-hover:w-full transition-all duration-500 ease-out" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-raftel-900 group-hover:w-full transition-all duration-500 ease-out" />
                 </span>
                 <svg className="w-4 h-4 ml-3 transform group-hover:translate-x-2 transition-transform duration-500 ease-out" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -265,20 +265,20 @@ export default function AdminDashboardMainPage() {
           </Link>
           <Link
             href="/admin-dashboard/pemberkasan"
-            className="group block relative bg-white no-underline text-inherit p-6 md:p-8 border border-gray-200/60 hover:border-emerald-900/30 transition-colors duration-700 ease-out overflow-hidden lg:col-span-2 lg:col-start-4"
+            className="group block relative bg-white no-underline text-inherit p-6 md:p-8 border border-gray-200/60 hover:border-raftel-900/30 transition-colors duration-700 ease-out overflow-hidden lg:col-span-2 lg:col-start-4"
           >
-            <div className="absolute inset-0 bg-emerald-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
+            <div className="absolute inset-0 bg-raftel-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
             <div className="relative z-10">
-              <div className="w-11 h-11 border border-emerald-900/20 flex items-center justify-center mb-4 text-emerald-900 bg-white group-hover:bg-emerald-900 group-hover:text-white transition-colors duration-500 ease-out">
+              <div className="w-11 h-11 border border-raftel-900/20 flex items-center justify-center mb-4 text-raftel-900 bg-white group-hover:bg-raftel-900 group-hover:text-white transition-colors duration-500 ease-out">
                 <FolderOpen size={22} strokeWidth={1.5} />
               </div>
-              <h2 className="text-xl font-serif font-normal text-gray-900 mb-3 tracking-wide group-hover:text-emerald-950 transition-colors duration-500">
+              <h2 className="text-xl font-serif font-normal text-gray-900 mb-3 tracking-wide group-hover:text-raftel-950 transition-colors duration-500">
                 Pemberkasan
               </h2>
-              <div className="flex items-center text-xs tracking-widest uppercase text-emerald-900 font-semibold">
+              <div className="flex items-center text-xs tracking-widest uppercase text-raftel-900 font-semibold">
                 <span className="relative">
                   Kelola Dokumen
-                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-emerald-900 group-hover:w-full transition-all duration-500 ease-out" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-raftel-900 group-hover:w-full transition-all duration-500 ease-out" />
                 </span>
                 <svg className="w-4 h-4 ml-3 transform group-hover:translate-x-2 transition-transform duration-500 ease-out" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />

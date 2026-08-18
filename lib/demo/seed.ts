@@ -8,7 +8,7 @@ export { DEMO_STUDENT_USERNAME };
 
 export const demoSuperAdmin = {
   super_admin_id: 1,
-  name: 'Shachou Hana',
+  name: 'Shachou Raftel',
   user_name: 'shachou',
   password: 'demo',
   is_active: 1,
@@ -22,7 +22,7 @@ export const demoKelas = [
 const generated = generateDemoStudents(20);
 
 export const demoUsers = [
-  { user_id: 1, name: 'Admin Hana', user_name: 'admin', password: 'demo', is_admin: 1, is_active: 1, id_kelas: null, createdt: '2026-01-01', updatedt: '2026-01-01' },
+  { user_id: 1, name: 'Admin Raftel', user_name: 'admin', password: 'demo', is_admin: 1, is_active: 1, id_kelas: null, createdt: '2026-01-01', updatedt: '2026-01-01' },
   { user_id: 2, name: 'Admin Demo 2', user_name: 'admin2', password: 'demo', is_admin: 1, is_active: 1, id_kelas: null, createdt: '2026-01-02', updatedt: '2026-01-02' },
   { user_id: 50, name: 'Pak Andi Wijaya', user_name: 'guru', password: 'demo', is_admin: 0, is_guru: 1, is_active: 1, id_kelas: null, createdt: '2026-01-03', updatedt: '2026-01-03' },
   ...generated.users,
@@ -88,6 +88,55 @@ export function buildDemoNilaiRows() {
     }
   }
   return rows;
+}
+
+/** Satu baris per siswa — aspek (kotoba, bunpou, dst.) digabung seperti response API list. */
+export function buildDemoNilaiList() {
+  const grouped: Record<string, Record<string, unknown>> = {};
+
+  for (const d of buildDemoNilaiRows()) {
+    const uname = String(d.user_name ?? '');
+    if (!uname) continue;
+
+    if (!grouped[uname]) {
+      grouped[uname] = {
+        user_name: d.user_name,
+        name: d.name,
+        foto: d.foto,
+        nama_kelas: d.nama_kelas,
+        nilai_ujian_masuk: d.nilai_ujian_masuk,
+        nilai_n4: d.nilai_n4,
+        nilai_n5: d.nilai_n5,
+        catatan_sikap_siswa: d.catatan_sikap_siswa,
+        kepribadian: {
+          kedisiplinan: d.nilai_kedisiplinan,
+          kepribadian_diri: d.nilai_kepribadian,
+          cara_komunikasi: d.nilai_komunikasi,
+          kesopanan: d.nilai_kesopanan,
+          kontrol_emosi: d.kontrol_emosi,
+          inisiatif: d.nilai_inisiatif,
+          percaya_diri: d.nilai_percaya_diri,
+        },
+        kotoba: null,
+        bunpou: null,
+        choukai: null,
+        kaiwa: null,
+        kanji: null,
+      };
+    }
+
+    const babScores: Record<string, unknown> = { keterangan: d.keterangan };
+    for (let i = 1; i <= 50; i++) {
+      babScores[`bab_${i}`] = d[`bab_${i}`];
+    }
+
+    const aspectKey = String(d.aspek_penilaian ?? '').toLowerCase();
+    if (aspectKey) {
+      grouped[uname][aspectKey] = babScores;
+    }
+  }
+
+  return Object.values(grouped);
 }
 
 export const demoJobs = [

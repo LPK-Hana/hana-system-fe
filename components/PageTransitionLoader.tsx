@@ -41,7 +41,7 @@ export default function PageTransitionLoader() {
     <div
       aria-live="polite"
       aria-label="Memuat halaman"
-      className="fixed inset-0 z-[9998] flex flex-col items-center justify-center bg-[#F4F7F4]/80 backdrop-blur-[2px] pointer-events-none"
+      className="fixed inset-0 z-[9998] flex flex-col items-center justify-center bg-[#F5F9FC]/80 backdrop-blur-[2px] pointer-events-none"
       style={{
         animation: 'fadeInOverlay 150ms ease-out forwards',
       }}
@@ -50,21 +50,21 @@ export default function PageTransitionLoader() {
       <div className="relative flex items-center justify-center w-16 h-16 mb-4">
         {/* Outer decorative ring */}
         <div
-          className="absolute inset-0 rounded-full border border-emerald-900/10"
+          className="absolute inset-0 rounded-full border border-raftel-900/10"
           style={{ animation: 'pulseRing 1.5s ease-in-out infinite' }}
         />
         {/* Spinner */}
         <Loader
           size={28}
           strokeWidth={1.5}
-          className="text-emerald-900"
+          className="text-raftel-900"
           style={{ animation: 'spin 800ms linear infinite' }}
         />
       </div>
 
       {/* Label */}
       <p
-        className="text-[11px] font-semibold tracking-[0.25em] uppercase text-emerald-900/60"
+        className="text-[11px] font-semibold tracking-[0.25em] uppercase text-raftel-900/60"
         style={{ animation: 'fadeInText 300ms 100ms ease-out both' }}
       >
         Memuat...

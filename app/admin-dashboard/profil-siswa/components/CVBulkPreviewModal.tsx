@@ -66,7 +66,7 @@ export default function CVBulkPreviewModal({ students, onClose }: CVBulkPreviewM
             <button
               onClick={handleExport}
               disabled={isExporting}
-              className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded hover:bg-emerald-700 transition-colors shadow-sm disabled:opacity-60"
+              className="flex items-center gap-2 px-4 py-2 bg-raftel-600 text-white text-sm font-medium rounded hover:bg-raftel-700 transition-colors shadow-sm disabled:opacity-60"
             >
               <Printer size={16} />
               {isExporting ? 'Menyiapkan PDF...' : `Export PDF (${students.length})`}
@@ -86,7 +86,7 @@ export default function CVBulkPreviewModal({ students, onClose }: CVBulkPreviewM
               <p className="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">
                 {i + 1}. {student.no_peserta} — {student.nama_lengkap}
                 {useMensetsu && resolveInterviewNumber(useMensetsu, interviewNumber, i) && (
-                  <span className="ml-2 text-emerald-700 normal-case">
+                  <span className="ml-2 text-raftel-700 normal-case">
                     (No. {resolveInterviewNumber(useMensetsu, interviewNumber, i)}番)
                   </span>
                 )}

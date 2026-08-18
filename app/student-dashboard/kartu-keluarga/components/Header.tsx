@@ -193,7 +193,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onSave}
             disabled={isDataEmpty}
-            className={`inline-flex items-center gap-2 px-4.5 py-1.5 text-white text-xs md:text-sm font-semibold rounded-lg transition-all ${isDataEmpty ? 'bg-slate-400 cursor-not-allowed shadow-none opacity-70' : 'bg-emerald-600 hover:bg-emerald-700 active:scale-95 shadow-md shadow-emerald-900/10 hover:shadow-emerald-900/15'}`}
+            className={`inline-flex items-center gap-2 px-4.5 py-1.5 text-white text-xs md:text-sm font-semibold rounded-lg transition-all ${isDataEmpty ? 'bg-slate-400 cursor-not-allowed shadow-none opacity-70' : 'bg-raftel-600 hover:bg-raftel-700 active:scale-95 shadow-md shadow-raftel-900/10 hover:shadow-raftel-900/15'}`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
             <span>Simpan Data</span>

@@ -30,7 +30,7 @@ export function buildDummyCVTemplate(noPeserta: string, namaLengkap?: string): C
       alamat_lengkap: 'Jl. Contoh No. 10, Bandung, Jawa Barat',
       kode_pos: '40123',
       nomor_telepon: '081234567890',
-      email: `${noPeserta.toLowerCase()}@demo.hana.id`,
+      email: `${noPeserta.toLowerCase()}@demo.raftel.id`,
     },
     fisik_kesehatan: {
       ...base.fisik_kesehatan,

@@ -1,5 +1,5 @@
 import React from 'react';
-import hanaLogo from '@/logo/hana-logo.png';
+import raftelLogo from '@/logo/raftel-logo.png';
 import indoxjapan from '@/logo/indoxjapan.png';
 
 const PhoneIcon = ({ size = "2mm" }) => (
@@ -114,7 +114,7 @@ export interface NameCardProps {
 }
 
 const NameCard: React.FC<NameCardProps> = ({
-  studentId = 'HANA01002',
+  studentId = 'RFTL01002',
   nameRomaji = 'MUHAMMAD ZIDDAN AZZAKY',
   nameJapanese = 'ムハンマド・ジッダン・アザキー',
   classJapanese = '東京クラス',
@@ -163,11 +163,11 @@ const NameCard: React.FC<NameCardProps> = ({
           padding: '1.4mm 2.4mm',
           height: '14mm',
         }}>
-          {/* Kiri: Logo Hana */}
+          {/* Kiri: Logo Raftel */}
           <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
             <img
-              src={hanaLogo.src}
-              alt="Hana Logo"
+              src={raftelLogo.src}
+              alt="Raftel Logo"
               style={{ width: (logoSize / 10) * 1.35 + 'mm', height: (logoSize / 10) * 1.35 + 'mm', objectFit: 'contain' }}
             />
           </div>

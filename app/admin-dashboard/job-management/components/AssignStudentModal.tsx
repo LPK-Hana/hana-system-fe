@@ -119,13 +119,13 @@ export default function AssignStudentModal({
               placeholder="Cari nama atau no. peserta..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
+              className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-raftel-500 transition-colors"
             />
           </div>
           <select
             value={filterAngkatan}
             onChange={(e) => setFilterAngkatan(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
+            className="px-4 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-raftel-500 transition-colors"
           >
             <option value="Semua">Semua Angkatan</option>
             {uniqueAngkatan.map((a) => (
@@ -150,7 +150,7 @@ export default function AssignStudentModal({
                       type="checkbox"
                       checked={filteredStudents.length > 0 && filteredStudents.every((s) => selectedStudents.has(s.no_peserta))}
                       onChange={handleSelectAllFiltered}
-                      className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500"
+                      className="w-4 h-4 text-raftel-600 rounded border-gray-300 focus:ring-raftel-500"
                     />
                   </th>
                   <th scope="col" className="px-4 py-3 font-semibold">No. Peserta</th>
@@ -164,7 +164,7 @@ export default function AssignStudentModal({
                   <tr
                     key={student.no_peserta}
                     onClick={() => handleToggleSelect(student.no_peserta)}
-                    className="hover:bg-emerald-50/50 transition-colors cursor-pointer"
+                    className="hover:bg-raftel-50/50 transition-colors cursor-pointer"
                   >
                     <td className="px-4 py-3 text-center">
                       <input
@@ -172,7 +172,7 @@ export default function AssignStudentModal({
                         checked={selectedStudents.has(student.no_peserta)}
                         onChange={() => handleToggleSelect(student.no_peserta)}
                         onClick={(e) => e.stopPropagation()}
-                        className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500"
+                        className="w-4 h-4 text-raftel-600 rounded border-gray-300 focus:ring-raftel-500"
                       />
                     </td>
                     <td className="px-4 py-3 font-medium text-gray-900">{student.no_peserta}</td>
@@ -184,7 +184,7 @@ export default function AssignStudentModal({
                     </td>
                     <td className="px-4 py-3 text-gray-500">
                       {student.job_title ? (
-                        <span className="bg-green-50 text-green-700 px-2 py-0.5 rounded text-xs border border-green-200">
+                        <span className="bg-raftel-50 text-raftel-700 px-2 py-0.5 rounded text-xs border border-raftel-200">
                           {student.job_title}
                         </span>
                       ) : (
@@ -202,7 +202,7 @@ export default function AssignStudentModal({
 
         <div className="p-4 border-t border-gray-100 flex items-center justify-between bg-white">
           <div className="text-sm text-gray-600">
-            <span className="font-semibold text-emerald-700">{selectedStudents.size}</span> siswa dipilih
+            <span className="font-semibold text-raftel-700">{selectedStudents.size}</span> siswa dipilih
           </div>
           <div className="flex gap-3">
             <button
@@ -215,7 +215,7 @@ export default function AssignStudentModal({
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="px-5 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="px-5 py-2 text-sm font-medium text-white bg-raftel-600 hover:bg-raftel-700 rounded-lg transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>

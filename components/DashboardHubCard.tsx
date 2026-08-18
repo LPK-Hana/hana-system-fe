@@ -1,22 +1,22 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
-type Accent = 'emerald' | 'red';
+type Accent = 'raftel' | 'red';
 
 const accentMap = {
-  emerald: {
-    hoverBorder: 'hover:border-emerald-900/30',
-    slideBg: 'bg-emerald-50/30',
-    iconBorder: 'border-emerald-900/20',
-    iconText: 'text-emerald-900',
-    iconHover: 'group-hover:bg-emerald-900 group-hover:text-white',
-    titleHover: 'group-hover:text-emerald-950',
-    ctaText: 'text-emerald-900',
-    ctaUnderline: 'bg-emerald-900',
-    menuBorder: 'hover:border-emerald-900/30',
-    menuIconBorder: 'border-emerald-900/20',
-    menuIconText: 'text-emerald-900',
-    menuChevron: 'group-hover:text-emerald-900',
+  raftel: {
+    hoverBorder: 'hover:border-raftel-900/30',
+    slideBg: 'bg-raftel-50/30',
+    iconBorder: 'border-raftel-900/20',
+    iconText: 'text-raftel-900',
+    iconHover: 'group-hover:bg-raftel-900 group-hover:text-white',
+    titleHover: 'group-hover:text-raftel-950',
+    ctaText: 'text-raftel-900',
+    ctaUnderline: 'bg-raftel-900',
+    menuBorder: 'hover:border-raftel-900/30',
+    menuIconBorder: 'border-raftel-900/20',
+    menuIconText: 'text-raftel-900',
+    menuChevron: 'group-hover:text-raftel-900',
   },
   red: {
     hoverBorder: 'hover:border-red-800/30',
@@ -64,7 +64,7 @@ export function DashboardHubCard({
   icon,
   cta,
   subtitle,
-  accent = 'emerald',
+  accent = 'raftel',
   layout = 'default',
 }: DashboardHubCardProps) {
   const a = accentMap[accent];
@@ -164,7 +164,7 @@ export function DashboardMenuRow({
   subtitle,
   icon,
   onClick,
-  accent = 'emerald',
+  accent = 'raftel',
 }: DashboardMenuRowProps) {
   const a = accentMap[accent];
 

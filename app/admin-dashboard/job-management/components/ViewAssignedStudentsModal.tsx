@@ -62,9 +62,9 @@ export default function ViewAssignedStudentsModal({
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {assignedStudents.map((student, index) => (
-                  <tr key={student.no_peserta} className="hover:bg-emerald-50/30 transition-colors">
+                  <tr key={student.no_peserta} className="hover:bg-raftel-50/30 transition-colors">
                     <td className="px-4 py-3 text-center text-gray-500">{index + 1}</td>
-                    <td className="px-4 py-3 font-medium text-emerald-600">{student.no_peserta}</td>
+                    <td className="px-4 py-3 font-medium text-raftel-600">{student.no_peserta}</td>
                     <td className="px-4 py-3 text-gray-800">{student.nama_lengkap}</td>
                     <td className="px-4 py-3 text-gray-500">
                       <span className="bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded text-xs">
@@ -88,7 +88,7 @@ export default function ViewAssignedStudentsModal({
 
         <div className="p-4 border-t border-gray-100 flex items-center justify-between bg-white">
           <div className="text-sm text-gray-600">
-            Total: <span className="font-semibold text-emerald-700">{assignedStudents.length}</span> siswa
+            Total: <span className="font-semibold text-raftel-700">{assignedStudents.length}</span> siswa
           </div>
           <button
             onClick={onClose}

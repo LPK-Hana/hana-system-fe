@@ -5,7 +5,7 @@ const ONE_DAY_SECONDS = 60 * 60 * 24;
 
 const JWT_SKEW_MS = 30_000;
 
-export const AUTH_REASON_KEY = 'hana_auth_reason';
+export const AUTH_REASON_KEY = 'raftel_auth_reason';
 
 export type AuthReason = 'session_expired' | 'unauthorized' | 'logged_out';
 
@@ -70,7 +70,7 @@ export const clearAuthSession = () => {
   try {
     for (let i = localStorage.length - 1; i >= 0; i--) {
       const k = localStorage.key(i);
-      if (k && k.startsWith("hana_student_profile_v1")) {
+      if (k && k.startsWith("raftel_student_profile_v1")) {
         localStorage.removeItem(k);
       }
     }

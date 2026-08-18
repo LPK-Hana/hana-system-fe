@@ -15,13 +15,13 @@ export default function CvMensetsuControls({
   bulkHint = false,
 }: CvMensetsuControlsProps) {
   return (
-    <div className="flex flex-wrap items-center gap-3 bg-emerald-50 px-4 py-2 rounded-md border border-emerald-100">
-      <label className="flex items-center gap-2 cursor-pointer text-sm font-semibold text-emerald-800 select-none">
+    <div className="flex flex-wrap items-center gap-3 bg-raftel-50 px-4 py-2 rounded-md border border-raftel-100">
+      <label className="flex items-center gap-2 cursor-pointer text-sm font-semibold text-raftel-800 select-none">
         <input
           type="checkbox"
           checked={useMensetsu}
           onChange={e => onUseMensetsuChange(e.target.checked)}
-          className="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500 cursor-pointer"
+          className="w-4 h-4 text-raftel-600 rounded focus:ring-raftel-500 cursor-pointer"
         />
         No. Mensetsu
       </label>
@@ -34,10 +34,10 @@ export default function CvMensetsuControls({
             value={interviewNumber}
             onChange={e => onInterviewNumberChange(e.target.value)}
             placeholder={bulkHint ? 'Nomor awal, mis. 4' : 'Misal: 4'}
-            className="w-28 px-2 py-1 text-sm border border-emerald-200 rounded text-center text-gray-900 bg-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-28 px-2 py-1 text-sm border border-raftel-200 rounded text-center text-gray-900 bg-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-raftel-500"
           />
           {bulkHint && (
-            <span className="text-[10px] text-emerald-700/80 leading-tight">
+            <span className="text-[10px] text-raftel-700/80 leading-tight">
               Nomor naik otomatis per siswa (4, 5, 6…)
             </span>
           )}

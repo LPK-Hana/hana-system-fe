@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --hana-accent: #047857;
+  --raftel-accent: #2196F3;
 }
 
 @theme inline {
@@ -12,6 +12,18 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  /* Brand blue — primary button fill is #2196F3 */
+  --color-raftel-50: #E3F2FD;
+  --color-raftel-100: #BBDEFB;
+  --color-raftel-200: #90CAF9;
+  --color-raftel-300: #64B5F6;
+  --color-raftel-400: #42A5F5;
+  --color-raftel-500: #2196F3;
+  --color-raftel-600: #2196F3;
+  --color-raftel-700: #2196F3;
+  --color-raftel-800: #1976D2;
+  --color-raftel-900: #1565C0;
+  --color-raftel-950: #0D47A1;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -74,6 +86,13 @@ main a.group h2 {
 
 .admin-data-table thead :is(th) {
   border-bottom: 2px solid #64748b;
+}
+
+.admin-data-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: #f3f4f6;
 }
 
 .admin-data-table :is(th, td).border-dashed {

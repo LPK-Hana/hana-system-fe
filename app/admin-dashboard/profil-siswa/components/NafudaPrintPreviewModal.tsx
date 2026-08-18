@@ -186,7 +186,7 @@ export default function NafudaPrintPreviewModal({ students, onClose }: NafudaPri
           </button>
           <button
             onClick={handlePrint}
-            className="flex items-center gap-2 px-5 py-2 text-sm font-medium bg-emerald-600 text-white hover:bg-emerald-700 rounded-md transition-colors"
+            className="flex items-center gap-2 px-5 py-2 text-sm font-medium bg-raftel-600 text-white hover:bg-raftel-700 rounded-md transition-colors"
           >
             <Printer size={18} />
             Cetak / PDF

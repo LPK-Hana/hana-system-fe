@@ -56,7 +56,7 @@ export default function AddJobModal({ onClose, onSave, isSubmitting = false }: A
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 disabled={isSubmitting}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors disabled:bg-gray-100"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-raftel-500 focus:border-raftel-500 transition-colors disabled:bg-gray-100"
                 placeholder="e.g. Pengolahan Makanan"
               />
             </div>
@@ -70,7 +70,7 @@ export default function AddJobModal({ onClose, onSave, isSubmitting = false }: A
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 disabled={isSubmitting}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors resize-none disabled:bg-gray-100"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-raftel-500 focus:border-raftel-500 transition-colors resize-none disabled:bg-gray-100"
                 placeholder="Brief description of the job..."
               />
             </div>
@@ -86,7 +86,7 @@ export default function AddJobModal({ onClose, onSave, isSubmitting = false }: A
                   value={deadlineDokumen}
                   onChange={(e) => setDeadlineDokumen(e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors disabled:bg-gray-100"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-raftel-500 focus:border-raftel-500 transition-colors disabled:bg-gray-100"
                 />
               </div>
               <div>
@@ -99,7 +99,7 @@ export default function AddJobModal({ onClose, onSave, isSubmitting = false }: A
                   value={tanggalMansetsu}
                   onChange={(e) => setTanggalMansetsu(e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors disabled:bg-gray-100"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-raftel-500 focus:border-raftel-500 transition-colors disabled:bg-gray-100"
                 />
               </div>
             </div>
@@ -114,7 +114,7 @@ export default function AddJobModal({ onClose, onSave, isSubmitting = false }: A
                 value={kuota}
                 onChange={(e) => setKuota(e.target.value.replace(/[^0-9]/g, ''))}
                 disabled={isSubmitting}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors disabled:bg-gray-100"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-raftel-500 focus:border-raftel-500 transition-colors disabled:bg-gray-100"
                 placeholder="0"
                 inputMode="numeric"
               />
@@ -133,7 +133,7 @@ export default function AddJobModal({ onClose, onSave, isSubmitting = false }: A
             <button
               type="submit"
               disabled={isSubmitting || !isFormValid}
-              className="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed min-w-[110px]"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-medium text-white bg-raftel-600 hover:bg-raftel-700 rounded-lg transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed min-w-[110px]"
             >
               {isSubmitting ? (
                 <>

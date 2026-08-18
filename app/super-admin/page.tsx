@@ -48,7 +48,7 @@ export default function ShachouHubPage() {
       <div
         className="fixed inset-0 z-0 opacity-[0.02] pointer-events-none"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046 8.954-20 20-20v2c-9.941 0-18 8.059-18 18s8.059 18 18 18v2c-11.046 0-20-8.954-20-20zm-20 0c0-11.046 8.954-20 20-20v2C10.059 2 2 10.059 2 20s8.059 18 18 18v2c-11.046 0-20-8.954-20-20z' fill='%23047857' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046 8.954-20 20-20v2c-9.941 0-18 8.059-18 18s8.059 18 18 18v2c-11.046 0-20-8.954-20-20zm-20 0c0-11.046 8.954-20 20-20v2C10.059 2 2 10.059 2 20s8.059 18 18 18v2c-11.046 0-20-8.954-20-20z' fill='%232196F3' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
           backgroundSize: '40px 40px',
         }}
       />
@@ -106,10 +106,10 @@ export default function ShachouHubPage() {
           <button
             type="button"
             onClick={() => setMenuModal('admin')}
-            className="group flex items-center justify-between bg-white border border-gray-200/60 hover:border-emerald-900/30 p-6 text-left transition-colors"
+            className="group flex items-center justify-between bg-white border border-gray-200/60 hover:border-raftel-900/30 p-6 text-left transition-colors"
           >
             <div className="flex items-center gap-4">
-              <div className="w-11 h-11 border border-emerald-900/20 flex items-center justify-center text-emerald-900">
+              <div className="w-11 h-11 border border-raftel-900/20 flex items-center justify-center text-raftel-900">
                 <Shield size={22} strokeWidth={1.5} />
               </div>
               <div>
@@ -117,16 +117,16 @@ export default function ShachouHubPage() {
                 <p className="text-xs text-gray-500 mt-0.5">Lihat modul yang bisa diakses admin</p>
               </div>
             </div>
-            <ChevronRight size={18} className="text-gray-400 group-hover:text-emerald-900 transition-colors" />
+            <ChevronRight size={18} className="text-gray-400 group-hover:text-raftel-900 transition-colors" />
           </button>
 
           <button
             type="button"
             onClick={() => setMenuModal('guru')}
-            className="group flex items-center justify-between bg-white border border-gray-200/60 hover:border-emerald-900/30 p-6 text-left transition-colors"
+            className="group flex items-center justify-between bg-white border border-gray-200/60 hover:border-raftel-900/30 p-6 text-left transition-colors"
           >
             <div className="flex items-center gap-4">
-              <div className="w-11 h-11 border border-emerald-900/20 flex items-center justify-center text-emerald-900">
+              <div className="w-11 h-11 border border-raftel-900/20 flex items-center justify-center text-raftel-900">
                 <BookOpen size={22} strokeWidth={1.5} />
               </div>
               <div>
@@ -134,7 +134,7 @@ export default function ShachouHubPage() {
                 <p className="text-xs text-gray-500 mt-0.5">Lihat modul yang bisa diakses sensei</p>
               </div>
             </div>
-            <ChevronRight size={18} className="text-gray-400 group-hover:text-emerald-900 transition-colors" />
+            <ChevronRight size={18} className="text-gray-400 group-hover:text-raftel-900 transition-colors" />
           </button>
         </div>
       </div>

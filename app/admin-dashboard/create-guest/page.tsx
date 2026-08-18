@@ -145,7 +145,7 @@ export default function CreateGuestPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F4F7F4] font-sans text-gray-800 p-4 md:p-8 relative">
+    <main className="min-h-screen bg-[#F5F9FC] font-sans text-gray-800 p-4 md:p-8 relative">
       <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link
@@ -156,7 +156,7 @@ export default function CreateGuestPage() {
           </Link>
           <div>
             <div className="flex items-center gap-3">
-              <UserPlus className="text-emerald-900" size={28} strokeWidth={1.5} />
+              <UserPlus className="text-raftel-900" size={28} strokeWidth={1.5} />
               <h1 className="text-3xl font-serif text-gray-900 tracking-wide mb-1">
                 Manajemen Guest User
               </h1>
@@ -173,7 +173,7 @@ export default function CreateGuestPage() {
         <div className="lg:col-span-4 flex flex-col gap-6">
           <div className="bg-white p-6 border border-gray-200/60 shadow-sm">
             <h2 className="text-lg font-serif text-gray-900 mb-6 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-emerald-900 rounded-full"></span>
+              <span className="w-1.5 h-1.5 bg-raftel-900 rounded-full"></span>
               Form Buat Guest
             </h2>
 
@@ -186,7 +186,7 @@ export default function CreateGuestPage() {
                   type="text"
                   value={guestName}
                   onChange={(e) => setGuestName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-emerald-800 transition-colors text-sm"
+                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-raftel-800 transition-colors text-sm"
                   placeholder="Nama Organisasi"
                   required
                 />
@@ -200,7 +200,7 @@ export default function CreateGuestPage() {
                   type="text"
                   value={guestUsername}
                   onChange={(e) => setGuestUsername(e.target.value.toUpperCase())}
-                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-emerald-800 transition-colors text-sm font-mono uppercase"
+                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-raftel-800 transition-colors text-sm font-mono uppercase"
                   placeholder="GUEST001"
                   required
                 />
@@ -218,14 +218,14 @@ export default function CreateGuestPage() {
                     type={showPassword ? 'text' : 'password'}
                     value={guestPassword}
                     onChange={(e) => setGuestPassword(e.target.value)}
-                    className="w-full pl-4 pr-12 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-emerald-800 transition-colors text-sm font-mono"
+                    className="w-full pl-4 pr-12 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-raftel-800 transition-colors text-sm font-mono"
                     placeholder="guest123"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-gray-400 hover:text-emerald-800 transition-colors"
+                    className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-gray-400 hover:text-raftel-800 transition-colors"
                   >
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
@@ -241,14 +241,14 @@ export default function CreateGuestPage() {
                     type={showConfirmPassword ? 'text' : 'password'}
                     value={guestConfirmPassword}
                     onChange={(e) => setGuestConfirmPassword(e.target.value)}
-                    className={`w-full pl-4 pr-12 py-3 border focus:outline-none focus:ring-0 transition-colors text-sm font-mono ${guestConfirmPassword && guestPassword !== guestConfirmPassword ? 'border-red-500 focus:border-red-500 bg-red-50' : 'border-gray-300 focus:border-emerald-800'}`}
+                    className={`w-full pl-4 pr-12 py-3 border focus:outline-none focus:ring-0 transition-colors text-sm font-mono ${guestConfirmPassword && guestPassword !== guestConfirmPassword ? 'border-red-500 focus:border-red-500 bg-red-50' : 'border-gray-300 focus:border-raftel-800'}`}
                     placeholder="guest123"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-gray-400 hover:text-emerald-800 transition-colors"
+                    className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-gray-400 hover:text-raftel-800 transition-colors"
                   >
                     {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
@@ -266,7 +266,7 @@ export default function CreateGuestPage() {
                 <button
                   type="submit"
                   disabled={isSaving || (guestConfirmPassword.length > 0 && guestPassword !== guestConfirmPassword)}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-emerald-900 border border-emerald-900 text-xs tracking-widest uppercase text-white hover:bg-emerald-950 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-raftel-900 border border-raftel-900 text-xs tracking-widest uppercase text-white hover:bg-raftel-950 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Save size={16} strokeWidth={1.5} />
                   {isSaving ? 'Menyimpan…' : 'Simpan Akun Guest'}
@@ -284,7 +284,7 @@ export default function CreateGuestPage() {
 
                 <div className="relative group w-full sm:max-w-xs">
                   <Search
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-emerald-800 transition-colors"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-raftel-800 transition-colors"
                     size={18}
                     strokeWidth={1.5}
                   />
@@ -293,7 +293,7 @@ export default function CreateGuestPage() {
                     placeholder="Cari nama guest user…"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="pl-10 pr-4 py-2 w-full bg-transparent border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+                    className="pl-10 pr-4 py-2 w-full bg-transparent border border-gray-200 focus:outline-none focus:ring-2 focus:ring-raftel-500 text-sm"
                   />
                 </div>
 
@@ -301,7 +301,7 @@ export default function CreateGuestPage() {
                   <select
                     value={showInactive ? '1' : '0'}
                     onChange={(e) => setShowInactive(e.target.value === '1')}
-                    className="appearance-none w-full border border-gray-200 bg-white px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
+                    className="appearance-none w-full border border-gray-200 bg-white px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-raftel-500 cursor-pointer"
                   >
                     <option value="0">Guest Aktif</option>
                     <option value="1">Guest Nonaktif</option>
@@ -311,7 +311,7 @@ export default function CreateGuestPage() {
 
               </div>
               <div className="flex items-center gap-2 shrink-0 hidden lg:flex text-xs font-medium text-gray-600">
-                <span className={`w-2 h-2 rounded-full ${showInactive ? 'bg-red-500' : 'bg-green-500'}`} />
+                <span className={`w-2 h-2 rounded-full ${showInactive ? 'bg-red-500' : 'bg-raftel-500'}`} />
                 {showInactive ? 'Nonaktif' : 'Aktif'}
               </div>
             </div>
@@ -343,22 +343,22 @@ export default function CreateGuestPage() {
                   </thead>
                   <tbody>
                     {filteredGuests.map((u, i) => (
-                      <tr key={u.guest_id} className="group bg-white border-b border-gray-50 hover:bg-emerald-50/40 transition-colors">
+                      <tr key={u.guest_id} className="group bg-white border-b border-gray-50 hover:bg-raftel-50/40 transition-colors">
                         <td className="px-6 py-4 text-center text-gray-500">{i + 1}</td>
-                        <td className="px-6 py-4 font-mono font-medium text-emerald-800">{u.user_name}</td>
+                        <td className="px-6 py-4 font-mono font-medium text-raftel-800">{u.user_name}</td>
                         <td className="px-6 py-4 font-medium text-gray-900">{u.name}</td>
                         <td className="px-6 py-4 text-gray-600 text-sm whitespace-nowrap">{u.createdt || '-'}</td>
                         <td className="px-6 py-4 text-gray-600 text-sm whitespace-nowrap">{u.updatedt || '-'}</td>
                         <td className="px-6 py-4 text-gray-600 text-sm">{u.created_by || '-'}</td>
                         <td className="px-6 py-4 text-gray-600 text-sm">{u.updated_by || '-'}</td>
-                        <td className="px-4 py-3 text-center sticky right-0 bg-white group-hover:bg-emerald-50/40 border-l border-gray-100 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.02)] transition-colors">
+                        <td className="px-4 py-3 text-center sticky right-0 bg-white group-hover:bg-raftel-50/40 border-l border-gray-100 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.02)] transition-colors">
                           <div className="inline-flex items-center justify-center gap-1.5">
                             {!showInactive ? (
                               <>
                                 <button
                                   type="button"
                                   onClick={() => setSelectedEditGuest(u)}
-                                  className="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium text-emerald-700 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 transition-colors"
+                                  className="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium text-raftel-700 border border-raftel-200 bg-raftel-50 hover:bg-raftel-100 transition-colors"
                                 >
                                   <Edit size={13} />
                                   Edit
@@ -385,7 +385,7 @@ export default function CreateGuestPage() {
                                 <button
                                   type="button"
                                   onClick={() => handleToggleActive(u.guest_id, 0)}
-                                  className="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium text-emerald-700 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 transition-colors"
+                                  className="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium text-raftel-700 border border-raftel-200 bg-raftel-50 hover:bg-raftel-100 transition-colors"
                                 >
                                   <CheckSquare size={13} />
                                   Aktifkan

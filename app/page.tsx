@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { AUTH_REASON_KEY } from "@/lib/auth";
 import { enterDemoRole, type DemoRole } from "@/lib/demo-auth-client";
-import hanaLogo from '@/logo/hana-logo.png';
+import raftelLogoHd from '@/logo/Raftel-HD.png';
 
 export default function HomePage() {
   const router = useRouter();
@@ -32,7 +32,7 @@ export default function HomePage() {
   useEffect(() => {
     return () => {
       try {
-        sessionStorage.removeItem('hana_demo_entering');
+        sessionStorage.removeItem('raftel_demo_entering');
       } catch {
         /* ignore */
       }
@@ -65,38 +65,28 @@ export default function HomePage() {
       <div
         className="fixed inset-0 z-0 opacity-[0.03] pointer-events-none"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046 8.954-20 20-20v2c-9.941 0-18 8.059-18 18s8.059 18 18 18v2c-11.046 0-20-8.954-20-20zm-20 0c0-11.046 8.954-20 20-20v2C10.059 2 2 10.059 2 20s8.059 18 18 18v2c-11.046 0-20-8.954-20-20z' fill='%23047857' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046 8.954-20 20-20v2c-9.941 0-18 8.059-18 18s8.059 18 18 18v2c-11.046 0-20-8.954-20-20zm-20 0c0-11.046 8.954-20 20-20v2C10.059 2 2 10.059 2 20s8.059 18 18 18v2c-11.046 0-20-8.954-20-20z' fill='%232196F3' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
           backgroundSize: '40px 40px'
         }}
       />
 
       <div className="relative z-10 w-full max-w-xl bg-white p-8 sm:p-10 md:p-12 border border-gray-200/60 flex flex-col items-center">
-        <div className="w-20 h-20 md:w-28 md:h-28 relative mb-6 md:mb-8 opacity-90 mix-blend-multiply">
+        <div className="relative mb-6 md:mb-8 w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80">
           <Image
-            src={hanaLogo}
-            alt="Hana System"
+            src={raftelLogoHd}
+            alt="LPK Raftel Satya Indonesia"
             fill
-            sizes="(max-width: 768px) 80px, 112px"
+            sizes="(max-width: 640px) 224px, (max-width: 768px) 256px, 320px"
             priority
             className="object-contain"
           />
         </div>
 
-        <div className="mb-2">
-          <h1 className="text-2xl md:text-3xl font-serif text-emerald-900 tracking-[0.12em] uppercase text-center leading-snug">
-            LPK Hana Karya
-          </h1>
-        </div>
-
-        <div className="flex items-center w-full max-w-[200px] md:max-w-xs mb-6 md:mb-8">
-          <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-        </div>
-
         <div className="flex flex-col items-center gap-1.5 md:gap-2 mb-8 md:mb-10">
           <p className="font-serif text-sm md:text-base text-gray-800 tracking-[0.15em] md:tracking-[0.2em] text-center uppercase">
-            Hana System
+            Raftel System
           </p>
-          <p className="text-[11px] md:text-sm text-gray-400 font-serif tracking-[0.2em]">ハナ・システム</p>
+          <p className="text-[11px] md:text-sm text-gray-400 font-serif tracking-[0.2em]">ラフテル・システム</p>
         </div>
 
         <div className="w-full space-y-3">
@@ -110,10 +100,10 @@ export default function HomePage() {
                 type="button"
                 onClick={() => void handleDemoEnter(btn.role)}
                 disabled={!!demoLoading}
-                className="group relative overflow-hidden bg-white border border-emerald-200 py-4 px-3 flex flex-col items-center justify-center gap-1.5 transition-colors duration-300 hover:border-emerald-400 hover:bg-emerald-50/30 disabled:opacity-60"
+                className="group relative overflow-hidden bg-white border border-raftel-200 py-4 px-3 flex flex-col items-center justify-center gap-1.5 transition-colors duration-300 hover:border-raftel-400 hover:bg-raftel-50/30 disabled:opacity-60"
               >
-                <span className="text-emerald-800">{btn.icon}</span>
-                <span className="text-[10px] sm:text-xs tracking-widest uppercase font-semibold text-gray-800 group-hover:text-emerald-900">
+                <span className="text-raftel-800">{btn.icon}</span>
+                <span className="text-[10px] sm:text-xs tracking-widest uppercase font-semibold text-gray-800 group-hover:text-raftel-900">
                   {demoLoading === btn.role ? 'Memuat...' : btn.label}
                 </span>
                 <span className="text-[9px] text-gray-400 tracking-wide">{btn.sub}</span>

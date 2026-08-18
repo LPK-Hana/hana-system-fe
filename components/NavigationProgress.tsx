@@ -63,7 +63,7 @@ export default function NavigationProgress() {
       className="fixed top-0 left-0 right-0 z-[9999] h-[2px] pointer-events-none"
     >
       <div
-        className="h-full bg-emerald-900 transition-all ease-out"
+        className="h-full bg-raftel-900 transition-all ease-out"
         style={{
           width: `${progress}%`,
           transitionDuration: progress === 100 ? '300ms' : '400ms',

@@ -529,7 +529,7 @@ export default function StudentEditModal({
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex-shrink-0 flex items-center gap-2 px-6 py-3.5 text-xs font-semibold uppercase tracking-wider border-b-2 whitespace-nowrap transition-all duration-200 ${activeTab === tab.id
-                ? 'border-emerald-600 text-emerald-600 bg-white font-bold'
+                ? 'border-raftel-600 text-raftel-600 bg-white font-bold'
                 : 'border-transparent text-gray-500 hover:text-gray-900 hover:bg-gray-100/80'
                 }`}
             >
@@ -576,7 +576,7 @@ export default function StudentEditModal({
                       </div>
                     </div>
                     <div className="mt-3 flex items-center justify-center gap-2 w-40">
-                      <label className="inline-flex items-center gap-1.5 px-3 py-2 text-xs border border-emerald-200 text-emerald-700 hover:bg-emerald-50 cursor-pointer whitespace-nowrap bg-white rounded-sm">
+                      <label className="inline-flex items-center gap-1.5 px-3 py-2 text-xs border border-raftel-200 text-raftel-700 hover:bg-raftel-50 cursor-pointer whitespace-nowrap bg-white rounded-sm">
                         <Upload size={14} />
                         Ubah Foto
                         <input type="file" accept={PHOTO_ACCEPT_INPUT} className="hidden" onChange={onFotoUpload} />
@@ -585,7 +585,7 @@ export default function StudentEditModal({
                         <button
                           type="button"
                           onClick={() => handleDownloadImage(draftStudent.foto, `FOTO_${draftStudent.no_peserta}.jpg`)}
-                          className="p-2 text-gray-500 hover:text-emerald-600 border border-gray-200 hover:border-emerald-200 hover:bg-emerald-50 transition-colors bg-white rounded-sm flex-shrink-0"
+                          className="p-2 text-gray-500 hover:text-raftel-600 border border-gray-200 hover:border-raftel-200 hover:bg-raftel-50 transition-colors bg-white rounded-sm flex-shrink-0"
                           title="Download Foto"
                         >
                           <Download size={14} />
@@ -696,7 +696,7 @@ export default function StudentEditModal({
                     const newPendidikan = [{ nama_sekolah: '', tingkat_pendidikan: '', jurusan: '', bulan_masuk: '', tahun_masuk: '', bulan_lulus: '', tahun_lulus: '' }, ...(draftStudent.pendidikan || [])];
                     onFieldChange('pendidikan', newPendidikan);
                   }}
-                  className="text-xs font-semibold text-emerald-600 hover:text-emerald-800 transition-colors"
+                  className="text-xs font-semibold text-raftel-600 hover:text-raftel-800 transition-colors"
                 >
                   + Tambah Pendidikan
                 </button>
@@ -842,7 +842,7 @@ export default function StudentEditModal({
                     const newPekerjaan = [{ nama_perusahaan: '', posisi_pekerjaan: '', status_pekerjaan: '', bulan_mulai: '', tahun_mulai: '', bulan_selesai: '', tahun_selesai: '' }, ...(draftStudent.pekerjaan || [])];
                     onFieldChange('pekerjaan', newPekerjaan);
                   }}
-                  className="text-xs font-semibold text-emerald-600 hover:text-emerald-800 transition-colors"
+                  className="text-xs font-semibold text-raftel-600 hover:text-raftel-800 transition-colors"
                 >
                   + Tambah Pekerjaan
                 </button>
@@ -958,7 +958,7 @@ export default function StudentEditModal({
                     const newSertifikat = [{ nama_sertifikat: '', status_kelulusan: 1, score: '', bulan_diperoleh: '', tahun_diperoleh: '' }, ...(draftStudent.sertifikat || [])];
                     onFieldChange('sertifikat', newSertifikat);
                   }}
-                  className="text-xs font-semibold text-emerald-600 hover:text-emerald-800 transition-colors"
+                  className="text-xs font-semibold text-raftel-600 hover:text-raftel-800 transition-colors"
                 >
                   + Tambah Sertifikat
                 </button>
@@ -1040,7 +1040,7 @@ export default function StudentEditModal({
                           type="file"
                           accept={DOC_ACCEPT_INPUT}
                           onChange={(e) => onSertifikatFileUpload(idx, e)}
-                          className="w-full border border-gray-200 px-4 py-3 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition file:mr-3 file:border-0 file:bg-emerald-50 file:text-emerald-700 file:px-3 file:py-1.5 file:rounded-lg file:cursor-pointer"
+                          className="w-full border border-gray-200 px-4 py-3 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-raftel-500 transition file:mr-3 file:border-0 file:bg-raftel-50 file:text-raftel-700 file:px-3 file:py-1.5 file:rounded-lg file:cursor-pointer"
                         />
                         <p className="text-xs text-gray-500">
                           {s.sertifikat && s.sertifikat !== '' ? (
@@ -1049,7 +1049,7 @@ export default function StudentEditModal({
                               <button
                                 type="button"
                                 onClick={() => openFilePreview('Sertifikat', 'sertifikat', s.sertifikat!)}
-                                className="text-emerald-600 hover:underline"
+                                className="text-raftel-600 hover:underline"
                               >
                                 {s.sertifikat}
                               </button>
@@ -1077,7 +1077,7 @@ export default function StudentEditModal({
                     const newKeluarga = [{ hubungan: '', nama: '', umur: '', status_pekerjaan: '' }, ...(draftStudent.keluarga || [])];
                     onFieldChange('keluarga', newKeluarga);
                   }}
-                  className="text-xs font-semibold text-emerald-600 hover:text-emerald-800 transition-colors"
+                  className="text-xs font-semibold text-raftel-600 hover:text-raftel-800 transition-colors"
                 >
                   + Tambah Data
                 </button>
@@ -1179,7 +1179,7 @@ export default function StudentEditModal({
                           type="file"
                           accept={DOC_ACCEPT_INPUT}
                           onChange={(e) => onDocUpload(f.key, e)}
-                          className="w-full border border-gray-200 px-4 py-3 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition file:mr-3 file:border-0 file:bg-emerald-50 file:text-emerald-700 file:px-3 file:py-1.5 file:rounded-lg file:cursor-pointer"
+                          className="w-full border border-gray-200 px-4 py-3 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-raftel-500 transition file:mr-3 file:border-0 file:bg-raftel-50 file:text-raftel-700 file:px-3 file:py-1.5 file:rounded-lg file:cursor-pointer"
                         />
                         <p className="text-xs text-gray-500">
                           {draftStudent[f.key] && draftStudent[f.key] !== '-' ? (
@@ -1188,7 +1188,7 @@ export default function StudentEditModal({
                               <button
                                 type="button"
                                 onClick={() => openFilePreview(f.label, f.key, draftStudent[f.key] as string)}
-                                className="text-emerald-600 hover:underline"
+                                className="text-raftel-600 hover:underline"
                               >
                                 {draftStudent[f.key] as string}
                               </button>
@@ -1212,7 +1212,7 @@ export default function StudentEditModal({
                         type="file"
                         accept={DOC_ACCEPT_INPUT}
                         onChange={(e) => onDocUpload('mcu_pdf', e)}
-                        className="mt-2 w-full border border-gray-200 px-4 py-3 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition file:mr-3 file:border-0 file:bg-emerald-50 file:text-emerald-700 file:px-3 file:py-1.5 file:rounded-lg file:cursor-pointer"
+                        className="mt-2 w-full border border-gray-200 px-4 py-3 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-raftel-500 transition file:mr-3 file:border-0 file:bg-raftel-50 file:text-raftel-700 file:px-3 file:py-1.5 file:rounded-lg file:cursor-pointer"
                       />
                       <p className="mt-1 text-xs text-gray-500">
                         {draftStudent.mcu_pdf && draftStudent.mcu_pdf !== '-' ? (
@@ -1221,7 +1221,7 @@ export default function StudentEditModal({
                             <button
                               type="button"
                               onClick={() => openFilePreview('Hasil MCU', 'mcu_pdf', draftStudent.mcu_pdf)}
-                              className="text-emerald-600 hover:underline"
+                              className="text-raftel-600 hover:underline"
                             >
                               {draftStudent.mcu_pdf}
                             </button>
@@ -1258,8 +1258,8 @@ export default function StudentEditModal({
                       </div>
                     )}
                     {!isLainLainSelected && draftStudent.mcu && MCU_CRITERIA_DESCRIPTIONS[draftStudent.mcu] && (
-                      <div className="mt-2 bg-emerald-50/70 border border-emerald-100 p-3.5 rounded text-xs text-emerald-900 leading-relaxed shadow-sm">
-                        <div className="font-semibold text-emerald-950 mb-1 flex items-center gap-1.5">
+                      <div className="mt-2 bg-raftel-50/70 border border-raftel-100 p-3.5 rounded text-xs text-raftel-900 leading-relaxed shadow-sm">
+                        <div className="font-semibold text-raftel-950 mb-1 flex items-center gap-1.5">
                           <span>📋</span> Kriteria Evaluasi:
                         </div>
                         {MCU_CRITERIA_DESCRIPTIONS[draftStudent.mcu]}
@@ -1290,7 +1290,7 @@ export default function StudentEditModal({
           <button
             onClick={handleSaveWithQualification}
             disabled={isSaving || isSavingLocal || (qualLinkVideo.trim() !== '' && !qualLinkVideo.trim().match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/))}
-            className="px-5 py-2.5 text-xs tracking-widest uppercase bg-emerald-700 text-white hover:bg-emerald-800 transition-colors disabled:opacity-75 disabled:cursor-not-allowed"
+            className="px-5 py-2.5 text-xs tracking-widest uppercase bg-raftel-700 text-white hover:bg-raftel-800 transition-colors disabled:opacity-75 disabled:cursor-not-allowed"
           >
             {isSaving || isSavingLocal ? 'Menyimpan...' : 'Simpan Perubahan'}
           </button>
@@ -1335,7 +1335,7 @@ function KatakanaInput({
           value={value}
           placeholder="Contoh: ジダン・プラタマ"
           onChange={e => onChange(e.target.value)}
-          className="flex-1 min-w-0 border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="flex-1 min-w-0 border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-raftel-500"
         />
         <button
           type="button"
@@ -1362,7 +1362,7 @@ function Input({ label, value, onChange, type = 'text', placeholder, min, step }
       <input type={type} min={min} step={step} value={value} placeholder={placeholder} onChange={(e) => {
         const val = e.target.value;
         onChange(type === 'text' ? val.toUpperCase() : val);
-      }} className="mt-2 w-full border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+      }} className="mt-2 w-full border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-raftel-500" />
     </label>
   );
 }
@@ -1371,7 +1371,7 @@ function TextArea({ label, value, onChange, className }: { label: string; value:
   return (
     <label className={`block ${className ?? ''}`}>
       <span className="text-xs font-semibold tracking-wide text-gray-600 uppercase">{label}</span>
-      <textarea value={value} onChange={(e) => onChange(e.target.value.toUpperCase())} rows={3} className="mt-2 w-full border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+      <textarea value={value} onChange={(e) => onChange(e.target.value.toUpperCase())} rows={3} className="mt-2 w-full border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-raftel-500" />
     </label>
   );
 }
@@ -1380,7 +1380,7 @@ function Select({ label, value, onChange, options, placeholder }: { label: strin
   return (
     <label className="block">
       <span className="text-xs font-semibold tracking-wide text-gray-600 uppercase">{label}</span>
-      <select value={value} onChange={(e) => onChange(e.target.value)} className="mt-2 w-full border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white">
+      <select value={value} onChange={(e) => onChange(e.target.value)} className="mt-2 w-full border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-raftel-500 bg-white">
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((o) => (
           <option key={o.value} value={o.value}>{o.label}</option>
@@ -1511,7 +1511,7 @@ function QualificationTab({
             placeholder="Tempel link YouTube di sini lalu tekan Enter untuk melihat preview..."
             className={`w-full px-3 py-2 border rounded-md shadow-sm sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 ${isVideoInvalid
               ? 'border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50'
-              : 'border-gray-300 focus:ring-emerald-500 focus:border-emerald-500 bg-white'
+              : 'border-gray-300 focus:ring-raftel-500 focus:border-raftel-500 bg-white'
               }`}
           />
           {isVideoInvalid && (
@@ -1542,13 +1542,13 @@ function QualificationTab({
             {skills.map((skill, index) => (
               <span
                 key={index}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-medium rounded-full shadow-sm transition-colors hover:bg-emerald-100"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-raftel-50 border border-raftel-200 text-raftel-700 text-sm font-medium rounded-full shadow-sm transition-colors hover:bg-raftel-100"
               >
                 {skill}
                 <button
                   type="button"
                   onClick={() => handleRemoveSkill(index)}
-                  className="text-emerald-500 hover:text-emerald-800 focus:outline-none p-0.5 rounded-full"
+                  className="text-raftel-500 hover:text-raftel-800 focus:outline-none p-0.5 rounded-full"
                 >
                   <X size={14} />
                 </button>
@@ -1556,7 +1556,7 @@ function QualificationTab({
             ))}
 
             {isAddingSkill ? (
-              <div className="inline-flex items-center bg-white border border-emerald-400 rounded-full shadow-sm pl-2 pr-1 py-0.5 overflow-hidden ring-1 ring-emerald-400">
+              <div className="inline-flex items-center bg-white border border-raftel-400 rounded-full shadow-sm pl-2 pr-1 py-0.5 overflow-hidden ring-1 ring-raftel-400">
                 <input
                   ref={skillInputRef}
                   type="text"
@@ -1583,7 +1583,7 @@ function QualificationTab({
                     setSkillInput('');
                     setIsAddingSkill(false);
                   }}
-                  className="p-1 text-white bg-emerald-500 hover:bg-emerald-600 rounded-full transition-colors flex-shrink-0 ml-1"
+                  className="p-1 text-white bg-raftel-500 hover:bg-raftel-600 rounded-full transition-colors flex-shrink-0 ml-1"
                 >
                   <Check size={14} strokeWidth={3} />
                 </button>
@@ -1609,7 +1609,7 @@ function QualificationTab({
                   key={skill}
                   type="button"
                   onClick={() => setSkills([...skills, skill])}
-                  className="inline-flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-200 text-gray-600 text-xs font-medium rounded-full hover:border-emerald-300 hover:text-emerald-700 hover:bg-emerald-50 transition-colors shadow-sm"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-200 text-gray-600 text-xs font-medium rounded-full hover:border-raftel-300 hover:text-raftel-700 hover:bg-raftel-50 transition-colors shadow-sm"
                 >
                   <Plus size={12} strokeWidth={2.5} />
                   {skill}

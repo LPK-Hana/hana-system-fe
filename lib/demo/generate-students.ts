@@ -89,7 +89,7 @@ export function generateDemoStudents(count = 20) {
       bidang_pekerjaan_ids: jobCats.map((j) => j.id).join(','),
       program_type: i % 2 === 0 ? 'ginou_jisshu' : 'tokutei_ginou',
       hobi: ['Membaca', 'Olahraga', 'Musik', 'Memasak'][i % 4],
-      email: `${no.toLowerCase()}@demo.hana.id`,
+      email: `${no.toLowerCase()}@demo.raftel.id`,
       nomor_telepon: `0812${String(10000000 + i)}`,
       kode_pos: `${40000 + i}`,
       negara_asal: 'Indonesia',

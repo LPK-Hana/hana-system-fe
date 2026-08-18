@@ -430,7 +430,7 @@ export default function JobManagementPage() {
   const displayedJobs = activeTab === 'aktif' ? activeJobs : inactiveJobs;
 
   return (
-    <main className="min-h-screen bg-[#F4F7F4] font-sans text-gray-800 p-6 md:p-8 relative">
+    <main className="min-h-screen bg-[#F5F9FC] font-sans text-gray-800 p-6 md:p-8 relative">
       {/* Header Area */}
       <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
@@ -452,7 +452,7 @@ export default function JobManagementPage() {
 
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-emerald-700 hover:bg-emerald-800 rounded-lg shadow-sm transition-colors border border-transparent"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-raftel-700 hover:bg-raftel-800 rounded-lg shadow-sm transition-colors border border-transparent"
         >
           <Plus size={18} strokeWidth={2} />
           Tambah Job Baru
@@ -468,7 +468,7 @@ export default function JobManagementPage() {
             <button
               onClick={() => setActiveTab('aktif')}
               className={`flex items-center gap-2 py-4 text-sm font-medium border-b-2 transition-colors ${activeTab === 'aktif'
-                ? 'border-emerald-600 text-emerald-700'
+                ? 'border-raftel-600 text-raftel-700'
                 : 'border-transparent text-gray-500 hover:text-gray-700'
                 }`}
             >
@@ -478,7 +478,7 @@ export default function JobManagementPage() {
             <button
               onClick={() => setActiveTab('nonaktif')}
               className={`flex items-center gap-2 py-4 text-sm font-medium border-b-2 transition-colors ${activeTab === 'nonaktif'
-                ? 'border-emerald-600 text-emerald-700'
+                ? 'border-raftel-600 text-raftel-700'
                 : 'border-transparent text-gray-500 hover:text-gray-700'
                 }`}
             >
@@ -524,13 +524,13 @@ export default function JobManagementPage() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {displayedJobs.map((job, index) => (
-                  <tr key={job.id} className="hover:bg-emerald-50/30 transition-colors">
+                  <tr key={job.id} className="hover:bg-raftel-50/30 transition-colors">
                     <td className="px-6 py-4 text-gray-500">{index + 1}</td>
                     <td className="px-6 py-4">
                       <div className="font-medium text-gray-900">{job.title}</div>
                       {job.description && (
                         <div
-                          className="text-xs text-gray-500 mt-1 max-w-xs truncate cursor-pointer hover:text-emerald-600 transition-colors"
+                          className="text-xs text-gray-500 mt-1 max-w-xs truncate cursor-pointer hover:text-raftel-600 transition-colors"
                           onClick={() => setDescriptionModalData({ isOpen: true, title: job.title, description: job.description })}
                         >
                           {job.description}
@@ -546,9 +546,9 @@ export default function JobManagementPage() {
                             : job.status === 'Submission Day'
                               ? 'bg-red-50 text-red-700 border border-red-200/50'
                               : job.status === 'Ongoing'
-                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/50'
+                                ? 'bg-raftel-50 text-raftel-700 border border-raftel-200/50'
                                 : job.status === 'Mansetsu Day'
-                                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/50'
+                                  ? 'bg-raftel-50 text-raftel-700 border border-raftel-200/50'
                                   : 'bg-gray-100 text-gray-600 border border-gray-200/50'
                           }`}
                       >
@@ -580,7 +580,7 @@ export default function JobManagementPage() {
                         onClick={() => handleOpenViewModal(job.id)}
                         className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border transition-colors cursor-pointer ${job.kuota != null && students.filter(s => s.id_master_job === Number(job.id)).length >= job.kuota
                           ? 'bg-red-50 hover:bg-red-100 border-red-200/80 text-red-700'
-                          : 'bg-emerald-50 hover:bg-emerald-100 border-emerald-200/80 text-emerald-700'
+                          : 'bg-raftel-50 hover:bg-raftel-100 border-raftel-200/80 text-raftel-700'
                           }`}
                         title="Lihat daftar siswa"
                       >
@@ -597,7 +597,7 @@ export default function JobManagementPage() {
                           disabled={activeTab === 'nonaktif' || (job.kuota != null && students.filter(s => s.id_master_job === Number(job.id)).length >= job.kuota)}
                           className={`inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${activeTab === 'nonaktif' || (job.kuota != null && students.filter(s => s.id_master_job === Number(job.id)).length >= job.kuota)
                             ? 'text-gray-400 bg-gray-50 border border-gray-200 cursor-not-allowed'
-                            : 'text-emerald-700 bg-emerald-50 border border-emerald-200/60 hover:bg-emerald-100 hover:text-emerald-800'
+                            : 'text-raftel-700 bg-raftel-50 border border-raftel-200/60 hover:bg-raftel-100 hover:text-raftel-800'
                             }`}
                           title="Assign Siswa"
                         >

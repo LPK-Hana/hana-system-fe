@@ -57,7 +57,7 @@ export function getProjectLegacyPaths(folder: string, filename: string): string[
     path.join(cwd, 'uploads', 'private', folder, filename),
     path.join(cwd, 'public', 'static', folder, filename),
     path.join(cwd, 'uploads', goSubdir, filename),
-    path.join(cwd, '..', 'hana_app_backend', 'uploads', goSubdir, filename),
+    path.join(cwd, '..', 'raftel_app_backend', 'uploads', goSubdir, filename),
   ];
 }
 

@@ -93,7 +93,7 @@ export default function FilePreviewModal({ title, filename, url, onClose }: File
               <button
                 type="button"
                 onClick={handleDownload}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-emerald-700 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 transition-colors rounded-sm"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-raftel-700 border border-raftel-200 bg-raftel-50 hover:bg-raftel-100 transition-colors rounded-sm"
               >
                 <Download size={14} /> Download
               </button>
@@ -146,7 +146,7 @@ export default function FilePreviewModal({ title, filename, url, onClose }: File
               <button
                 type="button"
                 onClick={handleDownload}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-emerald-700 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 transition-colors rounded-sm"
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-raftel-700 border border-raftel-200 bg-raftel-50 hover:bg-raftel-100 transition-colors rounded-sm"
               >
                 <Download size={16} /> Download File
               </button>

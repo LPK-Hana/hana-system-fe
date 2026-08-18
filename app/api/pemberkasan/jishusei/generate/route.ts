@@ -56,7 +56,7 @@ try {
 if (-not (Test-Path -LiteralPath $pdfPath)) { Write-Error 'PDF file was not created'; exit 1 }
 Write-Output 'OK'
 `;
-  const scriptFile = path.join(os.tmpdir(), `hana-docx2pdf-${Date.now()}.ps1`);
+  const scriptFile = path.join(os.tmpdir(), `raftel-docx2pdf-${Date.now()}.ps1`);
   fs.writeFileSync(scriptFile, "\uFEFF" + ps, "utf8");
 
   const powershellExe = path.join(
@@ -125,8 +125,8 @@ export async function POST(req: NextRequest) {
     if (format === "pdf") {
       const tmp = os.tmpdir();
       const stamp = Date.now();
-      const docxPath = path.join(tmp, `hana-jishusei-${stamp}.docx`);
-      const pdfPath = path.join(tmp, `hana-jishusei-${stamp}.pdf`);
+      const docxPath = path.join(tmp, `raftel-jishusei-${stamp}.docx`);
+      const pdfPath = path.join(tmp, `raftel-jishusei-${stamp}.pdf`);
       fs.writeFileSync(docxPath, Buffer.from(filled));
       try {
         convertDocxToPdfWithWord(docxPath, pdfPath);

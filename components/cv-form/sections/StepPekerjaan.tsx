@@ -33,7 +33,7 @@ export default function StepPekerjaan({ items, onChange }: Props) {
         <p className="text-sm text-slate-500">Tambahkan riwayat pekerjaan dan magang.</p>
         <button
           onClick={add}
-          className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-xl hover:bg-emerald-700 transition"
+          className="flex items-center gap-2 px-4 py-2 bg-raftel-600 text-white text-sm font-medium rounded-xl hover:bg-raftel-700 transition"
         >
           <Plus size={16} /> Tambah
         </button>
@@ -48,7 +48,7 @@ export default function StepPekerjaan({ items, onChange }: Props) {
       {items.map((item, idx) => (
         <div key={item.id} className="border border-slate-200 rounded-2xl p-5 bg-slate-50 space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold text-emerald-600">Pekerjaan #{idx + 1}</span>
+            <span className="text-sm font-semibold text-raftel-600">Pekerjaan #{idx + 1}</span>
             <button onClick={() => remove(item.id)} className="text-red-400 hover:text-red-600 transition">
               <Trash2 size={16} />
             </button>

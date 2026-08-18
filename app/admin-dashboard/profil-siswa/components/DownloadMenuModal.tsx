@@ -30,9 +30,9 @@ export default function DownloadMenuModal({
               onClose();
               onSelectCV();
             }}
-            className="flex items-center gap-3 p-3 hover:bg-emerald-50 text-left transition-colors border border-transparent hover:border-emerald-100 rounded-lg group"
+            className="flex items-center gap-3 p-3 hover:bg-raftel-50 text-left transition-colors border border-transparent hover:border-raftel-100 rounded-lg group"
           >
-            <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+            <div className="w-10 h-10 rounded-full bg-raftel-100 text-raftel-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
               <FileText size={20} />
             </div>
             <div>
@@ -62,9 +62,9 @@ export default function DownloadMenuModal({
               onClose();
               onSelectExcel();
             }}
-            className="flex items-center gap-3 p-3 hover:bg-emerald-50 text-left transition-colors border border-transparent hover:border-emerald-100 rounded-lg group"
+            className="flex items-center gap-3 p-3 hover:bg-raftel-50 text-left transition-colors border border-transparent hover:border-raftel-100 rounded-lg group"
           >
-            <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+            <div className="w-10 h-10 rounded-full bg-raftel-100 text-raftel-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
               <FileSpreadsheet size={20} />
             </div>
             <div>

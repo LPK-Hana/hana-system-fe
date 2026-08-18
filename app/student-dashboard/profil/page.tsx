@@ -63,7 +63,7 @@ export default function StudentProfilPage() {
 
   if (!mounted || loading) {
     return (
-      <main className="min-h-screen bg-[#F4F7F4] flex items-center justify-center text-gray-500 text-sm gap-2">
+      <main className="min-h-screen bg-[#F5F9FC] flex items-center justify-center text-gray-500 text-sm gap-2">
         <Loader2 size={16} className="animate-spin" />
         Memuat profil…
       </main>
@@ -71,7 +71,7 @@ export default function StudentProfilPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F4F7F4] font-sans text-gray-800 p-6 md:p-12 relative overflow-hidden">
+    <main className="min-h-screen bg-[#F5F9FC] font-sans text-gray-800 p-6 md:p-12 relative overflow-hidden">
       <div
         className="fixed inset-0 z-0 opacity-[0.02] pointer-events-none"
         style={{
@@ -85,13 +85,13 @@ export default function StudentProfilPage() {
           <div>
             <Link
               href="/student-dashboard"
-              className="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-emerald-900/70 hover:text-emerald-900 mb-4"
+              className="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-raftel-900/70 hover:text-raftel-900 mb-4"
             >
               <ArrowLeft size={14} />
               Kembali ke dashboard
             </Link>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 border border-emerald-900/20 flex items-center justify-center text-emerald-900 bg-white">
+              <div className="w-12 h-12 border border-raftel-900/20 flex items-center justify-center text-raftel-900 bg-white">
                 <UserRound size={24} strokeWidth={1.5} />
               </div>
               <div>
@@ -105,14 +105,14 @@ export default function StudentProfilPage() {
         </header>
 
         {cvNotFound ? (
-          <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-emerald-50/80 border border-emerald-200/80 px-4 py-3 text-sm text-emerald-900">
+          <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-raftel-50/80 border border-raftel-200/80 px-4 py-3 text-sm text-raftel-900">
             <p>
               <span className="font-semibold">Data diri belum tersedia:</span> Data Anda belum ditemukan di server —{' '}
               isi form data diri terlebih dahulu untuk menampilkan data lengkap.
             </p>
             <Link
               href="/student-dashboard/cv-form"
-              className="shrink-0 text-xs tracking-widest uppercase font-semibold text-emerald-900 hover:underline"
+              className="shrink-0 text-xs tracking-widest uppercase font-semibold text-raftel-900 hover:underline"
             >
               Buka form data diri
             </Link>
@@ -138,7 +138,7 @@ export default function StudentProfilPage() {
                 <button
                   type="button"
                   onClick={handleDownloadMcu}
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xs tracking-widest uppercase border border-emerald-700 text-emerald-700 hover:bg-emerald-700 hover:text-white transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xs tracking-widest uppercase border border-raftel-700 text-raftel-700 hover:bg-raftel-700 hover:text-white transition-colors"
                 >
                   <Download size={14} />
                   Download Hasil MCU
