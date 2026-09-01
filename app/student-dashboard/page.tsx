@@ -91,7 +91,7 @@ export default function StudentDashboardPage() {
   }, [menuOpen, closeMenu]);
 
   return (
-    <main className="min-h-screen bg-[#FDFBF7] font-sans text-gray-800 p-6 md:p-12 relative overflow-hidden">
+    <main className="min-h-screen bg-[#F5F9FC] font-sans text-gray-800 p-6 md:p-12 relative overflow-hidden">
       <div
         className="fixed inset-0 z-0 opacity-[0.02] pointer-events-none"
         style={{

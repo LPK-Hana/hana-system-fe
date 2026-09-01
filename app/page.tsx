@@ -61,7 +61,7 @@ export default function HomePage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#FDFBF7] flex items-center justify-center p-6 relative overflow-hidden font-sans text-gray-800">
+    <main className="min-h-screen bg-[#F5F9FC] flex items-center justify-center p-6 relative overflow-hidden font-sans text-gray-800">
       <div
         className="fixed inset-0 z-0 opacity-[0.03] pointer-events-none"
         style={{

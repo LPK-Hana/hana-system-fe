@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #F5F9FC;
   --foreground: #171717;
   --raftel-accent: #2196F3;
 }
@@ -24,13 +24,6 @@
   --color-raftel-800: #1976D2;
   --color-raftel-900: #1565C0;
   --color-raftel-950: #0D47A1;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

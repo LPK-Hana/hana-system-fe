@@ -99,7 +99,7 @@ export default function AdminDashboardMainPage() {
   }, [menuOpen, closeMenu]);
 
   return (
-    <main className="h-dvh bg-[#FDFBF7] font-sans text-gray-800 p-4 md:p-8 relative overflow-hidden flex flex-col">
+    <main className="h-dvh bg-[#F5F9FC] font-sans text-gray-800 p-4 md:p-8 relative overflow-hidden flex flex-col">
       <div
         className="fixed inset-0 z-0 opacity-[0.02] pointer-events-none"
         style={{

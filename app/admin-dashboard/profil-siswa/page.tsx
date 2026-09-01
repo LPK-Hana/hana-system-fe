@@ -739,7 +739,7 @@ export default function ProfilSiswaPage() {
   };
 
   return (
-    <main className="h-screen overflow-hidden flex flex-col bg-[#FDFBF7] font-sans text-gray-800 p-3 md:p-4 relative">
+    <main className="h-screen overflow-hidden flex flex-col bg-[#F5F9FC] font-sans text-gray-800 p-3 md:p-4 relative">
       {isLoading && <LoadingOverlay text="MEMUAT DATA..." fixed={true} />}
       {/* Header Area */}
       <header className="shrink-0 mb-3 flex flex-col md:flex-row md:items-center justify-between gap-3">

@@ -2,6 +2,7 @@
 
 import { saveAuthSession } from '@/lib/auth';
 import { clearKkDemo } from '@/lib/kk-demo-storage';
+import { GURU_HOME_PATH } from '@/lib/roles';
 
 import { DEMO_STUDENT_USERNAME } from '@/lib/nim';
 
@@ -44,7 +45,7 @@ const DEMO_PROFILES: Record<
     displayName: 'Pak Andi Wijaya',
     userName: 'guru',
     authRole: 'guru',
-    redirect: '/guru-dashboard',
+    redirect: GURU_HOME_PATH,
     userId: 50,
   },
   guest: {

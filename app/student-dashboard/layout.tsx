@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getServerSessionRole } from '@/lib/server-session';
+import { GURU_HOME_PATH } from '@/lib/roles';
 
 export default async function StudentDashboardLayout({
   children,
@@ -19,7 +20,7 @@ export default async function StudentDashboardLayout({
         : role === 'guest'
           ? '/cust-page'
           : role === 'guru'
-            ? '/guru-dashboard'
+            ? GURU_HOME_PATH
             : '/super-admin',
     );
   }

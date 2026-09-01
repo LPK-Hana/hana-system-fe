@@ -1,5 +1,6 @@
 /** Selaras dengan masa berlaku JWT di backend (24 jam). */
 import { isDemoModeClient } from '@/lib/demo-mode';
+import { GURU_HOME_PATH } from '@/lib/roles';
 
 const ONE_DAY_SECONDS = 60 * 60 * 24;
 
@@ -134,7 +135,7 @@ export function getDashboardPathForRole(): string {
   }
   const role = localStorage.getItem("auth_role");
   if (role === "admin") return "/admin-dashboard/dashboard";
-  if (role === "guru") return "/guru-dashboard";
+  if (role === "guru") return GURU_HOME_PATH;
   if (role === "guest") return "/cust-page";
   return "/student-dashboard";
 }
@@ -191,6 +192,11 @@ export const getAuthUserId = () => {
   const raw = localStorage.getItem("auth_user_id");
   const n = raw ? parseInt(raw, 10) : NaN;
   return Number.isFinite(n) && n > 0 ? n : 0;
+};
+
+export const getAuthRole = () => {
+  if (typeof window === "undefined") return "";
+  return localStorage.getItem("auth_role") || "";
 };
 
 export const getAuthDisplayName = () => {

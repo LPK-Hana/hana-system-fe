@@ -308,7 +308,7 @@ export default function KartuKeluargaPage() {
   }
 
   return (
-    <main className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50/50 font-sans text-slate-800 pb-20 lg:pb-0 flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
+    <main className="min-h-screen lg:h-screen lg:overflow-hidden bg-[#F5F9FC] font-sans text-slate-800 pb-20 lg:pb-0 flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
       <Header
         viewLanguage={viewLanguage}
         setViewLanguage={setViewLanguage}

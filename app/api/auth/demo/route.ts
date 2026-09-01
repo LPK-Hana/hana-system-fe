@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { isDemoMode } from '@/lib/demo-mode';
 import { signToken } from '@/lib/jwt';
 import { DEMO_STUDENT_USERNAME } from '@/lib/demo/seed';
+import { GURU_HOME_PATH } from '@/lib/roles';
 
 export type DemoRole = 'student' | 'admin' | 'superadmin' | 'guest' | 'guru';
 
@@ -56,7 +57,7 @@ const DEMO_PROFILES: Record<
     displayName: 'Pak Andi Wijaya',
     userName: 'guru',
     authRole: 'guru',
-    redirect: '/guru-dashboard',
+    redirect: GURU_HOME_PATH,
   },
   guest: {
     tokenPayload: { guest_id: 1, user_name: 'guest', is_admin: 0 },

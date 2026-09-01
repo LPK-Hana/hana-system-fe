@@ -2,7 +2,8 @@
 
 import { useMemo, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Search, Filter, Download, BookOpen, Pencil, Calculator, ChevronDown, Award } from 'lucide-react';
+import { ArrowLeft, Search, Filter, Download, BookOpen, Pencil, Calculator, ChevronDown, Award, LogOut } from 'lucide-react';
+import { exitToHome, getAuthRole } from '@/lib/auth';
 import LoadingOverlay from '@/components/LoadingOverlay';
 import StickyHorizontalScroll from '@/components/StickyHorizontalScroll';
 import ProgressEditModal from './components/ProgressEditModal';
@@ -93,6 +94,11 @@ export default function ProgressBelajarPage() {
   const [draftRow, setDraftRow] = useState<ProgressRow | null>(null);
   const [activeAspect, setActiveAspect] = useState<AspectKey>('kotoba');
   const [selectedClass, setSelectedClass] = useState<string>('Semua Kelas');
+  const [isGuru, setIsGuru] = useState(false);
+
+  useEffect(() => {
+    setIsGuru(getAuthRole() === 'guru');
+  }, []);
 
   useEffect(() => {
     const savedClass = localStorage.getItem('progressBelajar_selectedClass');
@@ -364,16 +370,27 @@ export default function ProgressBelajarPage() {
   const tableNeedsVerticalScroll = pageSize > 10;
 
   return (
-    <main className="h-screen overflow-hidden flex flex-col bg-[#FDFBF7] font-sans text-gray-800 p-3 md:p-4 relative">
+    <main className="h-screen overflow-hidden flex flex-col bg-[#F5F9FC] font-sans text-gray-800 p-3 md:p-4 relative">
       {isLoading && <LoadingOverlay text="MEMUAT DATA..." fixed={true} />}
       <header className="shrink-0 mb-3 flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div className="flex items-center gap-4">
-          <Link
-            href="/admin-dashboard/dashboard"
-            className="p-3 bg-transparent hover:bg-gray-200/50 transition-colors border border-gray-300 text-gray-500 hover:text-gray-900"
-          >
-            <ArrowLeft size={20} strokeWidth={1.5} />
-          </Link>
+          {isGuru ? (
+            <button
+              type="button"
+              onClick={() => exitToHome()}
+              title="Keluar"
+              className="p-3 bg-transparent hover:bg-red-800 hover:border-red-800 hover:text-white transition-colors border border-gray-300 text-gray-500"
+            >
+              <LogOut size={20} strokeWidth={1.5} />
+            </button>
+          ) : (
+            <Link
+              href="/admin-dashboard/dashboard"
+              className="p-3 bg-transparent hover:bg-gray-200/50 transition-colors border border-gray-300 text-gray-500 hover:text-gray-900"
+            >
+              <ArrowLeft size={20} strokeWidth={1.5} />
+            </Link>
+          )}
           <div>
             <div className="flex items-center gap-3">
               <BookOpen className="text-raftel-900" size={28} strokeWidth={1.5} />

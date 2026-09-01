@@ -3,6 +3,7 @@ import { getSessionRoleFromPayload, verifyTokenEdge } from "@/lib/jwt-edge";
 import {
   ADMIN_HUB_PATH,
   GURU_ALLOWED_PATH_PREFIXES,
+  GURU_HOME_PATH,
   isAdminAllowedPath,
   isGuruAllowedAdminPath,
   isShachouAllowedPath,
@@ -127,7 +128,7 @@ export async function middleware(request: NextRequest) {
       return nextWithPathname(request, pathname);
     }
     const url = request.nextUrl.clone();
-    url.pathname = "/guru-dashboard";
+    url.pathname = GURU_HOME_PATH;
     url.search = "";
     return NextResponse.redirect(url);
   }

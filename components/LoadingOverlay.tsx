@@ -15,7 +15,7 @@ export default function LoadingOverlay({ text = 'MEMUAT DATA...', fixed = false 
     <div
       role="status"
       aria-live="polite"
-      className={`${positionClass} flex flex-col items-center justify-center bg-[#FDFBF7]/80 backdrop-blur-[2px]`}
+      className={`${positionClass} flex flex-col items-center justify-center bg-[#F5F9FC]/80 backdrop-blur-[2px]`}
       style={{
         animation: 'fadeInOverlay 150ms ease-out forwards',
       }}
