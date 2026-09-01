@@ -245,7 +245,7 @@ export default function ExportExcelModal({
       <div className="relative z-10 w-full max-w-lg bg-white border border-gray-200 shadow-2xl flex flex-col">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-gray-50">
           <div className="flex items-center gap-2">
-            <FileSpreadsheet className="text-emerald-600" size={20} />
+            <FileSpreadsheet className="text-raftel-600" size={20} />
             <h2 className="text-xl font-serif text-gray-900">Export Rekap Excel</h2>
           </div>
           <button onClick={onClose} className="p-2 border border-gray-200 text-gray-500 hover:text-gray-900 hover:border-gray-400 transition-colors">
@@ -270,7 +270,7 @@ export default function ExportExcelModal({
                     setSpecificStudent(rows[0].no_peserta);
                   }
                 }}
-                className="mt-2 w-full border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
+                className="mt-2 w-full border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-raftel-500 cursor-pointer"
               >
                 <option value="Semua">Semua Siswa ({rows.length} siswa)</option>
                 {uniqueAngkatan.map(c => (
@@ -286,7 +286,7 @@ export default function ExportExcelModal({
                 <select
                   value={specificStudent}
                   onChange={(e) => setSpecificStudent(e.target.value)}
-                  className="mt-2 w-full border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
+                  className="mt-2 w-full border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-raftel-500 cursor-pointer"
                 >
                   {rows.map(r => (
                     <option key={r.no_peserta} value={r.no_peserta}>{r.no_peserta} - {r.nama_lengkap}</option>
@@ -295,8 +295,8 @@ export default function ExportExcelModal({
               </label>
             )}
 
-            <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-sm">
-              <p className="text-xs text-emerald-700">
+            <div className="p-3 bg-raftel-50 border border-raftel-200 rounded-sm">
+              <p className="text-xs text-raftel-700">
                 <span className="font-semibold">Format output:</span>{' '}
                 {exportMode === 'Gabung'
                   ? 'File Excel (.xlsx) — 1 file dengan masing-masing siswa di sheet terpisah.'
@@ -310,7 +310,7 @@ export default function ExportExcelModal({
                 <button
                   type="button"
                   onClick={() => setExportMode('Gabung')}
-                  className={`py-2 px-3 text-sm border text-center transition-colors ${exportMode === 'Gabung' ? 'bg-emerald-50 border-emerald-500 text-emerald-700 font-medium' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+                  className={`py-2 px-3 text-sm border text-center transition-colors ${exportMode === 'Gabung' ? 'bg-raftel-50 border-raftel-500 text-raftel-700 font-medium' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'}`}
                 >
                   1 File Gabungan
                 </button>
@@ -318,7 +318,7 @@ export default function ExportExcelModal({
                   type="button"
                   onClick={() => setExportMode('Pisah')}
                   disabled={exportTarget === 'Spesifik'}
-                  className={`py-2 px-3 text-sm border text-center transition-colors ${exportMode === 'Pisah' ? 'bg-emerald-50 border-emerald-500 text-emerald-700 font-medium' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'} disabled:opacity-50 disabled:cursor-not-allowed`}
+                  className={`py-2 px-3 text-sm border text-center transition-colors ${exportMode === 'Pisah' ? 'bg-raftel-50 border-raftel-500 text-raftel-700 font-medium' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'} disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
                   1 File per Siswa
                 </button>
@@ -334,7 +334,7 @@ export default function ExportExcelModal({
           <button
             onClick={handleExport}
             disabled={isExporting}
-            className="flex items-center gap-2 px-5 py-2.5 text-xs tracking-widest uppercase bg-emerald-600 text-white hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-5 py-2.5 text-xs tracking-widest uppercase bg-raftel-600 text-white hover:bg-raftel-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Download size={14} />
             {isExporting ? 'Memproses...' : 'Download Excel'}

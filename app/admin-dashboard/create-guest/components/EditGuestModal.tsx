@@ -92,7 +92,7 @@ export default function EditGuestModal({
               type="text"
               value={editUserName}
               onChange={(e) => setEditUserName(e.target.value.toUpperCase())}
-              className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-emerald-800 transition-colors text-sm font-mono placeholder:text-gray-400 uppercase"
+              className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-raftel-800 transition-colors text-sm font-mono placeholder:text-gray-400 uppercase"
               placeholder="Masukkan Username / NIM baru..."
               required
             />
@@ -106,7 +106,7 @@ export default function EditGuestModal({
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-emerald-800 transition-colors text-sm font-medium text-gray-900 placeholder:text-gray-400"
+              className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-raftel-800 transition-colors text-sm font-medium text-gray-900 placeholder:text-gray-400"
               placeholder="Masukkan nama baru..."
               required
               autoFocus
@@ -125,7 +125,7 @@ export default function EditGuestModal({
             <button
               type="submit"
               disabled={isSaving || !name.trim() || !editUserName.trim() || (name === initialName && editUserName === userName)}
-              className="flex items-center gap-2 px-5 py-2.5 bg-emerald-900 border border-emerald-900 text-xs tracking-wider uppercase text-white hover:bg-emerald-950 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-5 py-2.5 bg-raftel-900 border border-raftel-900 text-xs tracking-wider uppercase text-white hover:bg-raftel-950 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save size={16} strokeWidth={1.5} />
               {isSaving ? 'Menyimpan…' : 'Simpan Perubahan'}

@@ -67,7 +67,7 @@ function Row({ label, value }: { label: string; value: any }) {
 
 function SectionTitle({ children }: { children: ReactNode }) {
   return (
-    <h3 className="text-xs font-semibold tracking-[0.2em] uppercase text-emerald-900/80 mb-4 pb-2 border-b border-emerald-900/10">
+    <h3 className="text-xs font-semibold tracking-[0.2em] uppercase text-raftel-900/80 mb-4 pb-2 border-b border-raftel-900/10">
       {children}
     </h3>
   );
@@ -128,7 +128,7 @@ export default function ProfileCvSections({ data }: { data: CVData }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   download
-                  className="inline-flex items-center gap-1.5 text-xs tracking-widest uppercase border border-emerald-700 text-emerald-700 hover:bg-emerald-700 hover:text-white transition-colors px-3 py-1.5"
+                  className="inline-flex items-center gap-1.5 text-xs tracking-widest uppercase border border-raftel-700 text-raftel-700 hover:bg-raftel-700 hover:text-white transition-colors px-3 py-1.5"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
                   Download
@@ -238,7 +238,7 @@ export default function ProfileCvSections({ data }: { data: CVData }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       download
-                      className="inline-flex items-center gap-1.5 text-xs tracking-widest uppercase border border-emerald-700 text-emerald-700 hover:bg-emerald-700 hover:text-white transition-colors px-3 py-1.5"
+                      className="inline-flex items-center gap-1.5 text-xs tracking-widest uppercase border border-raftel-700 text-raftel-700 hover:bg-raftel-700 hover:text-white transition-colors px-3 py-1.5"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
                       Download Lampiran

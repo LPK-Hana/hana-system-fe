@@ -1,4 +1,4 @@
-import suratTanggunganJpTemplate from '@/app/admin-dashboard/contoh-data/template/Surat_Tanggungan_Jepang.lpk-hana-template-update-1.json';
+import suratTanggunganJpTemplate from '@/app/admin-dashboard/contoh-data/template/Surat_Tanggungan_Jepang.lpk-raftel-template-update-1.json';
 import type { SuratTanggunganFormData } from '../types/suratTanggunganTypes';
 import { keepRomanji } from './translations';
 
@@ -142,7 +142,12 @@ function replaceVillageLine(html: string, villageNameJp: string): string {
 
 function replaceJpDatePlaceholder(html: string, value: string): string {
   if (!value) return html;
-  return html.replace(/:\s*(?:&nbsp;|\s)*年　月　日/i, `: ${escapeHtml(value)}`);
+  const safe = escapeHtml(value);
+  // Template: `:&nbsp;<span ...>&nbsp;年　月　日</span>` — span/nbsp memutus regex lama.
+  return html.replace(
+    /(:\s*(?:&nbsp;|\s)*(?:<span[^>]*>)?)(?:&nbsp;|\s)*年[　\s]*月[　\s]*日/,
+    `$1${safe}`,
+  );
 }
 
 /** Ganti 発行日：… — placeholder kosong ATAU contoh tanggal di template */
@@ -158,7 +163,7 @@ function replaceNIKValue(html: string, nik: string): string {
   if (!nik) return html;
   return html.replace(
     /(身分証明書番号[\s\S]*?<td[^>]*>\s*<p>\s*:\s*)(?:&nbsp;|\s)*(<\/p>)/i,
-    `$1${escapeHtml(nik)}$2`,
+    `$1 ${escapeHtml(nik)}$2`,
   );
 }
 

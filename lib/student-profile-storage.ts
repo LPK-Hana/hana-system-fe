@@ -11,7 +11,7 @@ export type StoredStudentProfile = {
   updatedAt: string;
 };
 
-const STORAGE_VERSION = 'hana_student_profile_v1';
+const STORAGE_VERSION = 'raftel_student_profile_v1';
 
 function storageKey(): string {
   if (typeof window === 'undefined') return STORAGE_VERSION;

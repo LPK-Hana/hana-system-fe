@@ -169,7 +169,7 @@ export default function StepMetaInfo({
                 <label
                   htmlFor="foto-upload"
                   title={TOOLTIP_PHOTO_UPLOAD}
-                  className="cursor-pointer px-4 py-2 text-sm bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition font-medium text-center w-full"
+                  className="cursor-pointer px-4 py-2 text-sm bg-raftel-600 text-white rounded-xl hover:bg-raftel-700 transition font-medium text-center w-full"
                 >
                   Upload Foto
                 </label>
@@ -195,7 +195,7 @@ export default function StepMetaInfo({
                         type="button"
                         title={p.label}
                         onClick={() => setFotoPreviewSrc(p.src)}
-                        className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-700 hover:border-emerald-400 hover:bg-emerald-50/80 transition"
+                        className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-700 hover:border-raftel-400 hover:bg-raftel-50/80 transition"
                       >
                         <span className="relative w-6 h-8 overflow-hidden rounded border border-slate-200 bg-slate-100 shrink-0">
                           <Image src={p.src} alt="" width={24} height={32} className="object-cover object-top" unoptimized />
@@ -235,7 +235,7 @@ export default function StepMetaInfo({
                   setDokumen(field.key, file?.name || '');
                   onDokumenFileChange?.(field.key, file);
                 }}
-                className="w-full border rounded-xl px-4 py-3 text-sm text-slate-900 bg-white border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition file:mr-3 file:border-0 file:bg-emerald-50 file:text-emerald-700 file:px-3 file:py-1.5 file:rounded-lg file:cursor-pointer"
+                className="w-full border rounded-xl px-4 py-3 text-sm text-slate-900 bg-white border-slate-200 focus:outline-none focus:ring-2 focus:ring-raftel-500 focus:border-transparent transition file:mr-3 file:border-0 file:bg-raftel-50 file:text-raftel-700 file:px-3 file:py-1.5 file:rounded-lg file:cursor-pointer"
               />
               <p className="text-xs text-slate-500">
                 {dokumen[field.key] ? `Terpilih: ${dokumen[field.key]}` : 'Belum ada file dipilih'}
@@ -258,7 +258,7 @@ export default function StepMetaInfo({
                 readOnly={noPesertaLocked}
                 title={noPesertaLocked ? 'Terisi otomatis dari username akun yang login (read-only)' : undefined}
                 placeholder={`${NIM_PREFIX}...`}
-                className={`w-full border rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:border-transparent transition ${noPesertaLocked ? 'bg-slate-50 cursor-default text-slate-700' : 'bg-white'} ${errors['no_peserta'] ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-emerald-500'}`}
+                className={`w-full border rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:border-transparent transition ${noPesertaLocked ? 'bg-slate-50 cursor-default text-slate-700' : 'bg-white'} ${errors['no_peserta'] ? 'border-red-400 focus:ring-red-400' : 'border-slate-200 focus:ring-raftel-500'}`}
               />
             </div>
             <div className="w-fit shrink-0 text-center mx-auto sm:mx-0">
@@ -309,7 +309,7 @@ export default function StepMetaInfo({
                 value={info.nama_katakana}
                 onChange={(e) => setInfo('nama_katakana', e.target.value)}
                 placeholder="Contoh: ジダン・プラタマ"
-                className="flex-1 border rounded-xl px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition bg-white border-slate-200"
+                className="flex-1 border rounded-xl px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-raftel-500 focus:border-transparent transition bg-white border-slate-200"
               />
               <button
                 type="button"
@@ -364,7 +364,7 @@ export default function StepMetaInfo({
                   'focus:outline-none focus:ring-2 focus:border-transparent transition ' +
                   (errors['nomor_telepon']
                     ? 'border-red-400 focus:ring-red-400'
-                    : 'border-slate-200 focus:ring-emerald-500')
+                    : 'border-slate-200 focus:ring-raftel-500')
                 }
               >
                 {KODE_NEGARA.map((k) => (
@@ -382,7 +382,7 @@ export default function StepMetaInfo({
                   'focus:border-transparent transition bg-white ' +
                   (errors['nomor_telepon']
                     ? 'border-red-400 focus:ring-red-400'
-                    : 'border-slate-200 focus:ring-emerald-500')
+                    : 'border-slate-200 focus:ring-raftel-500')
                 }
               />
             </div>

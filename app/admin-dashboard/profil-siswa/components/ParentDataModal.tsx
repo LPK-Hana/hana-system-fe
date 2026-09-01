@@ -56,7 +56,7 @@ export default function ParentDataModal({ studentName, keluarga, onClose }: Pare
         </div>
         
         <div className="px-6 py-4 border-t border-gray-200 bg-white flex justify-end">
-          <button onClick={onClose} className="px-5 py-2.5 text-xs tracking-widest uppercase bg-emerald-700 text-white hover:bg-emerald-800 transition-colors">
+          <button onClick={onClose} className="px-5 py-2.5 text-xs tracking-widest uppercase bg-raftel-700 text-white hover:bg-raftel-800 transition-colors">
             Tutup
           </button>
         </div>

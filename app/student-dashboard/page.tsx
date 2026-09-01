@@ -91,11 +91,11 @@ export default function StudentDashboardPage() {
   }, [menuOpen, closeMenu]);
 
   return (
-    <main className="min-h-screen bg-[#FDFBF7] font-sans text-gray-800 p-6 md:p-12 relative overflow-hidden">
+    <main className="min-h-screen bg-[#F5F9FC] font-sans text-gray-800 p-6 md:p-12 relative overflow-hidden">
       <div
         className="fixed inset-0 z-0 opacity-[0.02] pointer-events-none"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046 8.954-20 20-20v2c-9.941 0-18 8.059-18 18s8.059 18 18 18v2c-11.046 0-20-8.954-20-20zm-20 0c0-11.046 8.954-20 20-20v2C10.059 2 2 10.059 2 20s8.059 18 18 18v2c-11.046 0-20-8.954-20-20z' fill='%23047857' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-11.046 8.954-20 20-20v2c-9.941 0-18 8.059-18 18s8.059 18 18 18v2c-11.046 0-20-8.954-20-20zm-20 0c0-11.046 8.954-20 20-20v2C10.059 2 2 10.059 2 20s8.059 18 18 18v2c-11.046 0-20-8.954-20-20z' fill='%232196F3' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
           backgroundSize: '40px 40px',
         }}
       />
@@ -163,14 +163,14 @@ export default function StudentDashboardPage() {
         <div className="mt-8 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 lg:gap-12">
           <Link
             href="/student-dashboard/cv-form"
-            className="group block relative bg-white no-underline text-inherit p-5 md:p-10 lg:p-14 border border-gray-200/60 hover:border-emerald-900/30 transition-colors duration-700 ease-out overflow-hidden"
+            className="group block relative bg-white no-underline text-inherit p-5 md:p-10 lg:p-14 border border-gray-200/60 hover:border-raftel-900/30 transition-colors duration-700 ease-out overflow-hidden"
           >
-            <div className="absolute inset-0 bg-emerald-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
+            <div className="absolute inset-0 bg-raftel-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
-              <div className="w-10 h-10 md:w-14 md:h-14 border border-emerald-900/20 flex items-center justify-center mb-3 md:mb-5 text-emerald-900 bg-white group-hover:bg-emerald-900 group-hover:text-white transition-colors duration-500 ease-out">
+              <div className="w-10 h-10 md:w-14 md:h-14 border border-raftel-900/20 flex items-center justify-center mb-3 md:mb-5 text-raftel-900 bg-white group-hover:bg-raftel-900 group-hover:text-white transition-colors duration-500 ease-out">
                 <FileText className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
               </div>
-              <h2 className="text-sm md:text-xl lg:text-2xl font-serif text-gray-900 tracking-wide group-hover:text-emerald-950 transition-colors duration-500">
+              <h2 className="text-sm md:text-xl lg:text-2xl font-serif text-gray-900 tracking-wide group-hover:text-raftel-950 transition-colors duration-500">
                 Data Diri
               </h2>
             </div>
@@ -178,14 +178,14 @@ export default function StudentDashboardPage() {
 
           <Link
             href="/student-dashboard/profil"
-            className="group block relative bg-white no-underline text-inherit p-5 md:p-10 lg:p-14 border border-gray-200/60 hover:border-emerald-900/30 transition-colors duration-700 ease-out overflow-hidden"
+            className="group block relative bg-white no-underline text-inherit p-5 md:p-10 lg:p-14 border border-gray-200/60 hover:border-raftel-900/30 transition-colors duration-700 ease-out overflow-hidden"
           >
-            <div className="absolute inset-0 bg-emerald-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
+            <div className="absolute inset-0 bg-raftel-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
-              <div className="w-10 h-10 md:w-14 md:h-14 border border-emerald-900/20 flex items-center justify-center mb-3 md:mb-5 text-emerald-900 bg-white group-hover:bg-emerald-900 group-hover:text-white transition-colors duration-500 ease-out">
+              <div className="w-10 h-10 md:w-14 md:h-14 border border-raftel-900/20 flex items-center justify-center mb-3 md:mb-5 text-raftel-900 bg-white group-hover:bg-raftel-900 group-hover:text-white transition-colors duration-500 ease-out">
                 <UserRound className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
               </div>
-              <h2 className="text-sm md:text-xl lg:text-2xl font-serif text-gray-900 tracking-wide group-hover:text-emerald-950 transition-colors duration-500">
+              <h2 className="text-sm md:text-xl lg:text-2xl font-serif text-gray-900 tracking-wide group-hover:text-raftel-950 transition-colors duration-500">
                 Profil
               </h2>
             </div>
@@ -193,14 +193,14 @@ export default function StudentDashboardPage() {
 
           <Link
             href="/student-dashboard/kartu-keluarga"
-            className="group block relative bg-white no-underline text-inherit p-5 md:p-10 lg:p-14 border border-gray-200/60 hover:border-emerald-900/30 transition-colors duration-700 ease-out overflow-hidden"
+            className="group block relative bg-white no-underline text-inherit p-5 md:p-10 lg:p-14 border border-gray-200/60 hover:border-raftel-900/30 transition-colors duration-700 ease-out overflow-hidden"
           >
-            <div className="absolute inset-0 bg-emerald-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
+            <div className="absolute inset-0 bg-raftel-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
-              <div className="w-10 h-10 md:w-14 md:h-14 border border-emerald-900/20 flex items-center justify-center mb-3 md:mb-5 text-emerald-900 bg-white group-hover:bg-emerald-900 group-hover:text-white transition-colors duration-500 ease-out">
+              <div className="w-10 h-10 md:w-14 md:h-14 border border-raftel-900/20 flex items-center justify-center mb-3 md:mb-5 text-raftel-900 bg-white group-hover:bg-raftel-900 group-hover:text-white transition-colors duration-500 ease-out">
                 <Users className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
               </div>
-              <h2 className="text-sm md:text-xl lg:text-2xl font-serif text-gray-900 tracking-wide group-hover:text-emerald-950 transition-colors duration-500">
+              <h2 className="text-sm md:text-xl lg:text-2xl font-serif text-gray-900 tracking-wide group-hover:text-raftel-950 transition-colors duration-500">
                 Kartu Keluarga
               </h2>
             </div>
@@ -208,14 +208,14 @@ export default function StudentDashboardPage() {
 
           <Link
             href="/student-dashboard/peminatan"
-            className="group block relative bg-white no-underline text-inherit p-5 md:p-10 lg:p-14 border border-gray-200/60 hover:border-emerald-900/30 transition-colors duration-700 ease-out overflow-hidden"
+            className="group block relative bg-white no-underline text-inherit p-5 md:p-10 lg:p-14 border border-gray-200/60 hover:border-raftel-900/30 transition-colors duration-700 ease-out overflow-hidden"
           >
-            <div className="absolute inset-0 bg-emerald-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
+            <div className="absolute inset-0 bg-raftel-50/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] z-0" />
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
-              <div className="w-10 h-10 md:w-14 md:h-14 border border-emerald-900/20 flex items-center justify-center mb-3 md:mb-5 text-emerald-900 bg-white group-hover:bg-emerald-900 group-hover:text-white transition-colors duration-500 ease-out">
+              <div className="w-10 h-10 md:w-14 md:h-14 border border-raftel-900/20 flex items-center justify-center mb-3 md:mb-5 text-raftel-900 bg-white group-hover:bg-raftel-900 group-hover:text-white transition-colors duration-500 ease-out">
                 <Target className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
               </div>
-              <h2 className="text-sm md:text-xl lg:text-2xl font-serif text-gray-900 tracking-wide group-hover:text-emerald-950 transition-colors duration-500">
+              <h2 className="text-sm md:text-xl lg:text-2xl font-serif text-gray-900 tracking-wide group-hover:text-raftel-950 transition-colors duration-500">
                 Peminatan
               </h2>
             </div>

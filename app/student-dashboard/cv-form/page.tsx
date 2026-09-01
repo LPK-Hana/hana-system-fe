@@ -904,7 +904,7 @@ export default function CVFormPage() {
                   <ArrowLeft size={14} /> Kembali
                 </Link>
                 <div className="flex items-center gap-1.5 min-w-0">
-                  <CheckCircle2 size={16} className="shrink-0 text-emerald-500" />
+                  <CheckCircle2 size={16} className="shrink-0 text-raftel-500" />
                   <span className="truncate text-xs font-semibold text-slate-800 sm:text-sm">
                     {data.informasi_dasar.nama_lengkap || 'Kandidat'}
                   </span>
@@ -913,7 +913,7 @@ export default function CVFormPage() {
               <button
                 id="btn-download-pdf"
                 onClick={handleDownloadPDF}
-                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-emerald-600 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700 sm:px-3 sm:py-2 sm:text-sm"
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-raftel-600 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-raftel-700 sm:px-3 sm:py-2 sm:text-sm"
               >
                 <FileDown size={14} /> PDF
               </button>
@@ -924,7 +924,7 @@ export default function CVFormPage() {
                 <label
                   className={`flex cursor-pointer items-start gap-3 rounded-xl border-2 p-3 transition-colors sm:gap-4 sm:p-4 ${
                     isDataValid
-                      ? 'border-emerald-500 bg-emerald-50'
+                      ? 'border-raftel-500 bg-raftel-50'
                       : 'border-amber-300 bg-amber-50'
                   }`}
                 >
@@ -932,7 +932,7 @@ export default function CVFormPage() {
                     type="checkbox"
                     checked={isDataValid}
                     onChange={(e) => setIsDataValid(e.target.checked)}
-                    className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 sm:h-6 sm:w-6"
+                    className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded border-slate-300 text-raftel-600 focus:ring-raftel-500 sm:h-6 sm:w-6"
                   />
                   <div className="min-w-0">
                     <span className="block text-sm font-semibold text-slate-800 sm:text-base">
@@ -961,7 +961,7 @@ export default function CVFormPage() {
                     className={`inline-flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white transition-colors ${
                       !isDataValid || isUploading
                         ? 'cursor-not-allowed bg-slate-400'
-                        : 'bg-emerald-600 hover:bg-emerald-700'
+                        : 'bg-raftel-600 hover:bg-raftel-700'
                     }`}
                   >
                     {isUploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
@@ -1024,7 +1024,7 @@ export default function CVFormPage() {
 
   if (isLoadingCV) {
     return (
-      <main className="min-h-screen bg-[#F4F7F4] flex items-center justify-center text-gray-500 text-sm gap-2">
+      <main className="min-h-screen bg-[#F5F9FC] flex items-center justify-center text-gray-500 text-sm gap-2">
         <Loader2 size={16} className="animate-spin" />
         Memuat data CV...
       </main>
@@ -1035,7 +1035,7 @@ export default function CVFormPage() {
   const errorCount = Object.keys(errors).length;
 
   return (
-    <div className="min-h-screen bg-[#F4F7F4] flex font-sans text-gray-800 relative z-0">
+    <div className="min-h-screen bg-[#F5F9FC] flex font-sans text-gray-800 relative z-0">
       {/* Decorative Wagara Background */}
       <div 
         className="fixed inset-0 z-[-1] opacity-[0.03] pointer-events-none"
@@ -1063,9 +1063,9 @@ export default function CVFormPage() {
             key={s.id}
             onClick={() => { setErrors({}); setStep(s.id); }}
             className={`flex items-center gap-4 px-4 py-3 text-left transition-colors duration-500 border-l-2 ${step === s.id
-                ? 'bg-emerald-50/50 border-emerald-800 text-emerald-900'
+                ? 'bg-raftel-50/50 border-raftel-800 text-raftel-900'
                 : step > s.id
-                  ? 'border-green-600 bg-transparent text-green-700'
+                  ? 'border-raftel-600 bg-transparent text-raftel-700'
                   : 'border-transparent text-gray-500 hover:bg-gray-50'
               }`}
           >
@@ -1101,7 +1101,7 @@ export default function CVFormPage() {
           </div>
           <div className="h-1 bg-gray-200 w-full rounded-full">
             <div
-              className="h-1 bg-emerald-800 transition-all duration-700 ease-in-out rounded-full"
+              className="h-1 bg-raftel-800 transition-all duration-700 ease-in-out rounded-full"
               style={{ width: `${(step / STEPS.length) * 100}%` }}
             />
           </div>
@@ -1216,7 +1216,7 @@ export default function CVFormPage() {
               {step < STEPS.length ? (
                 <button
                   onClick={tryGoNext}
-                  className="flex items-center gap-1.5 px-4 py-2.5 md:px-6 md:py-3 border border-emerald-900 bg-emerald-900 text-white text-xs tracking-widest uppercase font-semibold hover:bg-emerald-950 transition-colors duration-300"
+                  className="flex items-center gap-1.5 px-4 py-2.5 md:px-6 md:py-3 border border-raftel-900 bg-raftel-900 text-white text-xs tracking-widest uppercase font-semibold hover:bg-raftel-950 transition-colors duration-300"
                 >
                   Selanjutnya <ChevronRight size={16} strokeWidth={1.5} />
                 </button>
@@ -1224,7 +1224,7 @@ export default function CVFormPage() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={handleSubmit}
-                    className="flex items-center gap-1.5 px-4 py-2.5 md:px-6 md:py-3 border border-green-700 bg-green-700 text-white text-xs tracking-widest uppercase font-semibold hover:bg-green-800 transition-colors duration-300"
+                    className="flex items-center gap-1.5 px-4 py-2.5 md:px-6 md:py-3 border border-raftel-700 bg-raftel-700 text-white text-xs tracking-widest uppercase font-semibold hover:bg-raftel-800 transition-colors duration-300"
                   >
                     <CheckCircle2 size={15} strokeWidth={1.5} /> Upload
                   </button>

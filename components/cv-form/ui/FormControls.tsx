@@ -17,7 +17,7 @@ export function FormField({
 }: FormFieldProps) {
   const base =
     'w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 ' +
-    'placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 ' +
+    'placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-raftel-500 ' +
     'focus:border-transparent transition bg-white';
 
   return (
@@ -72,7 +72,7 @@ export function FormSelect({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+        className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 bg-white focus:outline-none focus:ring-2 focus:ring-raftel-500 focus:border-transparent transition"
       >
         <option value="">{placeholder}</option>
         {options.map((opt) => (

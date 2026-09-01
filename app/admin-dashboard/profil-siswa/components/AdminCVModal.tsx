@@ -47,7 +47,7 @@ export default function AdminCVModal({ student, onClose }: AdminCVModalProps) {
           <div className="flex items-center gap-3 shrink-0 self-end sm:self-auto">
             <button
               onClick={handlePrint}
-              className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded hover:bg-emerald-700 transition-colors shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-raftel-600 text-white text-sm font-medium rounded hover:bg-raftel-700 transition-colors shadow-sm"
             >
               <Printer size={16} />
               Export PDF

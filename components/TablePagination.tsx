@@ -70,7 +70,7 @@ export default function TablePagination({
   };
 
   return (
-    <div className="flex flex-col gap-3 border-t border-gray-200 bg-gray-50/80 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-2 border-t border-gray-200 bg-gray-50/80 px-4 py-2 sm:flex-row sm:items-center sm:justify-between">
       <p className="text-xs text-gray-500">
         Menampilkan{' '}
         <span className="font-semibold text-gray-700">{rangeStart}</span>
@@ -90,7 +90,7 @@ export default function TablePagination({
             id="table-page-size"
             value={isCustomPageSize ? 'custom' : String(pageSize)}
             onChange={(e) => handlePresetSelect(e.target.value)}
-            className="h-9 min-w-[88px] border border-gray-300 bg-white px-2 text-sm text-gray-700 focus:border-emerald-700 focus:outline-none"
+            className="h-9 min-w-[88px] border border-gray-300 bg-white px-2 text-sm text-gray-700 focus:border-raftel-700 focus:outline-none"
           >
             {presetPageSizes.map((size) => (
               <option key={size} value={size}>
@@ -105,7 +105,7 @@ export default function TablePagination({
               min={minPageSize}
               value={pageSize}
               onChange={(e) => handleCustomInput(e.target.value)}
-              className="h-9 w-20 border border-gray-300 bg-white px-2 text-sm text-gray-700 focus:border-emerald-700 focus:outline-none"
+              className="h-9 w-20 border border-gray-300 bg-white px-2 text-sm text-gray-700 focus:border-raftel-700 focus:outline-none"
               aria-label="Jumlah baris kustom"
             />
           )}
@@ -119,7 +119,7 @@ export default function TablePagination({
             type="button"
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage <= 1}
-            className="inline-flex h-9 w-9 items-center justify-center border border-gray-300 bg-white text-gray-600 transition-colors hover:border-emerald-700 hover:text-emerald-700 disabled:cursor-not-allowed disabled:opacity-40"
+            className="inline-flex h-9 w-9 items-center justify-center border border-gray-300 bg-white text-gray-600 transition-colors hover:border-raftel-700 hover:text-raftel-700 disabled:cursor-not-allowed disabled:opacity-40"
             aria-label="Halaman sebelumnya"
           >
             <ChevronLeft size={16} />
@@ -137,8 +137,8 @@ export default function TablePagination({
                   onClick={() => onPageChange(page)}
                   className={`inline-flex h-9 min-w-9 items-center justify-center border px-2 text-sm transition-colors ${
                     page === currentPage
-                      ? 'border-emerald-700 bg-emerald-700 text-white'
-                      : 'border-gray-300 bg-white text-gray-700 hover:border-emerald-700 hover:text-emerald-700'
+                      ? 'border-raftel-700 bg-raftel-700 text-white'
+                      : 'border-gray-300 bg-white text-gray-700 hover:border-raftel-700 hover:text-raftel-700'
                   }`}
                 >
                   {page}
@@ -151,7 +151,7 @@ export default function TablePagination({
             type="button"
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage >= totalPages}
-            className="inline-flex h-9 w-9 items-center justify-center border border-gray-300 bg-white text-gray-600 transition-colors hover:border-emerald-700 hover:text-emerald-700 disabled:cursor-not-allowed disabled:opacity-40"
+            className="inline-flex h-9 w-9 items-center justify-center border border-gray-300 bg-white text-gray-600 transition-colors hover:border-raftel-700 hover:text-raftel-700 disabled:cursor-not-allowed disabled:opacity-40"
             aria-label="Halaman berikutnya"
           >
             <ChevronRight size={16} />

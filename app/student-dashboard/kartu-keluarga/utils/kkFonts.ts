@@ -1,4 +1,4 @@
-/** Font stack selaras template Word MS Mincho (LPK Hana). */
+/** Font stack selaras template Word MS Mincho (LPK Raftel). */
 export const KK_FONT_JP =
   '"MS Mincho", "MS 明朝", "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HGMinchoE", var(--font-noto-serif-jp), serif';
 

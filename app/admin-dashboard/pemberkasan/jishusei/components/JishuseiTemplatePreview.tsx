@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Maximize2, Minimize2, ZoomIn, ZoomOut } from 'lucide-react';
-import templateJson from '../template/Template_Dokumen_Jishusei.lpk-hana-template.json';
+import templateJson from '../template/Template_Dokumen_Jishusei.lpk-raftel-template.json';
 
 const A4_W_PX = 794;
 const A4_H_PX = 1123;
@@ -34,11 +34,11 @@ export default function JishuseiTemplatePreview() {
 
   return (
     <main
-      className={`min-h-screen bg-[#F4F7F4] font-sans text-gray-800 relative overflow-hidden ${
+      className={`min-h-screen bg-[#F5F9FC] font-sans text-gray-800 relative overflow-hidden ${
         isFullscreen ? 'fixed inset-0 z-50 bg-slate-200' : ''
       }`}
     >
-      {!isFullscreen ? <div className="hana-wagara hana-wagara-subtle" aria-hidden /> : null}
+      {!isFullscreen ? <div className="raftel-wagara raftel-wagara-subtle" aria-hidden /> : null}
 
       <div className={`relative z-10 ${isFullscreen ? 'h-full flex flex-col' : 'p-4 md:p-6'}`}>
         <header
@@ -51,14 +51,14 @@ export default function JishuseiTemplatePreview() {
               <button
                 type="button"
                 onClick={() => router.push('/admin-dashboard/pemberkasan')}
-                className="flex items-center gap-2 text-emerald-800 hover:text-emerald-950 font-medium shrink-0"
+                className="flex items-center gap-2 text-raftel-800 hover:text-raftel-950 font-medium shrink-0"
               >
                 <ArrowLeft size={18} />
                 Kembali
               </button>
             ) : null}
             <div className="min-w-0">
-              <h1 className="text-lg md:text-xl font-serif text-emerald-900 truncate">
+              <h1 className="text-lg md:text-xl font-serif text-raftel-900 truncate">
                 {template.name}
               </h1>
               <p className="text-xs text-slate-500">

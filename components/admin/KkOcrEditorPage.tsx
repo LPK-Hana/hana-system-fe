@@ -324,7 +324,7 @@ export default function KkOcrEditorPage({ noPeserta, backHref, backLabel }: Prop
     });
 
   return (
-    <main className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50/50 font-sans text-slate-800 pb-20 lg:pb-0 flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
+    <main className="min-h-screen lg:h-screen lg:overflow-hidden bg-[#F5F9FC] font-sans text-slate-800 pb-20 lg:pb-0 flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
       <header className="border-b border-slate-200/80 bg-white/90 backdrop-blur-md px-4 md:px-8 py-3.5 flex flex-wrap gap-3 items-center justify-between print:hidden sticky top-0 z-20 shadow-sm">
         <div className="flex items-center gap-3">
           <Link
@@ -334,13 +334,13 @@ export default function KkOcrEditorPage({ noPeserta, backHref, backLabel }: Prop
             <ArrowLeft size={15} strokeWidth={2} />
             {backLabel}
           </Link>
-          <div className="hidden sm:flex items-center gap-2 bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-lg">
-            <User size={13} className="text-emerald-600" />
+          <div className="hidden sm:flex items-center gap-2 bg-raftel-50 border border-raftel-100 px-3 py-1.5 rounded-lg">
+            <User size={13} className="text-raftel-600" />
             <div>
-              <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest block leading-none">
+              <span className="text-[10px] font-bold text-raftel-400 uppercase tracking-widest block leading-none">
                 No. Peserta
               </span>
-              <span className="text-xs font-bold text-emerald-900">{noPeserta}</span>
+              <span className="text-xs font-bold text-raftel-900">{noPeserta}</span>
             </div>
           </div>
         </div>
@@ -416,7 +416,7 @@ export default function KkOcrEditorPage({ noPeserta, backHref, backLabel }: Prop
             type="button"
             onClick={handleSave}
             disabled={isSaving}
-            className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-400 disabled:cursor-not-allowed text-white text-xs font-semibold rounded-lg shadow-md transition-all"
+            className="inline-flex items-center gap-2 px-4 py-1.5 bg-raftel-600 hover:bg-raftel-700 disabled:bg-slate-400 disabled:cursor-not-allowed text-white text-xs font-semibold rounded-lg shadow-md transition-all"
           >
             <span>{isSaving ? 'Menyimpan...' : isExistingData ? 'Simpan Revisi' : 'Simpan'}</span>
           </button>

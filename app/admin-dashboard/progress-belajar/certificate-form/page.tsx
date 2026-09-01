@@ -219,7 +219,7 @@ function CertificateModal({ rows, startIndex, onClose }: CertModalProps) {
           >
             {/* 1. Header LPK */}
             <div className="absolute w-full text-center flex justify-center" style={{ top: '200px', fontSize: '18px', fontWeight: '700', letterSpacing: '1px' }}>
-              LPK GADA WIRYA KARSA
+              LPK RAFTEL SATYA INDONESIA
             </div>
 
             {/* 2. Judul CERTIFICATE */}
@@ -255,14 +255,14 @@ function CertificateModal({ rows, startIndex, onClose }: CertModalProps) {
             {/* 8. Paragraf Bahasa Indonesia */}
             <div className="absolute w-full flex justify-center" style={{ top: '700px' }}>
               <p className="text-center font-semibold" style={{ width: '600px', fontSize: '15px', lineHeight: '1.6' }}>
-                di LPK Gada Wirya Karsa. Dengan ini dinyatakan telah menyelesaikan pendidikan dengan baik dan menunjukkan sikap profesional serta kemampuan kerja yang baik.
+                di LPK Raftel Satya Indonesia. Dengan ini dinyatakan telah menyelesaikan pendidikan dengan baik dan menunjukkan sikap profesional serta kemampuan kerja yang baik.
               </p>
             </div>
 
             {/* 9. Paragraf Bahasa Jepang */}
             <div className="absolute w-full flex justify-center" style={{ top: '850px' }}>
               <p className="text-center font-bold" style={{ width: '650px', fontSize: '17px', lineHeight: '1.6' }}>
-                上記の者は、LPK Gada Wirya Karsa における<br />
+                上記の者は、LPK Raftel Satya Indonesia における<br />
                 日本文化研修 と {level}レベルの日本語 を 修了し、<br />
                 優れた成果を上げ、プロフェッショナルな態度と優れた業務能力 を示したことを<br />
                 証明します
@@ -475,7 +475,7 @@ export default function CertificateFormPage() {
       );
     if (row.ujian_n5 === 'Lulus')
       return (
-        <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-green-100 text-green-800">
+        <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-raftel-100 text-raftel-800">
           Lulus N5
         </span>
       );
@@ -488,7 +488,7 @@ export default function CertificateFormPage() {
 
   return (
     <>
-      <main className="min-h-screen bg-[#F4F7F4] font-sans text-gray-800 p-4 md:p-8 relative">
+      <main className="min-h-screen bg-[#F5F9FC] font-sans text-gray-800 p-4 md:p-8 relative">
         {isLoading && <LoadingOverlay text="MEMUAT DATA..." fixed={true} />}
         {/* Header */}
         <header className="mb-8 flex flex-col md:flex-row md:items-start justify-between gap-4">

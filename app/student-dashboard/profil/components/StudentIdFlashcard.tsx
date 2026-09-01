@@ -1,5 +1,5 @@
 import React from 'react';
-import hanaLogo from '@/logo/hana-logo.png';
+import raftelLogo from '@/logo/raftel-logo.png';
 
 const PhoneIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -46,7 +46,7 @@ export default function StudentIdFlashcard({
   profileImage,
   nameLatin = 'MUHAMMAD ZIDDAN AZZAKY',
   nameKatakana = 'ムハンマド・ジッダン・アザキー',
-  jmsId = 'HANA01002',
+  jmsId = 'RFTL01002',
   studentClass = '東京クラス',
   phone = '+62 821-2345-6789',
   email = 'info@gada-wiryakarsa.id',
@@ -70,7 +70,7 @@ export default function StudentIdFlashcard({
 
         {/* ── Header ── */}
         <div className="flex items-center justify-center pt-5 pb-1 px-4 gap-4 relative z-10 w-full">
-          <img src={hanaLogo.src} alt="Hana Logo" className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] object-contain shrink-0" />
+          <img src={raftelLogo.src} alt="Raftel Logo" className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] object-contain shrink-0" />
           <div className="flex flex-col">
             <h1 className="text-[17px] sm:text-[20px] font-extrabold tracking-wide leading-[1.1] m-0">
               LPK GADA WIRYA KARSA

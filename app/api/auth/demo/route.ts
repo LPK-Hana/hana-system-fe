@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { isDemoMode } from '@/lib/demo-mode';
 import { signToken } from '@/lib/jwt';
 import { DEMO_STUDENT_USERNAME } from '@/lib/demo/seed';
+import { GURU_HOME_PATH } from '@/lib/roles';
 
 export type DemoRole = 'student' | 'admin' | 'superadmin' | 'guest' | 'guru';
 
@@ -29,8 +30,8 @@ const DEMO_PROFILES: Record<
   admin: {
     tokenPayload: { user_id: 1, user_name: 'admin', is_admin: 1 },
     cookieRole: 'admin',
-    credentials: { user_id: 1, name: 'Admin Hana', user_name: 'admin', is_admin: 1 },
-    displayName: 'Admin Hana',
+    credentials: { user_id: 1, name: 'Admin Raftel', user_name: 'admin', is_admin: 1 },
+    displayName: 'Admin Raftel',
     userName: 'admin',
     authRole: 'admin',
     redirect: '/admin-dashboard/dashboard',
@@ -40,11 +41,11 @@ const DEMO_PROFILES: Record<
     cookieRole: 'superadmin',
     credentials: {
       super_admin_id: 1,
-      name: 'Shachou Hana',
+      name: 'Shachou Raftel',
       user_name: 'shachou',
       is_active: 1,
     },
-    displayName: 'Shachou Hana',
+    displayName: 'Shachou Raftel',
     userName: 'shachou',
     authRole: 'superadmin',
     redirect: '/super-admin',
@@ -56,7 +57,7 @@ const DEMO_PROFILES: Record<
     displayName: 'Pak Andi Wijaya',
     userName: 'guru',
     authRole: 'guru',
-    redirect: '/guru-dashboard',
+    redirect: GURU_HOME_PATH,
   },
   guest: {
     tokenPayload: { guest_id: 1, user_name: 'guest', is_admin: 0 },

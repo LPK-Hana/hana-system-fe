@@ -260,7 +260,7 @@ function StudentPagePreview({ student, n5Only }: { student: ProgressRow; n5Only:
 
       {/* ── Footer ── */}
       <div style={{ position: 'absolute', bottom: '8mm', left: '15mm', fontSize: 8, color: '#999', letterSpacing: '0.1em' }}>
-        LMS Hana — Laporan Progress Belajar
+        LMS Raftel — Laporan Progress Belajar
       </div>
     </div>
   );
@@ -389,7 +389,7 @@ const buildStudentPageHtml = (student: ProgressRow, n5Only: boolean): string => 
         </div>
         <div style="font-size:9px">........................</div>
       </div>
-      <div style="position:absolute;bottom:8mm;left:15mm;font-size:8px;color:#999;letter-spacing:0.1em">LMS Hana — Laporan Progress Belajar</div>
+      <div style="position:absolute;bottom:8mm;left:15mm;font-size:8px;color:#999;letter-spacing:0.1em">LMS Raftel — Laporan Progress Belajar</div>
     </div>`;
 };
 
@@ -521,7 +521,7 @@ export default function PrintTableModal({ rows, onClose }: PrintTableModalProps)
             </button>
             <button
               onClick={handlePrint}
-              className="flex items-center gap-2 px-5 py-2 text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700 rounded-lg transition-colors shadow-sm"
+              className="flex items-center gap-2 px-5 py-2 text-sm font-semibold bg-raftel-600 text-white hover:bg-raftel-700 rounded-lg transition-colors shadow-sm"
             >
               <Printer size={16} />
               Print Sekarang
@@ -594,7 +594,7 @@ export default function PrintTableModal({ rows, onClose }: PrintTableModalProps)
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
+            <div className="p-2 bg-raftel-50 text-raftel-600 rounded-lg">
               <Printer size={20} />
             </div>
             <h2 className="text-lg font-semibold text-gray-900">Print Laporan Progress A4</h2>
@@ -613,7 +613,7 @@ export default function PrintTableModal({ rows, onClose }: PrintTableModalProps)
             <select
               value={exportTarget}
               onChange={(e) => handleClassChange(e.target.value)}
-              className="mt-2 w-full border border-gray-300 rounded-md bg-white px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
+              className="mt-2 w-full border border-gray-300 rounded-md bg-white px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-raftel-500 shadow-sm"
             >
               <option value="Semua">Semua Kelas ({rows.length} Siswa)</option>
               {uniqueClasses.map(c => (
@@ -630,7 +630,7 @@ export default function PrintTableModal({ rows, onClose }: PrintTableModalProps)
               </span>
               <button
                 onClick={toggleAll}
-                className="text-xs font-medium text-emerald-600 hover:text-emerald-800 flex items-center gap-1.5 bg-emerald-50 px-2 py-1 rounded-md transition-colors"
+                className="text-xs font-medium text-raftel-600 hover:text-raftel-800 flex items-center gap-1.5 bg-raftel-50 px-2 py-1 rounded-md transition-colors"
               >
                 {selectedIds.size === studentsInTarget.length
                   ? <><CheckSquare size={14} /> Deselect All</>
@@ -650,10 +650,10 @@ export default function PrintTableModal({ rows, onClose }: PrintTableModalProps)
                       type="checkbox"
                       checked={selectedIds.has(s.no_peserta)}
                       onChange={() => toggleStudent(s.no_peserta)}
-                      className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500"
+                      className="w-4 h-4 text-raftel-600 rounded border-gray-300 focus:ring-raftel-500"
                     />
                     <div className="flex flex-col">
-                      <span className="text-sm font-medium text-gray-900 group-hover:text-emerald-700 transition-colors">{s.nama_lengkap}</span>
+                      <span className="text-sm font-medium text-gray-900 group-hover:text-raftel-700 transition-colors">{s.nama_lengkap}</span>
                       <span className="text-xs text-gray-500">{s.no_peserta} · {s.kelas || 'Tanpa Kelas'}</span>
                     </div>
                   </label>
@@ -671,14 +671,14 @@ export default function PrintTableModal({ rows, onClose }: PrintTableModalProps)
             <button
               type="button"
               onClick={() => setN5Only(!n5Only)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 ${n5Only ? 'bg-emerald-600' : 'bg-gray-200'}`}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-raftel-500 focus:ring-offset-2 ${n5Only ? 'bg-raftel-600' : 'bg-gray-200'}`}
             >
               <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${n5Only ? 'translate-x-6' : 'translate-x-1'}`} />
             </button>
           </div>
 
           {/* Info */}
-          <div className="p-4 bg-emerald-50 rounded-lg border border-emerald-100 flex items-start gap-3 text-sm text-emerald-800 leading-relaxed">
+          <div className="p-4 bg-raftel-50 rounded-lg border border-raftel-100 flex items-start gap-3 text-sm text-raftel-800 leading-relaxed">
             <Info className="shrink-0 mt-0.5" size={18} />
             <div>
               Klik <strong>Preview</strong> untuk melihat tampilan cetak terlebih dahulu, lalu klik <strong>Print Sekarang</strong> setelah memastikan sudah benar.
@@ -697,7 +697,7 @@ export default function PrintTableModal({ rows, onClose }: PrintTableModalProps)
           <button
             onClick={handlePreview}
             disabled={targetRows.length === 0}
-            className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 disabled:bg-emerald-300 disabled:cursor-not-allowed transition-colors shadow-sm"
+            className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-lg bg-raftel-600 text-white hover:bg-raftel-700 disabled:bg-raftel-300 disabled:cursor-not-allowed transition-colors shadow-sm"
           >
             <Eye size={16} />
             Preview ({targetRows.length} Siswa)

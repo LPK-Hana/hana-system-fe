@@ -9,7 +9,7 @@ import { CircleHelp } from 'lucide-react';
 export function FileRuleTooltip({ text }: { text: string }) {
   return (
     <span
-      className="group relative inline-flex shrink-0 cursor-help rounded p-0.5 align-middle text-slate-400 outline-none hover:text-slate-600 focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-1"
+      className="group relative inline-flex shrink-0 cursor-help rounded p-0.5 align-middle text-slate-400 outline-none hover:text-slate-600 focus-visible:ring-2 focus-visible:ring-raftel-400 focus-visible:ring-offset-1"
       tabIndex={0}
       aria-label={`Informasi format file: ${text}`}
     >

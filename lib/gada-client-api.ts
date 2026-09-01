@@ -1,7 +1,7 @@
 import { demoQuery, demoQueryOne } from '@/lib/demo/db';
 import {
   DEMO_STUDENT_USERNAME,
-  buildDemoNilaiRows,
+  buildDemoNilaiList,
   demoShowcaseStudents,
 } from '@/lib/demo/seed';
 import { cvRevisionFromApiRecord } from '@/lib/cv-revision';
@@ -231,7 +231,7 @@ export async function invokeClientApi(
 
     case 'GET nilai-pembelajaran/list':
     case 'GET nilai-pembelajaran/get-all':
-      return ok(buildDemoNilaiRows());
+      return ok(buildDemoNilaiList());
 
     case 'GET nilai-pembelajaran/list-certificate': {
       return ok(

@@ -101,8 +101,8 @@ const dummyForm: JishuseiFormData = {
       mulaiBln: '9',
       selesaiThn: '2023',
       selesaiBln: '8',
-      namaSekolahJp: 'LPK HANA TRAINING CENTER',
-      namaSekolahId: 'LPK HANA TRAINING CENTER',
+      namaSekolahJp: 'LPK RAFTEL SATYA INDONESIA',
+      namaSekolahId: 'LPK RAFTEL SATYA INDONESIA',
     },
   ],
   kerja: [
@@ -188,10 +188,10 @@ function Field({
 }
 
 const inputCls =
-  'w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100';
+  'w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-raftel-500 focus:ring-2 focus:ring-raftel-100';
 
 const inputCompactCls =
-  'w-full rounded-md border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-800 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100';
+  'w-full rounded-md border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-800 outline-none focus:border-raftel-500 focus:ring-2 focus:ring-raftel-100';
 
 export default function JishuseiGenerateForm() {
   const router = useRouter();
@@ -329,21 +329,21 @@ export default function JishuseiGenerateForm() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F4F7F4] text-gray-800 relative overflow-hidden">
-      <div className="hana-wagara hana-wagara-subtle" aria-hidden />
+    <main className="min-h-screen bg-[#F5F9FC] text-gray-800 relative overflow-hidden">
+      <div className="raftel-wagara raftel-wagara-subtle" aria-hidden />
       <div className="relative z-10 p-4 md:p-6 max-w-4xl mx-auto">
         <header className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div className="flex items-center gap-3 min-w-0">
             <button
               type="button"
               onClick={() => router.push('/admin-dashboard/pemberkasan')}
-              className="flex items-center gap-2 text-emerald-800 hover:text-emerald-950 font-medium shrink-0"
+              className="flex items-center gap-2 text-raftel-800 hover:text-raftel-950 font-medium shrink-0"
             >
               <ArrowLeft size={18} />
               Kembali
             </button>
             <div className="min-w-0">
-              <h1 className="text-lg md:text-xl font-serif text-emerald-900 truncate">
+              <h1 className="text-lg md:text-xl font-serif text-raftel-900 truncate">
                 Dokumen Jishusei — Isi & Unduh
               </h1>
               <p className="text-xs text-slate-500">
@@ -357,7 +357,7 @@ export default function JishuseiGenerateForm() {
               type="button"
               disabled={!!busy}
               onClick={() => downloadDocx()}
-              className="inline-flex items-center gap-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 text-sm font-medium disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-lg bg-raftel-700 hover:bg-raftel-800 text-white px-4 py-2 text-sm font-medium disabled:opacity-60"
             >
               <FileText size={16} />
               {busy === 'docx' ? 'Menyiapkan…' : 'Unduh DOCX'}
@@ -366,7 +366,7 @@ export default function JishuseiGenerateForm() {
               type="button"
               disabled={!!busy}
               onClick={() => openPdfPreview()}
-              className="inline-flex items-center gap-2 rounded-lg border border-emerald-700 text-emerald-800 hover:bg-emerald-50 px-4 py-2 text-sm font-medium disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-lg border border-raftel-700 text-raftel-800 hover:bg-raftel-50 px-4 py-2 text-sm font-medium disabled:opacity-60"
             >
               <Eye size={16} />
               {busy === 'preview' ? 'Menyiapkan preview…' : 'Preview PDF'}
@@ -396,7 +396,7 @@ export default function JishuseiGenerateForm() {
             <div className="flex h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl bg-white shadow-xl">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-4 py-3">
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-emerald-900 truncate">Preview PDF</p>
+                  <p className="text-sm font-semibold text-raftel-900 truncate">Preview PDF</p>
                   <p className="text-xs text-slate-500 truncate">{pdfPreview.filename}</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -404,7 +404,7 @@ export default function JishuseiGenerateForm() {
                     type="button"
                     disabled={!!busy}
                     onClick={() => downloadPdfFromPreview()}
-                    className="inline-flex items-center gap-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-2 text-sm font-medium disabled:opacity-60"
+                    className="inline-flex items-center gap-2 rounded-lg bg-raftel-700 hover:bg-raftel-800 text-white px-3 py-2 text-sm font-medium disabled:opacity-60"
                   >
                     <Download size={16} />
                     {busy === 'pdf' ? 'Mengunduh…' : 'Unduh PDF'}
@@ -432,7 +432,7 @@ export default function JishuseiGenerateForm() {
 
         <div className="space-y-4">
           <section className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 md:p-5 shadow-sm">
-            <h2 className="text-sm font-semibold text-emerald-900 mb-3 flex items-center gap-2">
+            <h2 className="text-sm font-semibold text-raftel-900 mb-3 flex items-center gap-2">
               <Download size={14} /> Tanggal dibuat & identitas
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
@@ -528,7 +528,7 @@ export default function JishuseiGenerateForm() {
 
           <section className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 md:p-5 shadow-sm">
             <div className="flex items-center justify-between gap-2 mb-3">
-              <h2 className="text-sm font-semibold text-emerald-900">
+              <h2 className="text-sm font-semibold text-raftel-900">
                 ⑦ Pendidikan (maks. {MAX_PENDIDIKAN})
               </h2>
               <button
@@ -540,7 +540,7 @@ export default function JishuseiGenerateForm() {
                     pendidikan: [...f.pendidikan, emptyPendidikan()],
                   }))
                 }
-                className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-600 text-emerald-800 px-2.5 py-1.5 text-xs font-medium disabled:opacity-40"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-raftel-600 text-raftel-800 px-2.5 py-1.5 text-xs font-medium disabled:opacity-40"
               >
                 <Plus size={14} /> Tambah
               </button>
@@ -622,7 +622,7 @@ export default function JishuseiGenerateForm() {
 
           <section className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 md:p-5 shadow-sm">
             <div className="flex items-center justify-between gap-2 mb-3">
-              <h2 className="text-sm font-semibold text-emerald-900">
+              <h2 className="text-sm font-semibold text-raftel-900">
                 ⑧ Pengalaman kerja (maks. {MAX_KERJA})
               </h2>
               <button
@@ -634,7 +634,7 @@ export default function JishuseiGenerateForm() {
                     kerja: [...f.kerja, emptyKerja()],
                   }))
                 }
-                className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-600 text-emerald-800 px-2.5 py-1.5 text-xs font-medium disabled:opacity-40"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-raftel-600 text-raftel-800 px-2.5 py-1.5 text-xs font-medium disabled:opacity-40"
               >
                 <Plus size={14} /> Tambah
               </button>
@@ -739,7 +739,7 @@ export default function JishuseiGenerateForm() {
           </section>
 
           <section className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 md:p-5 shadow-sm">
-            <h2 className="text-sm font-semibold text-emerald-900 mb-3">
+            <h2 className="text-sm font-semibold text-raftel-900 mb-3">
               ⑨ Pengalaman terkait keterampilan
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -769,7 +769,7 @@ export default function JishuseiGenerateForm() {
           </section>
 
           <section className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 md:p-5 shadow-sm">
-            <h2 className="text-sm font-semibold text-emerald-900 mb-1">
+            <h2 className="text-sm font-semibold text-raftel-900 mb-1">
               Perincian Biaya — lembaga pelaksana & supervisi
             </h2>
             <p className="text-xs text-slate-500 mb-3">

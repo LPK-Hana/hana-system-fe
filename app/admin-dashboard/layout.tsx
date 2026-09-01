@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { getServerSessionRole } from '@/lib/server-session';
 import {
   ADMIN_HUB_PATH,
+  GURU_HOME_PATH,
   isAdminAllowedPath,
   isGuruAllowedAdminPath,
   isShachouAllowedPath,
@@ -31,7 +32,7 @@ export default async function AdminDashboardLayout({
     if (isGuruAllowedAdminPath(pathname)) {
       return <>{children}</>;
     }
-    redirect('/guru-dashboard');
+    redirect(GURU_HOME_PATH);
   }
 
   if (role === 'admin') {

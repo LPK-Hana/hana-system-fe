@@ -78,7 +78,7 @@ export default function CVSelectModal({ students, onClose, onExport }: CVSelectM
             <select
               value={filterAngkatan}
               onChange={e => setFilterAngkatan(e.target.value)}
-              className="px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-emerald-500"
+              className="px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-raftel-500"
             >
               <option value="Semua">Semua Angkatan</option>
               {uniqueAngkatan.map(a => (
@@ -94,14 +94,14 @@ export default function CVSelectModal({ students, onClose, onExport }: CVSelectM
                 placeholder="Cari nama atau no peserta..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 focus:outline-none focus:border-emerald-500 rounded-md"
+                className="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 focus:outline-none focus:border-raftel-500 rounded-md"
               />
             </div>
             <button
               onClick={toggleAll}
-              className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors whitespace-nowrap"
+              className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-raftel-600 transition-colors whitespace-nowrap"
             >
-              {allSelected ? <CheckSquare size={18} className="text-emerald-600" /> : <Square size={18} />}
+              {allSelected ? <CheckSquare size={18} className="text-raftel-600" /> : <Square size={18} />}
               Pilih Semua
             </button>
           </div>
@@ -122,13 +122,13 @@ export default function CVSelectModal({ students, onClose, onExport }: CVSelectM
                     onClick={() => toggleStudent(student.id)}
                     className={`flex items-start gap-3 p-3 border rounded-lg cursor-pointer transition-all ${
                       isSelected
-                        ? 'border-emerald-500 bg-emerald-50/50 shadow-sm'
-                        : 'border-gray-200 bg-white hover:border-emerald-300'
+                        ? 'border-raftel-500 bg-raftel-50/50 shadow-sm'
+                        : 'border-gray-200 bg-white hover:border-raftel-300'
                     }`}
                   >
                     <div className="mt-0.5">
                       {isSelected ? (
-                        <CheckSquare size={18} className="text-emerald-600" />
+                        <CheckSquare size={18} className="text-raftel-600" />
                       ) : (
                         <Square size={18} className="text-gray-300" />
                       )}
@@ -152,7 +152,7 @@ export default function CVSelectModal({ students, onClose, onExport }: CVSelectM
 
         <div className="p-4 border-t border-gray-100 bg-white flex items-center justify-between">
           <div className="text-sm text-gray-600">
-            Terpilih: <span className="font-semibold text-emerald-600">{selectedIds.size}</span> siswa
+            Terpilih: <span className="font-semibold text-raftel-600">{selectedIds.size}</span> siswa
           </div>
           <div className="flex gap-3">
             <button
@@ -164,7 +164,7 @@ export default function CVSelectModal({ students, onClose, onExport }: CVSelectM
             <button
               onClick={handleExport}
               disabled={selectedIds.size === 0}
-              className="flex items-center gap-2 px-5 py-2 text-sm font-medium bg-emerald-600 text-white hover:bg-emerald-700 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-5 py-2 text-sm font-medium bg-raftel-600 text-white hover:bg-raftel-700 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <FileDown size={16} />
               {selectedIds.size <= 1 ? 'Export CV' : `Export ${selectedIds.size} CV`}

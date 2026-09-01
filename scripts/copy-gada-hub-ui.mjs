@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const GADA_ROOT = path.resolve('d:/Job/jukyu-lms/Gada-Wirya-Karsa/gada-system-fe/src');
-const HANA_ROOT = path.resolve('d:/Job/jukyu-lms/hana-system-fe');
+const RAFTEL_ROOT = path.resolve('d:/Job/jukyu-lms/hana-system-fe');
 
 const BLUE_TO_EMERALD = [
   ['blue-950', 'emerald-950'],
@@ -24,15 +24,15 @@ function transform(content) {
   for (const [from, to] of BLUE_TO_EMERALD) {
     c = c.replaceAll(from, to);
   }
-  c = c.replaceAll('gada_demo_entering', 'hana_demo_entering');
-  c = c.replaceAll('sistem GWK', 'sistem Hana');
-  c = c.replaceAll('jukyuLogo', 'hanaLogo');
-  c = c.replaceAll('@/logo/jukyu-logo.png', '@/logo/hana-logo.png');
-  c = c.replaceAll('Gada Wirya Karsa System', 'Hana System Administration');
-  c = c.replaceAll('LPK Gada Wirya Karsa', 'Hana System');
-  c = c.replaceAll('Gada Wirya Karsa', 'Hana System');
-  c = c.replaceAll('ガダ・ウィルヤ・カルサ', 'ハナ・システム');
-  c = c.replaceAll('alt="LPK Gada Wirya Karsa"', 'alt="Hana Karya Career Center"');
+  c = c.replaceAll('gada_demo_entering', 'raftel_demo_entering');
+  c = c.replaceAll('sistem GWK', 'sistem Raftel');
+  c = c.replaceAll('jukyuLogo', 'raftelLogo');
+  c = c.replaceAll('@/logo/jukyu-logo.png', '@/logo/raftel-logo.png');
+  c = c.replaceAll('Gada Wirya Karsa System', 'Raftel System Administration');
+  c = c.replaceAll('LPK Gada Wirya Karsa', 'Raftel System');
+  c = c.replaceAll('Gada Wirya Karsa', 'Raftel System');
+  c = c.replaceAll('ガダ・ウィルヤ・カルサ', 'ラフテル・システム');
+  c = c.replaceAll('alt="LPK Gada Wirya Karsa"', 'alt="Raftel Satya Career Center"');
   c = c.replaceAll('export default function Home()', 'export default function HomePage()');
   return c;
 }
@@ -72,7 +72,7 @@ const pemberkasanCard = `
 
 for (const rel of copies) {
   const src = path.join(GADA_ROOT, rel);
-  const dest = path.join(HANA_ROOT, rel);
+  const dest = path.join(RAFTEL_ROOT, rel);
   let content = transform(fs.readFileSync(src, 'utf8'));
 
   content = content.replaceAll(

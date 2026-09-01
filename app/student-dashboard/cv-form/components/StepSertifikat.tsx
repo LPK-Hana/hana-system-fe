@@ -35,7 +35,7 @@ export default function StepSertifikat({ items, onChange, onFileChange, errors =
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <p className="text-sm text-slate-500">免許・資格・運転免許を追加してください。</p>
-        <button onClick={add} className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-xl hover:bg-emerald-700 transition">
+        <button onClick={add} className="flex items-center gap-2 px-4 py-2 bg-raftel-600 text-white text-sm font-medium rounded-xl hover:bg-raftel-700 transition">
           <Plus size={16} /> Tambah
         </button>
       </div>
@@ -50,7 +50,7 @@ export default function StepSertifikat({ items, onChange, onFileChange, errors =
       {items.map((item, idx) => (
         <div key={item.id} id={`sertifikat-${item.id}`} className="border border-slate-200 rounded-2xl p-5 bg-slate-50 space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold text-emerald-600">免許・資格 #{idx + 1}</span>
+            <span className="text-sm font-semibold text-raftel-600">免許・資格 #{idx + 1}</span>
             <button onClick={() => remove(item.id)} className="text-red-400 hover:text-red-600 transition"><Trash2 size={16} /></button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -118,7 +118,7 @@ export default function StepSertifikat({ items, onChange, onFileChange, errors =
                   update(item.id, 'foto_sertifikat', file?.name || '');
                   onFileChange?.(item.id, file);
                 }}
-                className="w-full border rounded-xl px-4 py-3 text-sm text-slate-900 bg-white border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition file:mr-3 file:border-0 file:bg-emerald-50 file:text-emerald-700 file:px-3 file:py-1.5 file:rounded-lg file:cursor-pointer"
+                className="w-full border rounded-xl px-4 py-3 text-sm text-slate-900 bg-white border-slate-200 focus:outline-none focus:ring-2 focus:ring-raftel-500 focus:border-transparent transition file:mr-3 file:border-0 file:bg-raftel-50 file:text-raftel-700 file:px-3 file:py-1.5 file:rounded-lg file:cursor-pointer"
               />
               <p className="text-xs text-slate-500">
                 {item.foto_sertifikat ? `Terpilih: ${item.foto_sertifikat}` : 'Belum ada file dipilih'}

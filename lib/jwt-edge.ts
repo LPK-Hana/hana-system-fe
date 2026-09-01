@@ -3,7 +3,7 @@ import type { JwtPayload } from './jwt';
 import { resolveDemoMode } from './demo-mode';
 import { parseDemoToken } from './demo-token';
 
-const DEMO_JWT_FALLBACK = 'hana-mockup-demo-jwt-secret';
+const DEMO_JWT_FALLBACK = 'raftel-mockup-demo-jwt-secret';
 
 export function getJwtSecretEdge(): string | null {
   const secret = process.env.JWT_SECRET?.trim();

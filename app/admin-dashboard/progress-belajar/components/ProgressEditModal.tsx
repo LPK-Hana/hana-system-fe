@@ -132,7 +132,7 @@ export default function ProgressEditModal({
                     id="aspect-select"
                     value={localAspect}
                     onChange={(e) => setLocalAspect(e.target.value as AspectKey)}
-                    className="w-full appearance-none bg-white border border-gray-300 text-gray-800 py-2.5 pl-4 pr-10 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent rounded-lg shadow-sm transition-colors cursor-pointer uppercase tracking-wider"
+                    className="w-full appearance-none bg-white border border-gray-300 text-gray-800 py-2.5 pl-4 pr-10 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-raftel-600 focus:border-transparent rounded-lg shadow-sm transition-colors cursor-pointer uppercase tracking-wider"
                   >
                     {(Object.keys(aspectsConfig) as AspectKey[]).map(key => (
                       <option key={key} value={key}>
@@ -183,7 +183,7 @@ export default function ProgressEditModal({
                               return val;
                             })(aspectScores[col.key])}
                             onChange={(e) => handleFieldChange(col.key, e.target.value, localAspect)}
-                            className="w-full border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-lg shadow-sm font-medium cursor-pointer"
+                            className="w-full border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-raftel-500 rounded-lg shadow-sm font-medium cursor-pointer"
                           >
                             <option value="-">Belum Dinilai (-)</option>
                             <option value="Sangat Baik">非常に良い (Sangat Baik)</option>
@@ -210,7 +210,7 @@ export default function ProgressEditModal({
                           </thead>
                           <tbody className="divide-y divide-gray-200 bg-white">
                             {currentConfig.columns.slice(0, Math.ceil(currentConfig.columns.length / 2)).map((col) => (
-                              <tr key={col.key} className="hover:bg-emerald-50/30 transition-colors group focus-within:bg-emerald-50/30">
+                              <tr key={col.key} className="hover:bg-raftel-50/30 transition-colors group focus-within:bg-raftel-50/30">
                                 <td className="px-4 py-2 text-gray-700 font-medium whitespace-nowrap">{col.label}</td>
                                 <td className="px-0 py-0 border-l border-gray-200">
                                   <input
@@ -218,7 +218,7 @@ export default function ProgressEditModal({
                                     value={String(aspectScores[col.key] ?? '') === '-' ? '' : String(aspectScores[col.key] ?? '')}
                                     onChange={(e) => handleFieldChange(col.key, e.target.value, localAspect)}
                                     placeholder="-"
-                                    className="w-full h-full border-0 bg-transparent py-2.5 px-4 focus:ring-inset focus:ring-2 focus:ring-emerald-600 outline-none transition-shadow text-gray-800 font-medium"
+                                    className="w-full h-full border-0 bg-transparent py-2.5 px-4 focus:ring-inset focus:ring-2 focus:ring-raftel-600 outline-none transition-shadow text-gray-800 font-medium"
                                   />
                                 </td>
                               </tr>
@@ -238,7 +238,7 @@ export default function ProgressEditModal({
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
                               {currentConfig.columns.slice(Math.ceil(currentConfig.columns.length / 2)).map((col) => (
-                                <tr key={col.key} className="hover:bg-emerald-50/30 transition-colors group focus-within:bg-emerald-50/30">
+                                <tr key={col.key} className="hover:bg-raftel-50/30 transition-colors group focus-within:bg-raftel-50/30">
                                   <td className="px-4 py-2 text-gray-700 font-medium whitespace-nowrap">{col.label}</td>
                                   <td className="px-0 py-0 border-l border-gray-200">
                                     <input
@@ -246,7 +246,7 @@ export default function ProgressEditModal({
                                       value={String(aspectScores[col.key] ?? '') === '-' ? '' : String(aspectScores[col.key] ?? '')}
                                       onChange={(e) => handleFieldChange(col.key, e.target.value, localAspect)}
                                       placeholder="-"
-                                      className="w-full h-full border-0 bg-transparent py-2.5 px-4 focus:ring-inset focus:ring-2 focus:ring-emerald-600 outline-none transition-shadow text-gray-800 font-medium"
+                                      className="w-full h-full border-0 bg-transparent py-2.5 px-4 focus:ring-inset focus:ring-2 focus:ring-raftel-600 outline-none transition-shadow text-gray-800 font-medium"
                                     />
                                   </td>
                                 </tr>
@@ -267,7 +267,7 @@ export default function ProgressEditModal({
           <button onClick={onClose} disabled={isSaving} className="px-5 py-2.5 text-xs tracking-widest uppercase border border-gray-300 text-gray-600 hover:border-gray-500 hover:text-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
             Batal
           </button>
-          <button onClick={handleSave} disabled={isSaving} className="px-5 py-2.5 text-xs tracking-widest uppercase bg-emerald-700 text-white hover:bg-emerald-800 transition-colors disabled:opacity-75 disabled:cursor-not-allowed">
+          <button onClick={handleSave} disabled={isSaving} className="px-5 py-2.5 text-xs tracking-widest uppercase bg-raftel-700 text-white hover:bg-raftel-800 transition-colors disabled:opacity-75 disabled:cursor-not-allowed">
             {isSaving ? 'Menyimpan...' : 'Simpan Perubahan'}
           </button>
         </div>
@@ -303,7 +303,7 @@ function Input({
         }}
         placeholder={placeholder}
         readOnly={readOnly}
-        className={`mt-2 w-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${readOnly ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-800'}`}
+        className={`mt-2 w-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-raftel-500 ${readOnly ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-800'}`}
       />
     </label>
   );
@@ -328,7 +328,7 @@ function TextArea({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         rows={3}
-        className="mt-2 w-full border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+        className="mt-2 w-full border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-raftel-500"
       />
     </label>
   );
@@ -339,7 +339,7 @@ function ProgressBar({ percentage }: { percentage: number }) {
     <div className="flex items-center gap-3">
       <div className="w-full bg-gray-200 rounded-full h-2.5">
         <div
-          className={`h-2.5 rounded-full transition-all duration-300 ${percentage >= 80 ? 'bg-green-500' : percentage >= 40 ? 'bg-emerald-500' : 'bg-yellow-500'}`}
+          className={`h-2.5 rounded-full transition-all duration-300 ${percentage >= 80 ? 'bg-raftel-500' : percentage >= 40 ? 'bg-raftel-400' : 'bg-yellow-500'}`}
           style={{ width: `${percentage}%` }}
         ></div>
       </div>

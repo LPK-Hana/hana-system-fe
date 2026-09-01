@@ -2,7 +2,8 @@
 
 import { useMemo, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Search, Filter, Download, BookOpen, Pencil, Calculator, ChevronDown, Award } from 'lucide-react';
+import { ArrowLeft, Search, Filter, Download, BookOpen, Pencil, Calculator, ChevronDown, Award, LogOut } from 'lucide-react';
+import { exitToHome, getAuthRole } from '@/lib/auth';
 import LoadingOverlay from '@/components/LoadingOverlay';
 import StickyHorizontalScroll from '@/components/StickyHorizontalScroll';
 import ProgressEditModal from './components/ProgressEditModal';
@@ -61,7 +62,7 @@ const ProgressBar = ({ percentage }: { percentage: number }) => {
     <div className="flex items-center gap-2 w-40">
       <div className="w-full bg-gray-200 rounded-full h-2.5">
         <div
-          className={`h-2.5 rounded-full ${percentage >= 80 ? 'bg-green-500' : percentage >= 40 ? 'bg-emerald-500' : 'bg-yellow-500'}`}
+          className={`h-2.5 rounded-full ${percentage >= 80 ? 'bg-green-500' : percentage >= 40 ? 'bg-raftel-500' : 'bg-yellow-500'}`}
           style={{ width: `${percentage}%` }}
         ></div>
       </div>
@@ -93,6 +94,11 @@ export default function ProgressBelajarPage() {
   const [draftRow, setDraftRow] = useState<ProgressRow | null>(null);
   const [activeAspect, setActiveAspect] = useState<AspectKey>('kotoba');
   const [selectedClass, setSelectedClass] = useState<string>('Semua Kelas');
+  const [isGuru, setIsGuru] = useState(false);
+
+  useEffect(() => {
+    setIsGuru(getAuthRole() === 'guru');
+  }, []);
 
   useEffect(() => {
     const savedClass = localStorage.getItem('progressBelajar_selectedClass');
@@ -195,6 +201,7 @@ export default function ProgressBelajarPage() {
     setPageSize,
     setIsCustomPageSize,
   } = useTablePagination(filteredRows, {
+    defaultPageSize: 10,
     storageKey: 'progressBelajar_pageSize',
   });
 
@@ -360,22 +367,34 @@ export default function ProgressBelajarPage() {
   const currentConfig = aspectsConfig[activeAspect];
   const n5Columns = currentConfig.columns.filter(c => c.nLevel === 5);
   const n4Columns = currentConfig.columns.filter(c => c.nLevel === 4);
+  const tableNeedsVerticalScroll = pageSize > 10;
 
   return (
-    <main className="min-h-screen bg-[#FDFBF7] font-sans text-gray-800 p-4 md:p-8 relative">
+    <main className="h-screen overflow-hidden flex flex-col bg-[#F5F9FC] font-sans text-gray-800 p-3 md:p-4 relative">
       {isLoading && <LoadingOverlay text="MEMUAT DATA..." fixed={true} />}
-      <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <header className="shrink-0 mb-3 flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div className="flex items-center gap-4">
-          <Link
-            href="/admin-dashboard/dashboard"
-            className="p-3 bg-transparent hover:bg-gray-200/50 transition-colors border border-gray-300 text-gray-500 hover:text-gray-900"
-          >
-            <ArrowLeft size={20} strokeWidth={1.5} />
-          </Link>
+          {isGuru ? (
+            <button
+              type="button"
+              onClick={() => exitToHome()}
+              title="Keluar"
+              className="p-3 bg-transparent hover:bg-red-800 hover:border-red-800 hover:text-white transition-colors border border-gray-300 text-gray-500"
+            >
+              <LogOut size={20} strokeWidth={1.5} />
+            </button>
+          ) : (
+            <Link
+              href="/admin-dashboard/dashboard"
+              className="p-3 bg-transparent hover:bg-gray-200/50 transition-colors border border-gray-300 text-gray-500 hover:text-gray-900"
+            >
+              <ArrowLeft size={20} strokeWidth={1.5} />
+            </Link>
+          )}
           <div>
             <div className="flex items-center gap-3">
-              <BookOpen className="text-emerald-900" size={28} strokeWidth={1.5} />
-              <h1 className="text-3xl font-serif font-normal text-gray-900 tracking-wide mb-1">Progress Belajar <span className="text-lg text-gray-400 font-sans ml-2 tracking-normal font-normal">(学習進捗)</span></h1>
+              <BookOpen className="text-raftel-900" size={28} strokeWidth={1.5} />
+              <h1 className="text-3xl font-serif text-gray-900 tracking-wide mb-1">Progress Belajar <span className="text-lg text-gray-400 font-sans ml-2 tracking-normal font-normal">(学習進捗)</span></h1>
             </div>
             <p className="text-xs font-medium text-gray-500 tracking-widest uppercase mt-1">Pantau nilai ujian, bab materi, dan perkembangan belajar siswa.</p>
           </div>
@@ -384,19 +403,19 @@ export default function ProgressBelajarPage() {
         <div className="flex flex-col items-end gap-3">
           <div className="flex items-center gap-3">
             <div className="relative group">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-emerald-800 transition-colors" size={18} strokeWidth={1.5} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-raftel-800 transition-colors" size={18} strokeWidth={1.5} />
               <input
                 type="text"
                 placeholder="Cari siswa..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 bg-transparent border-0 border-b border-gray-300 focus:outline-none focus:ring-0 focus:border-emerald-800 w-full md:w-64 transition-colors"
+                className="pl-10 pr-4 py-2 bg-transparent border-0 border-b border-gray-300 focus:outline-none focus:ring-0 focus:border-raftel-800 w-full md:w-64 transition-colors"
               />
             </div>
             <div className="relative">
               <button
                 onClick={() => setShowFilterMenu(!showFilterMenu)}
-                className={`flex items-center gap-2 px-5 py-2.5 bg-transparent border text-xs tracking-widest uppercase transition-colors duration-300 ${statusFilter !== 'Semua' ? 'border-emerald-800 text-emerald-800 bg-emerald-50' : 'border-gray-300 text-gray-600 hover:border-emerald-800 hover:text-emerald-800'}`}
+                className={`flex items-center gap-2 px-5 py-2.5 bg-transparent border text-xs tracking-widest uppercase transition-colors duration-300 ${statusFilter !== 'Semua' ? 'border-raftel-800 text-raftel-800 bg-raftel-50' : 'border-gray-300 text-gray-600 hover:border-raftel-800 hover:text-raftel-800'}`}
               >
                 <Filter size={16} strokeWidth={1.5} />
                 Filter {statusFilter !== 'Semua' && `(${statusFilter})`}
@@ -406,21 +425,21 @@ export default function ProgressBelajarPage() {
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setShowFilterMenu(false)} />
                   <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 shadow-xl z-50 py-1">
-                    <button onClick={() => { setStatusFilter('Semua'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Semua' ? 'bg-emerald-50 text-emerald-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Semua Status</button>
-                    <button onClick={() => { setStatusFilter('Lulus N5'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Lulus N5' ? 'bg-emerald-50 text-emerald-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Lulus N5</button>
-                    <button onClick={() => { setStatusFilter('Lulus N4'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Lulus N4' ? 'bg-emerald-50 text-emerald-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Lulus N4</button>
-                    <button onClick={() => { setStatusFilter('Belum N5'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Belum N5' ? 'bg-emerald-50 text-emerald-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Belum N5</button>
-                    <button onClick={() => { setStatusFilter('Belum N4'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Belum N4' ? 'bg-emerald-50 text-emerald-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Belum N4</button>
-                    <button onClick={() => { setStatusFilter('Remedial N5'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Remedial N5' ? 'bg-emerald-50 text-emerald-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Remedial N5</button>
-                    <button onClick={() => { setStatusFilter('Remedial N4'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Remedial N4' ? 'bg-emerald-50 text-emerald-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Remedial N4</button>
-                    <button onClick={() => { setStatusFilter('Kritis'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Kritis' ? 'bg-emerald-50 text-emerald-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Progress Kritis (&lt; 50%)</button>
-                    <button onClick={() => { setStatusFilter('Sangat Baik'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Sangat Baik' ? 'bg-emerald-50 text-emerald-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Progress Baik (&ge; 80%)</button>
+                    <button onClick={() => { setStatusFilter('Semua'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Semua' ? 'bg-raftel-50 text-raftel-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Semua Status</button>
+                    <button onClick={() => { setStatusFilter('Lulus N5'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Lulus N5' ? 'bg-raftel-50 text-raftel-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Lulus N5</button>
+                    <button onClick={() => { setStatusFilter('Lulus N4'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Lulus N4' ? 'bg-raftel-50 text-raftel-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Lulus N4</button>
+                    <button onClick={() => { setStatusFilter('Belum N5'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Belum N5' ? 'bg-raftel-50 text-raftel-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Belum N5</button>
+                    <button onClick={() => { setStatusFilter('Belum N4'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Belum N4' ? 'bg-raftel-50 text-raftel-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Belum N4</button>
+                    <button onClick={() => { setStatusFilter('Remedial N5'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Remedial N5' ? 'bg-raftel-50 text-raftel-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Remedial N5</button>
+                    <button onClick={() => { setStatusFilter('Remedial N4'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Remedial N4' ? 'bg-raftel-50 text-raftel-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Remedial N4</button>
+                    <button onClick={() => { setStatusFilter('Kritis'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Kritis' ? 'bg-raftel-50 text-raftel-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Progress Kritis (&lt; 50%)</button>
+                    <button onClick={() => { setStatusFilter('Sangat Baik'); setShowFilterMenu(false); }} className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'Sangat Baik' ? 'bg-raftel-50 text-raftel-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}>Progress Baik (&ge; 80%)</button>
                   </div>
                 </>
               )}
             </div>
 
-            <button onClick={() => setShowPrintModal(true)} className="flex items-center gap-2 px-5 py-2.5 bg-transparent border border-emerald-700 text-xs tracking-widest uppercase text-emerald-700 hover:bg-emerald-700 hover:text-white transition-colors duration-300">
+            <button onClick={() => setShowPrintModal(true)} className="flex items-center gap-2 px-5 py-2.5 bg-transparent border border-raftel-700 text-xs tracking-widest uppercase text-raftel-700 hover:bg-raftel-700 hover:text-white transition-colors duration-300">
               <Download size={16} strokeWidth={1.5} />
               Print Laporan
             </button>
@@ -443,7 +462,7 @@ export default function ProgressBelajarPage() {
                   id="class-select"
                   value={selectedClass}
                   onChange={(e) => handleClassChange(e.target.value)}
-                  className="appearance-none bg-white border border-gray-300 text-gray-700 py-2 pl-4 pr-10 text-sm font-medium focus:outline-none focus:border-emerald-700 hover:border-gray-400 transition-colors cursor-pointer w-40"
+                  className="appearance-none bg-white border border-gray-300 text-gray-700 py-2 pl-4 pr-10 text-sm font-medium focus:outline-none focus:border-raftel-700 hover:border-gray-400 transition-colors cursor-pointer w-40"
                 >
                   <option value="Semua Kelas">Semua Kelas</option>
                   {uniqueClasses.map(c => (
@@ -465,7 +484,7 @@ export default function ProgressBelajarPage() {
                   id="aspect-select"
                   value={activeAspect}
                   onChange={(e) => setActiveAspect(e.target.value as AspectKey)}
-                  className="appearance-none bg-white border border-gray-300 text-gray-700 py-2 pl-4 pr-10 text-sm font-medium focus:outline-none focus:border-emerald-700 hover:border-gray-400 transition-colors cursor-pointer w-56"
+                  className="appearance-none bg-white border border-gray-300 text-gray-700 py-2 pl-4 pr-10 text-sm font-medium focus:outline-none focus:border-raftel-700 hover:border-gray-400 transition-colors cursor-pointer w-56"
                 >
                   {(Object.entries(aspectsConfig) as [AspectKey, { label: string }][]).map(([key, config]) => (
                     <option key={key} value={key}>{config.label}</option>
@@ -480,44 +499,44 @@ export default function ProgressBelajarPage() {
         </div>
       </header>
 
-      <div className="bg-white border border-gray-300 relative z-10 shadow-sm">
-        <StickyHorizontalScroll>
-          <table className="admin-data-table w-full text-sm text-center whitespace-nowrap">
+      <div className="flex-1 min-h-0 flex flex-col bg-white border border-gray-300 relative z-10 shadow-sm overflow-hidden">
+        <StickyHorizontalScroll fill verticalScroll={tableNeedsVerticalScroll}>
+          <table className={`admin-data-table w-full text-sm text-center whitespace-nowrap ${tableNeedsVerticalScroll ? '' : 'h-full'}`}>
             {activeAspect === 'kepribadian' ? (
               <>
-                <thead className="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0 z-10 shadow-sm">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-100">
                   <tr>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-0 z-20 min-w-[140px]">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-0 z-20 min-w-[140px]">
                       実習生番号<br /><span className="text-[10px] text-gray-500 normal-case">No. Peserta</span>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-[140px] z-20 min-w-[180px] admin-sticky-split-right">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-[140px] z-20 min-w-[180px] admin-sticky-split-right">
                       実習生本名<br /><span className="text-[10px] text-gray-500 normal-case">Nama Peserta</span>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 min-w-[130px] border-r">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 min-w-[130px] border-r">
                       規律性<br /><span className="text-[10px] text-gray-500 normal-case">Kedisiplinan</span>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 min-w-[130px] border-r">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 min-w-[130px] border-r">
                       性格<br /><span className="text-[10px] text-gray-500 normal-case">Kepribadian</span>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 min-w-[140px] border-r">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 min-w-[140px] border-r">
                       意思疎通<br /><span className="text-[10px] text-gray-500 normal-case">Cara Komunikasi</span>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 min-w-[130px] border-r">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 min-w-[130px] border-r">
                       礼儀正しさ<br /><span className="text-[10px] text-gray-500 normal-case">Kesopanan</span>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 min-w-[130px] border-r">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 min-w-[130px] border-r">
                       感情管理<br /><span className="text-[10px] text-gray-500 normal-case">Kontrol Emosi</span>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 min-w-[130px] border-r">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 min-w-[130px] border-r">
                       積極性<br /><span className="text-[10px] text-gray-500 normal-case">Inisiatif</span>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 border-r min-w-[130px]">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 border-r min-w-[130px]">
                       自信<br /><span className="text-[10px] text-gray-500 normal-case">Percaya Diri</span>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 border-r min-w-[200px]">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 border-r min-w-[200px]">
                       備考<br /><span className="text-[10px] text-gray-500 normal-case">Keterangan</span>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 sticky right-0 bg-gray-100 admin-sticky-split-left">Aksi</th>
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 sticky right-0 bg-gray-100 admin-sticky-split-left">Aksi</th>
                   </tr>
                 </thead>
                 {paginatedRows.length > 0 && (
@@ -526,25 +545,25 @@ export default function ProgressBelajarPage() {
                       const aspectScores = student.kepribadian || {};
                       return (
                         <tr key={student.id} className="bg-white hover:bg-gray-50 transition-colors group">
-                          <td className="px-4 py-3 font-semibold text-indigo-600 border-r bg-white group-hover:bg-gray-50 sticky left-0 z-10 text-left">{student.no_peserta}</td>
-                          <td className="px-4 py-3 font-medium text-gray-800 border-r bg-white group-hover:bg-gray-50 sticky left-[140px] z-10 admin-sticky-split-right text-left animate-fade-in">
+                          <td className="px-3 py-2 font-semibold text-indigo-600 border-r bg-white group-hover:bg-gray-50 sticky left-0 z-10 text-left">{student.no_peserta}</td>
+                          <td className="px-3 py-2 font-medium text-gray-800 border-r bg-white group-hover:bg-gray-50 sticky left-[140px] z-10 admin-sticky-split-right text-left animate-fade-in">
                             <div>{student.nama_lengkap}</div>
                             <div className="text-[10px] text-gray-500 uppercase tracking-widest mt-0.5 font-bold">KELAS: {student.kelas || '-'}</div>
                           </td>
-                          <td className="px-4 py-3 align-middle border-r">{renderRatingBadge(aspectScores.kedisiplinan)}</td>
-                          <td className="px-4 py-3 align-middle border-r">{renderRatingBadge(aspectScores.kepribadian_diri)}</td>
-                          <td className="px-4 py-3 align-middle border-r">{renderRatingBadge(aspectScores.cara_komunikasi)}</td>
-                          <td className="px-4 py-3 align-middle border-r">{renderRatingBadge(aspectScores.kesopanan)}</td>
-                          <td className="px-4 py-3 align-middle border-r">{renderRatingBadge(aspectScores.kontrol_emosi)}</td>
-                          <td className="px-4 py-3 align-middle border-r">{renderRatingBadge(aspectScores.inisiatif)}</td>
-                          <td className="px-4 py-3 align-middle border-r">{renderRatingBadge(aspectScores.percaya_diri)}</td>
-                          <td className="px-4 py-3 text-gray-600 text-left max-w-[200px] truncate border-r" title={student.keterangans?.kepribadian || '-'}>
+                          <td className="px-3 py-2 align-middle border-r">{renderRatingBadge(aspectScores.kedisiplinan)}</td>
+                          <td className="px-3 py-2 align-middle border-r">{renderRatingBadge(aspectScores.kepribadian_diri)}</td>
+                          <td className="px-3 py-2 align-middle border-r">{renderRatingBadge(aspectScores.cara_komunikasi)}</td>
+                          <td className="px-3 py-2 align-middle border-r">{renderRatingBadge(aspectScores.kesopanan)}</td>
+                          <td className="px-3 py-2 align-middle border-r">{renderRatingBadge(aspectScores.kontrol_emosi)}</td>
+                          <td className="px-3 py-2 align-middle border-r">{renderRatingBadge(aspectScores.inisiatif)}</td>
+                          <td className="px-3 py-2 align-middle border-r">{renderRatingBadge(aspectScores.percaya_diri)}</td>
+                          <td className="px-3 py-2 text-gray-600 text-left max-w-[200px] truncate border-r" title={student.keterangans?.kepribadian || '-'}>
                             {student.keterangans?.kepribadian || '-'}
                           </td>
-                          <td className="px-4 py-3 sticky right-0 bg-white admin-sticky-split-left group-hover:bg-gray-50 transition-colors">
+                          <td className="px-3 py-2 sticky right-0 bg-white admin-sticky-split-left group-hover:bg-gray-50 transition-colors">
                             <button
                               onClick={() => openEdit(student)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-emerald-600 hover:text-white bg-emerald-50 hover:bg-emerald-600 rounded-lg transition-colors border border-emerald-100"
+                              className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-raftel-600 hover:text-white bg-raftel-50 hover:bg-raftel-600 rounded-lg transition-colors border border-raftel-100"
                             >
                               <Pencil size={14} />
                               Edit
@@ -558,11 +577,14 @@ export default function ProgressBelajarPage() {
               </>
             ) : (
               <>
-                <thead className="bg-gray-50 border-b border-gray-200">
-                  <tr>
-                    <th colSpan={7} className="px-4 py-2 border-r border-gray-200 text-gray-600 font-semibold bg-gray-100 sticky left-0 z-20 admin-sticky-split-right">Informasi Umum & Ringkasan</th>
+                <thead className="bg-gray-100">
+                  <tr className="bg-gray-50 border-b border-gray-200">
+                    {/* Hanya 2 kolom pertama yang dibekukan — colSpan harus cocok, kalau tidak
+                        blok ini menempel di kiri dan menimpa header grup di kanannya. */}
+                    <th colSpan={2} className="px-4 py-2 border-r border-gray-200 text-gray-600 font-semibold bg-gray-100 sticky left-0 z-40 admin-sticky-split-right">Informasi Umum</th>
+                    <th colSpan={5} className="px-4 py-2 border-r border-gray-200 text-gray-600 font-semibold bg-gray-100">Ringkasan & Status</th>
                     {n5Columns.length > 0 && (
-                      <th colSpan={n5Columns.length} className="px-4 py-2 border-r border-gray-200 text-emerald-700 font-semibold bg-emerald-50/50">
+                      <th colSpan={n5Columns.length} className="px-4 py-2 border-r border-gray-200 text-raftel-700 font-semibold bg-raftel-50/50">
                         Materi N5
                       </th>
                     )}
@@ -571,63 +593,60 @@ export default function ProgressBelajarPage() {
                     )}
                     <th colSpan={3} className="px-4 py-2 text-rose-700 font-semibold bg-rose-50/50">Ujian Utama</th>
                   </tr>
-                </thead>
-
-                <thead className="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0 z-10 shadow-sm">
-                  <tr>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-0 z-20 min-w-[140px]">
+                  <tr className="text-xs text-gray-700 uppercase bg-gray-100">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-0 z-20 min-w-[140px]">
                       実習生番号<br /><span className="text-[10px] text-gray-500 normal-case">No. Peserta</span>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-[140px] z-20 min-w-[180px] admin-sticky-split-right">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-[140px] z-20 min-w-[180px] admin-sticky-split-right">
                       実習生本名<br /><span className="text-[10px] text-gray-500 normal-case">Nama Peserta</span>
                     </th>
 
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">
                       日本語検定 N5<br /><span className="text-[10px] text-gray-500 normal-case">Status N5</span>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">
                       日本語検定 N4<br /><span className="text-[10px] text-gray-500 normal-case">Status N4</span>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 border-r">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 border-r">
                       PROGRESS<br /><span className="text-[10px] text-gray-500 normal-case">Persentase</span>
                     </th>
 
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-amber-50">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-amber-50">
                       <div className="flex flex-col items-center gap-1">
                         <Calculator size={14} className="text-amber-700" />
                         <span>Rata-rata</span>
                         <span className="text-[10px] text-amber-600 normal-case">{currentConfig.label}</span>
                       </div>
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 border-r">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 border-r">
                       備考<br /><span className="text-[10px] text-gray-500 normal-case">Keterangan</span>
                     </th>
 
                     {/* N5 columns */}
                     {n5Columns.map(col => (
-                      <th key={col.key} scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50/30">
-                        <span className="text-[10px] text-emerald-600/80 normal-case">{col.label}</span>
+                      <th key={col.key} scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50/30">
+                        <span className="text-[10px] text-raftel-600/80 normal-case">{col.label}</span>
                       </th>
                     ))}
 
                     {/* N4 Progress */}
                     {n4Columns.map(col => (
-                      <th key={col.key} scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-purple-50/30">
+                      <th key={col.key} scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-purple-50/30">
                         <span className="text-[10px] text-purple-600/80 normal-case">{col.label}</span>
                       </th>
                     ))}
 
                     {/* Ujian Utama */}
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-rose-200 bg-rose-50/50">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-rose-200 bg-rose-50/50">
                       Ujian Masuk
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-rose-200 bg-rose-50/50">
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-rose-200 bg-rose-50/50">
                       Ujian N5
                     </th>
-                    <th scope="col" className="px-4 py-4 font-bold border-b border-rose-200 bg-rose-100/60 text-rose-900">
+                    <th scope="col" className="px-3 py-2 font-bold border-b border-rose-200 bg-rose-100/60 text-rose-900">
                       Ujian N4
                     </th>
-                    <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 sticky right-0 bg-gray-100 admin-sticky-split-left">Aksi</th>
+                    <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 sticky right-0 bg-gray-100 admin-sticky-split-left">Aksi</th>
                   </tr>
                 </thead>
                 {paginatedRows.length > 0 && (
@@ -638,54 +657,54 @@ export default function ProgressBelajarPage() {
 
                       return (
                         <tr key={student.id} className="bg-white hover:bg-gray-50 transition-colors group">
-                          <td className="px-4 py-3 font-semibold text-indigo-600 border-r bg-white group-hover:bg-gray-50 sticky left-0 z-10 text-left">{student.no_peserta}</td>
-                          <td className="px-4 py-3 font-medium text-gray-800 border-r bg-white group-hover:bg-gray-50 sticky left-[140px] z-10 admin-sticky-split-right text-left">
+                          <td className="px-3 py-2 font-semibold text-indigo-600 border-r bg-white group-hover:bg-gray-50 sticky left-0 z-10 text-left">{student.no_peserta}</td>
+                          <td className="px-3 py-2 font-medium text-gray-800 border-r bg-white group-hover:bg-gray-50 sticky left-[140px] z-10 admin-sticky-split-right text-left">
                             <div>{student.nama_lengkap}</div>
                             <div className="text-[10px] text-gray-500 uppercase tracking-widest mt-0.5 font-bold">KELAS: {student.kelas || '-'}</div>
                           </td>
 
-                          <td className="px-4 py-3 border-r">
+                          <td className="px-3 py-2 border-r">
                             <span className={`text-xs px-2 py-1 rounded-full font-medium ${student.ujian_n5 === 'Lulus' ? 'bg-green-100 text-green-800' : student.ujian_n5 === 'Remedial' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-600'}`}>
                               {student.ujian_n5}
                             </span>
                           </td>
-                          <td className="px-4 py-3 border-r">
+                          <td className="px-3 py-2 border-r">
                             <span className={`text-xs px-2 py-1 rounded-full font-medium ${student.ujian_n4 === 'Lulus' ? 'bg-green-100 text-green-800' : student.ujian_n4 === 'Remedial' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-600'}`}>
                               {student.ujian_n4}
                             </span>
                           </td>
-                          <td className="px-4 py-3 border-r min-w-40">
+                          <td className="px-3 py-2 border-r min-w-40">
                             <ProgressBar percentage={student.progress_percentages?.[activeAspect] || 0} />
                           </td>
 
-                          <td className="px-4 py-3 bg-amber-50/30 font-bold border-r">
+                          <td className="px-3 py-2 bg-amber-50/30 font-bold border-r">
                             <ScoreCell score={avgScore} />
                           </td>
-                          <td className="px-4 py-3 text-gray-600 text-left max-w-[200px] truncate border-r" title={student.keterangans?.[activeAspect] || '-'}>{student.keterangans?.[activeAspect] || '-'}</td>
+                          <td className="px-3 py-2 text-gray-600 text-left max-w-[200px] truncate border-r" title={student.keterangans?.[activeAspect] || '-'}>{student.keterangans?.[activeAspect] || '-'}</td>
 
                           {/* N5 Progress */}
                           {n5Columns.map(col => (
-                            <td key={col.key} className="px-4 py-3 border-r">
+                            <td key={col.key} className="px-3 py-2 border-r">
                               <ScoreCell score={aspectScores[col.key]} />
                             </td>
                           ))}
 
                           {/* N4 Progress */}
                           {n4Columns.map(col => (
-                            <td key={col.key} className="px-4 py-3 border-r">
+                            <td key={col.key} className="px-3 py-2 border-r">
                               <ScoreCell score={aspectScores[col.key]} />
                             </td>
                           ))}
 
                           {/* Exams */}
-                          <td className="px-4 py-3 bg-rose-50/30 border-r"><ScoreCell score={student.ujian_masuk} /></td>
-                          <td className="px-4 py-3 bg-rose-50/30 border-r"><ScoreCell score={student.ujian_n5_score} /></td>
-                          <td className="px-4 py-3 bg-rose-100/30 text-lg border-r"><ScoreCell score={student.ujian_n4_score} /></td>
+                          <td className="px-3 py-2 bg-rose-50/30 border-r"><ScoreCell score={student.ujian_masuk} /></td>
+                          <td className="px-3 py-2 bg-rose-50/30 border-r"><ScoreCell score={student.ujian_n5_score} /></td>
+                          <td className="px-3 py-2 bg-rose-100/30 text-lg border-r"><ScoreCell score={student.ujian_n4_score} /></td>
 
-                          <td className="px-4 py-3 sticky right-0 bg-white admin-sticky-split-left group-hover:bg-gray-50 transition-colors">
+                          <td className="px-3 py-2 sticky right-0 bg-white admin-sticky-split-left group-hover:bg-gray-50 transition-colors">
                             <button
                               onClick={() => openEdit(student)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-emerald-600 hover:text-white bg-emerald-50 hover:bg-emerald-600 rounded-lg transition-colors border border-emerald-100"
+                              className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-raftel-600 hover:text-white bg-raftel-50 hover:bg-raftel-600 rounded-lg transition-colors border border-raftel-100"
                             >
                               <Pencil size={14} />
                               Edit
@@ -701,20 +720,22 @@ export default function ProgressBelajarPage() {
           </table>
         </StickyHorizontalScroll>
         {filteredRows.length > 0 && (
-          <TablePagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            totalItems={totalItems}
-            rangeStart={rangeStart}
-            rangeEnd={rangeEnd}
-            pageSize={pageSize}
-            minPageSize={minPageSize}
-            presetPageSizes={presetPageSizes}
-            isCustomPageSize={isCustomPageSize}
-            onPageChange={setCurrentPage}
-            onPageSizeChange={setPageSize}
-            onCustomModeChange={setIsCustomPageSize}
-          />
+          <div className="shrink-0">
+            <TablePagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalItems={totalItems}
+              rangeStart={rangeStart}
+              rangeEnd={rangeEnd}
+              pageSize={pageSize}
+              minPageSize={minPageSize}
+              presetPageSizes={presetPageSizes}
+              isCustomPageSize={isCustomPageSize}
+              onPageChange={setCurrentPage}
+              onPageSizeChange={setPageSize}
+              onCustomModeChange={setIsCustomPageSize}
+            />
+          </div>
         )}
         {filteredRows.length === 0 && (
           <div className="w-full py-12 flex items-center justify-center bg-gray-50/30">

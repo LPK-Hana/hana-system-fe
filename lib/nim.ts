@@ -1,7 +1,7 @@
-export const NIM_PREFIX = 'HANA';
+export const NIM_PREFIX = 'RFTL';
 
-/** Pola NIM standar: HANA + 2 digit angkatan + 3 digit urut (contoh HANA05001). */
-export const NIM_PATTERN = /^HANA(\d{2})(\d{3})$/;
+/** Pola NIM standar: RFTL + 2 digit angkatan + 3 digit urut (contoh RFTL05001). */
+export const NIM_PATTERN = /^RFTL(\d{2})(\d{3})$/;
 
 export function buildNim(angkatan: string, urut: number): string {
   const ang = String(angkatan).replace(/\D/g, '').slice(0, 2).padStart(2, '0');
@@ -18,7 +18,7 @@ function normalizeNoPesertaKey(noPeserta: string): string {
   return s.replace(/\u00a0/g, '');
 }
 
-/** Dua digit setelah prefix NIM untuk tampilan (mis. HANA05001 → "05"). */
+/** Dua digit setelah prefix NIM untuk tampilan (mis. RFTL05001 → "05"). */
 export function angkatanDigitsFromNoPeserta(noPeserta: string): string {
   const s = normalizeNoPesertaKey(noPeserta);
   const match = s.match(NIM_PATTERN);

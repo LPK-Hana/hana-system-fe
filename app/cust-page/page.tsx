@@ -38,7 +38,7 @@ function StudentAvatar({
   const boxClass =
     size === 'modal'
       ? 'w-16 h-16 rounded-full border-2 border-gray-200 bg-white flex-shrink-0'
-      : 'w-16 h-16 rounded-full mb-3 border-2 border-gray-100 bg-gray-50 group-hover:border-emerald-700 transition-colors duration-300';
+      : 'w-16 h-16 rounded-full mb-3 border-2 border-gray-100 bg-gray-50 group-hover:border-raftel-700 transition-colors duration-300';
 
   if (student.avatarUrl) {
     return (
@@ -234,7 +234,7 @@ export default function CustPage() {
 
   return (
     <main
-      className="min-h-screen bg-[#F4F7F4] flex flex-col p-6 relative overflow-x-hidden font-sans text-gray-800"
+      className="min-h-screen bg-[#F5F9FC] flex flex-col p-6 relative overflow-x-hidden font-sans text-gray-800"
     >
       {/* Decorative Wagara Background */}
       <div
@@ -250,14 +250,14 @@ export default function CustPage() {
         <nav className="mb-12 flex items-center justify-between">
           <button
             onClick={() => exitToHome()}
-            className="flex items-center gap-2 text-gray-500 hover:text-emerald-900 transition-colors duration-300 group"
+            className="flex items-center gap-2 text-gray-500 hover:text-raftel-900 transition-colors duration-300 group"
           >
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
             <span className="text-sm font-semibold tracking-widest uppercase">Back</span>
           </button>
 
           <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-800 animate-pulse" />
+            <div className="w-2.5 h-2.5 rounded-full bg-raftel-800 animate-pulse" />
             <span className="text-sm font-semibold tracking-widest text-gray-400 uppercase">Live</span>
           </div>
         </nav>
@@ -265,7 +265,7 @@ export default function CustPage() {
         {/* Header */}
         <header className="mb-20 flex flex-col items-center text-center">
           <div className="flex flex-col items-center gap-2 mb-6">
-            <h1 className="text-5xl md:text-6xl font-serif text-emerald-900 tracking-[0.2em]">学生リスト</h1>
+            <h1 className="text-5xl md:text-6xl font-serif text-raftel-900 tracking-[0.2em]">学生リスト</h1>
             <p className="text-base text-gray-400 font-serif tracking-[0.3em] uppercase">Student List</p>
           </div>
           <div className="flex items-center w-full max-w-sm mt-4">
@@ -276,7 +276,7 @@ export default function CustPage() {
         {/* Content */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="w-12 h-12 border-4 border-gray-200 border-t-emerald-800 rounded-full animate-spin" />
+            <div className="w-12 h-12 border-4 border-gray-200 border-t-raftel-800 rounded-full animate-spin" />
           </div>
         ) : (
           <div className="flex flex-col w-full gap-24">
@@ -284,11 +284,11 @@ export default function CustPage() {
               <section key={cat.key}>
                 {/* Category Header */}
                 <div className="flex items-center gap-5 border-b border-gray-200 pb-4 mb-10">
-                  <span className="px-3 py-1 bg-emerald-900 text-white text-sm font-bold tracking-widest">
+                  <span className="px-3 py-1 bg-raftel-900 text-white text-sm font-bold tracking-widest">
                     {cat.badge}
                   </span>
                   <div>
-                    <h2 className="text-2xl font-serif text-emerald-900 tracking-wider">{cat.titleJp}</h2>
+                    <h2 className="text-2xl font-serif text-raftel-900 tracking-wider">{cat.titleJp}</h2>
                     <p className="text-sm text-gray-400 tracking-widest uppercase">{cat.titleEn}</p>
                   </div>
                 </div>
@@ -297,14 +297,14 @@ export default function CustPage() {
                   {cat.data.map((student, idx) => (
                     <div
                       key={student.id}
-                      className="group bg-white border border-emerald-200/80 p-4 flex flex-col items-center text-center hover:border-emerald-400 transition-colors duration-300"
+                      className="group bg-white border border-raftel-200/80 p-4 flex flex-col items-center text-center hover:border-raftel-400 transition-colors duration-300"
                       style={{ animationDelay: `${idx * 80}ms`, animationFillMode: 'both' }}
                     >
                       {/* Avatar */}
                       <StudentAvatar student={student} size="card" />
 
                       {/* Name */}
-                      <p className="font-serif text-lg font-bold text-gray-800 tracking-wide mb-1 group-hover:text-emerald-900 transition-colors duration-300 leading-tight">
+                      <p className="font-serif text-lg font-bold text-gray-800 tracking-wide mb-1 group-hover:text-raftel-900 transition-colors duration-300 leading-tight">
                         {student.nameJp}
                       </p>
                       <p className="text-xs text-gray-400 tracking-wider mb-6">
@@ -314,9 +314,9 @@ export default function CustPage() {
                       {/* Info Button */}
                       <button
                         onClick={() => handleOpenInfo(student)}
-                        className="mt-auto w-full bg-white border border-emerald-200 py-2 px-2 flex items-center justify-center transition-colors duration-300 hover:border-emerald-400 hover:bg-emerald-50/30"
+                        className="mt-auto w-full bg-white border border-raftel-200 py-2 px-2 flex items-center justify-center transition-colors duration-300 hover:border-raftel-400 hover:bg-raftel-50/30"
                       >
-                        <span className="text-[10px] tracking-widest uppercase font-semibold text-gray-700 group-hover:text-emerald-900 transition-colors flex items-center gap-2">
+                        <span className="text-[10px] tracking-widest uppercase font-semibold text-gray-700 group-hover:text-raftel-900 transition-colors flex items-center gap-2">
                           <Info className="w-4 h-4" /> 詳細 / Info
                         </span>
                       </button>
@@ -339,13 +339,13 @@ export default function CustPage() {
           />
 
           {/* Modal */}
-          <div className="relative bg-[#F4F7F4] w-full max-w-[1400px] h-[95vh] overflow-y-auto border border-gray-300 shadow-2xl flex flex-col">
+          <div className="relative bg-[#F5F9FC] w-full max-w-[1400px] h-[95vh] overflow-y-auto border border-gray-300 shadow-2xl flex flex-col">
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-8 py-6 border-b border-gray-200 sticky top-0 bg-[#F4F7F4] z-10">
+            <div className="flex items-center justify-between px-8 py-6 border-b border-gray-200 sticky top-0 bg-[#F5F9FC] z-10">
               <div className="flex items-center gap-5">
                 <StudentAvatar student={selectedStudent} size="modal" />
                 <div>
-                  <h2 className="font-serif text-3xl text-emerald-900 tracking-wider mb-1">{selectedStudent.nameJp}</h2>
+                  <h2 className="font-serif text-3xl text-raftel-900 tracking-wider mb-1">{selectedStudent.nameJp}</h2>
                   <p className="text-sm text-gray-500 tracking-widest">{selectedStudent.name} · {selectedStudent.id}</p>
                 </div>
               </div>
@@ -365,13 +365,13 @@ export default function CustPage() {
                 <div className="flex flex-col w-full xl:w-[820px] shrink-0">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
-                      <h3 className="font-serif text-xl text-emerald-900 tracking-wider">履歴書</h3>
+                      <h3 className="font-serif text-xl text-raftel-900 tracking-wider">履歴書</h3>
                       <span className="text-sm text-gray-400 tracking-widest uppercase hidden sm:inline">/ Curriculum Vitae</span>
                     </div>
                     {selectedCVData && (
                       <button
                         onClick={handleDownloadPDF}
-                        className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-emerald-900 text-white text-xs font-semibold tracking-wider rounded hover:bg-emerald-800 transition-colors shadow-sm"
+                        className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-raftel-900 text-white text-xs font-semibold tracking-wider rounded hover:bg-raftel-800 transition-colors shadow-sm"
                       >
                         <Download size={14} />
                         <span className="hidden sm:inline">Download PDF</span>
@@ -382,7 +382,7 @@ export default function CustPage() {
                   <div ref={cvContainerRef} className="w-full border border-gray-200 overflow-hidden bg-gray-200 relative flex justify-center pt-4 pb-4 px-2">
                     {isLoadingCV ? (
                       <div className="flex flex-col items-center justify-center py-64 gap-4 text-gray-500">
-                        <Loader2 className="w-8 h-8 animate-spin text-emerald-900" />
+                        <Loader2 className="w-8 h-8 animate-spin text-raftel-900" />
                         <span className="text-sm font-medium">Memuat CV...</span>
                       </div>
                     ) : selectedCVData ? (
@@ -406,7 +406,7 @@ export default function CustPage() {
                   {/* Embedded Video */}
                   <div>
                     <div className="flex items-center gap-3 mb-4">
-                      <h3 className="font-serif text-xl text-emerald-900 tracking-wider">自己紹介動画</h3>
+                      <h3 className="font-serif text-xl text-raftel-900 tracking-wider">自己紹介動画</h3>
                       <span className="text-sm text-gray-400 tracking-widest uppercase">/ Introduction Video</span>
                     </div>
                     <div className="w-full border border-gray-200 bg-black overflow-hidden aspect-video relative">
@@ -423,7 +423,7 @@ export default function CustPage() {
                   {/* Skills */}
                   <div>
                     <div className="flex items-center gap-3 mb-4">
-                      <h3 className="font-serif text-xl text-emerald-900 tracking-wider">スキル</h3>
+                      <h3 className="font-serif text-xl text-raftel-900 tracking-wider">スキル</h3>
                       <span className="text-sm text-gray-400 tracking-widest uppercase">/ Skills</span>
                     </div>
                     <div className="flex flex-wrap gap-3">
@@ -440,10 +440,10 @@ export default function CustPage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="px-8 py-6 border-t border-gray-200 flex justify-end sticky bottom-0 bg-[#F4F7F4] z-10">
+            <div className="px-8 py-6 border-t border-gray-200 flex justify-end sticky bottom-0 bg-[#F5F9FC] z-10">
               <button
                 onClick={handleCloseInfo}
-                className="px-8 py-3 bg-emerald-900 text-white text-sm font-semibold uppercase tracking-widest hover:bg-emerald-800 transition-colors"
+                className="px-8 py-3 bg-raftel-900 text-white text-sm font-semibold uppercase tracking-widest hover:bg-raftel-800 transition-colors"
               >
                 閉じる / Close
               </button>

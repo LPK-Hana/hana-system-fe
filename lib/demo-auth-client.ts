@@ -2,6 +2,7 @@
 
 import { saveAuthSession } from '@/lib/auth';
 import { clearKkDemo } from '@/lib/kk-demo-storage';
+import { GURU_HOME_PATH } from '@/lib/roles';
 
 import { DEMO_STUDENT_USERNAME } from '@/lib/nim';
 
@@ -27,14 +28,14 @@ const DEMO_PROFILES: Record<
     userId: 101,
   },
   admin: {
-    displayName: 'Admin Hana',
+    displayName: 'Admin Raftel',
     userName: 'admin',
     authRole: 'admin',
     redirect: '/admin-dashboard/dashboard',
     userId: 1,
   },
   superadmin: {
-    displayName: 'Shachou Hana',
+    displayName: 'Shachou Raftel',
     userName: 'shachou',
     authRole: 'superadmin',
     redirect: '/super-admin',
@@ -44,7 +45,7 @@ const DEMO_PROFILES: Record<
     displayName: 'Pak Andi Wijaya',
     userName: 'guru',
     authRole: 'guru',
-    redirect: '/guru-dashboard',
+    redirect: GURU_HOME_PATH,
     userId: 50,
   },
   guest: {
@@ -79,7 +80,7 @@ export function enterDemoRole(role: DemoRole): { redirect: string } {
   }
 
   try {
-    sessionStorage.setItem('hana_demo_entering', '1');
+    sessionStorage.setItem('raftel_demo_entering', '1');
   } catch {
     /* ignore */
   }

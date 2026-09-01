@@ -7,7 +7,7 @@ export type StoredPeminatan = {
   updatedAt: string;
 };
 
-const STORAGE_VERSION = 'hana_student_peminatan_v2';
+const STORAGE_VERSION = 'raftel_student_peminatan_v2';
 
 function storageKey(): string {
   if (typeof window === 'undefined') return STORAGE_VERSION;

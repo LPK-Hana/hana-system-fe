@@ -353,8 +353,10 @@ export default function ProfilSiswaPage() {
     setPageSize,
     setIsCustomPageSize,
   } = useTablePagination(filteredStudents, {
+    defaultPageSize: 10,
     storageKey: 'profilSiswa_pageSize',
   });
+  const tableNeedsVerticalScroll = pageSize > 10;
 
   const openEditModal = (student: StudentRow) => {
     setEditingStudent(student);
@@ -673,7 +675,7 @@ export default function ProfilSiswaPage() {
     container.innerHTML = `
       <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
       <h2 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 4px">Daftar User Belum Submit CV</h2>
-      <p style="font-size:11px;color:#6b7280;margin:0 0 12px">Sistem Informasi Hana</p>
+      <p style="font-size:11px;color:#6b7280;margin:0 0 12px">Sistem Informasi Raftel</p>
       <div style="display:flex;justify-content:space-between;margin-bottom:12px;font-size:11px;color:#374151">
         <span>Total: <strong>${rows.length} user</strong>${unverifFilterKelas !== 'Semua' ? ` &nbsp;|&nbsp; Kelas: <strong>${unverifFilterKelas}</strong>` : ''}</span>
         <span>Dicetak: ${dateStr}</span>
@@ -737,10 +739,10 @@ export default function ProfilSiswaPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FDFBF7] font-sans text-gray-800 p-4 md:p-8 relative">
+    <main className="h-screen overflow-hidden flex flex-col bg-[#F5F9FC] font-sans text-gray-800 p-3 md:p-4 relative">
       {isLoading && <LoadingOverlay text="MEMUAT DATA..." fixed={true} />}
       {/* Header Area */}
-      <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <header className="shrink-0 mb-3 flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div className="flex items-center gap-4">
           <Link
             href="/admin-dashboard/dashboard"
@@ -749,26 +751,26 @@ export default function ProfilSiswaPage() {
             <ArrowLeft size={20} strokeWidth={1.5} />
           </Link>
           <div>
-            <h1 className="text-3xl font-serif font-normal text-gray-900 tracking-wide mb-1">Profil Siswa <span className="text-lg text-gray-400 font-sans ml-2 tracking-normal font-normal">(実習生プロフィール)</span></h1>
+            <h1 className="text-3xl font-serif text-gray-900 tracking-wide mb-1">Profil Siswa <span className="text-lg text-gray-400 font-sans ml-2 tracking-normal font-normal">(実習生プロフィール)</span></h1>
             <p className="text-xs font-medium text-gray-500 tracking-widest uppercase">Kelola dan pantau data diri seluruh peserta magang.</p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="relative group">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-emerald-800 transition-colors" size={18} strokeWidth={1.5} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-raftel-800 transition-colors" size={18} strokeWidth={1.5} />
             <input
               type="text"
               placeholder="Cari nama atau no. peserta..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 bg-transparent border-0 border-b border-gray-300 focus:outline-none focus:ring-0 focus:border-emerald-800 w-full md:w-64 transition-colors"
+              className="pl-10 pr-4 py-2 bg-transparent border-0 border-b border-gray-300 focus:outline-none focus:ring-0 focus:border-raftel-800 w-full md:w-64 transition-colors"
             />
           </div>
           <select
             value={filterAngkatan}
             onChange={(e) => handleAngkatanChange(e.target.value)}
-            className="px-4 py-2.5 bg-transparent border border-gray-300 text-xs tracking-widest uppercase text-gray-600 focus:outline-none focus:border-emerald-800 transition-colors"
+            className="px-4 py-2.5 bg-transparent border border-gray-300 text-xs tracking-widest uppercase text-gray-600 focus:outline-none focus:border-raftel-800 transition-colors"
           >
             <option value="Semua">Semua Angkatan</option>
             {uniqueAngkatan.map(a => (
@@ -778,7 +780,7 @@ export default function ProfilSiswaPage() {
 
           <button
             onClick={() => setIsUnverifModalOpen(true)}
-            className="relative flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-300 text-xs tracking-widest uppercase text-gray-700 hover:bg-gray-50 hover:text-emerald-600 focus:outline-none focus:border-emerald-800 transition-colors duration-300"
+            className="relative flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-300 text-xs tracking-widest uppercase text-gray-700 hover:bg-gray-50 hover:text-raftel-600 focus:outline-none focus:border-raftel-800 transition-colors duration-300"
             title="User Belum Submit CV"
           >
             <User size={18} strokeWidth={1.5} />
@@ -791,7 +793,7 @@ export default function ProfilSiswaPage() {
 
           <button
             onClick={() => setDownloadMenuOpen(true)}
-            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-300 text-xs tracking-widest uppercase text-gray-700 hover:bg-gray-50 hover:text-emerald-600 focus:outline-none focus:border-emerald-800 transition-colors duration-300"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-300 text-xs tracking-widest uppercase text-gray-700 hover:bg-gray-50 hover:text-raftel-600 focus:outline-none focus:border-raftel-800 transition-colors duration-300"
             title="Opsi Unduh"
           >
             <Download size={18} strokeWidth={1.5} />
@@ -800,86 +802,86 @@ export default function ProfilSiswaPage() {
       </header>
 
       {/* Table Container */}
-      <div className="bg-white border border-gray-300 relative z-10 shadow-sm">
-        <StickyHorizontalScroll>
-          <table className="admin-data-table w-full text-sm text-left whitespace-nowrap">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0 z-10">
+      <div className="flex-1 min-h-0 flex flex-col bg-white border border-gray-300 relative z-10 shadow-sm overflow-hidden">
+        <StickyHorizontalScroll fill verticalScroll={tableNeedsVerticalScroll}>
+          <table className={`admin-data-table w-full text-sm text-left whitespace-nowrap ${tableNeedsVerticalScroll ? '' : 'h-full'}`}>
+            <thead className="text-xs text-gray-700 uppercase bg-gray-100">
               <tr>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-0 z-20 min-w-[60px]">NO</th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-[60px] z-20 min-w-[130px]">実習生番号<br /><span className="text-[10px] text-gray-500 normal-case">No. Peserta</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-[190px] z-20 min-w-[80px]">写真<br /><span className="text-[10px] text-gray-500 normal-case">Foto</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-[270px] z-20 min-w-[200px] admin-sticky-split-right">実習生本名<br /><span className="text-[10px] text-gray-500 normal-case">Nama Peserta Magang</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50 min-w-[140px]">分野<br /><span className="text-[10px] text-gray-500 normal-case">Peminatan</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50 min-w-[220px]">職種<br /><span className="text-[10px] text-gray-500 normal-case">Jenis Bidang Pekerjaan</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">カタカナ<br /><span className="text-[10px] text-gray-500 normal-case">Katakana</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">親のデータ<br /><span className="text-[10px] text-gray-500 normal-case">Data Orang Tua</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-0 z-20 min-w-[60px]">NO</th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-[60px] z-20 min-w-[130px]">実習生番号<br /><span className="text-[10px] text-gray-500 normal-case">No. Peserta</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-[190px] z-20 min-w-[80px]">写真<br /><span className="text-[10px] text-gray-500 normal-case">Foto</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 border-r bg-gray-100 sticky left-[270px] z-20 min-w-[200px] admin-sticky-split-right">実習生本名<br /><span className="text-[10px] text-gray-500 normal-case">Nama Peserta Magang</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50 min-w-[140px]">分野<br /><span className="text-[10px] text-gray-500 normal-case">Peminatan</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50 min-w-[220px]">職種<br /><span className="text-[10px] text-gray-500 normal-case">Jenis Bidang Pekerjaan</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">カタカナ<br /><span className="text-[10px] text-gray-500 normal-case">Katakana</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">親のデータ<br /><span className="text-[10px] text-gray-500 normal-case">Data Orang Tua</span></th>
                 {/* CV Extra Fields */}
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">呼称<br /><span className="text-[10px] text-gray-500 normal-case">Nama Panggilan</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">呼称<br /><span className="text-[10px] text-gray-500 normal-case">Nama Panggilan</span></th>
 
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">何期生<br /><span className="text-[10px] text-gray-500 normal-case">Angkatan</span></th>
-
-                {/* CV Extra Fields */}
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">国籍<br /><span className="text-[10px] text-gray-500 normal-case">Kewarganegaraan</span></th>
-
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">生年月日<br /><span className="text-[10px] text-gray-500 normal-case">Tgl Lahir</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">年齢<br /><span className="text-[10px] text-gray-500 normal-case">Usia</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">性別<br /><span className="text-[10px] text-gray-500 normal-case">Jenis Kelamin</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">何期生<br /><span className="text-[10px] text-gray-500 normal-case">Angkatan</span></th>
 
                 {/* CV Extra Fields */}
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">血液型<br /><span className="text-[10px] text-gray-500 normal-case">Gol. Darah</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">国籍<br /><span className="text-[10px] text-gray-500 normal-case">Kewarganegaraan</span></th>
 
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">婚姻<br /><span className="text-[10px] text-gray-500 normal-case">Status Pernikahan</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">宗教<br /><span className="text-[10px] text-gray-500 normal-case">Agama</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">出生地<br /><span className="text-[10px] text-gray-500 normal-case">Asal (Tempat Lahir)</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">住所<br /><span className="text-[10px] text-gray-500 normal-case">Alamat</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">生年月日<br /><span className="text-[10px] text-gray-500 normal-case">Tgl Lahir</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">年齢<br /><span className="text-[10px] text-gray-500 normal-case">Usia</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">性別<br /><span className="text-[10px] text-gray-500 normal-case">Jenis Kelamin</span></th>
 
                 {/* CV Extra Fields */}
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">郵便番号<br /><span className="text-[10px] text-gray-500 normal-case">Kode Pos</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">電話番号<br /><span className="text-[10px] text-gray-500 normal-case">No. Telepon</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">メール<br /><span className="text-[10px] text-gray-500 normal-case">Email</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">血液型<br /><span className="text-[10px] text-gray-500 normal-case">Gol. Darah</span></th>
 
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">健康診断<br /><span className="text-[10px] text-gray-500 normal-case">File MCU (PDF)</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">Admin MCU<br /><span className="text-[10px] text-gray-500 normal-case">Hasil Medical Checkup</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">体重<br /><span className="text-[10px] text-gray-500 normal-case">Berat Badan</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">身長<br /><span className="text-[10px] text-gray-500 normal-case">Tinggi Badan</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">婚姻<br /><span className="text-[10px] text-gray-500 normal-case">Status Pernikahan</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">宗教<br /><span className="text-[10px] text-gray-500 normal-case">Agama</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">出生地<br /><span className="text-[10px] text-gray-500 normal-case">Asal (Tempat Lahir)</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">住所<br /><span className="text-[10px] text-gray-500 normal-case">Alamat</span></th>
+
+                {/* CV Extra Fields */}
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">郵便番号<br /><span className="text-[10px] text-gray-500 normal-case">Kode Pos</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">電話番号<br /><span className="text-[10px] text-gray-500 normal-case">No. Telepon</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">メール<br /><span className="text-[10px] text-gray-500 normal-case">Email</span></th>
+
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">健康診断<br /><span className="text-[10px] text-gray-500 normal-case">File MCU (PDF)</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">Admin MCU<br /><span className="text-[10px] text-gray-500 normal-case">Hasil Medical Checkup</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">体重<br /><span className="text-[10px] text-gray-500 normal-case">Berat Badan</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">身長<br /><span className="text-[10px] text-gray-500 normal-case">Tinggi Badan</span></th>
 
                 {/* CV Extra Fields - Medical */}
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">視力<br /><span className="text-[10px] text-gray-500 normal-case">Mata (Kiri/Kanan)</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">眼鏡<br /><span className="text-[10px] text-gray-500 normal-case">Kacamata</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">刺青<br /><span className="text-[10px] text-gray-500 normal-case">Tato</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">喫煙<br /><span className="text-[10px] text-gray-500 normal-case">Merokok</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">色盲<br /><span className="text-[10px] text-gray-500 normal-case">Buta Warna</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">骨折歴<br /><span className="text-[10px] text-gray-500 normal-case">Patah Tulang</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">視力<br /><span className="text-[10px] text-gray-500 normal-case">Mata (Kiri/Kanan)</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">眼鏡<br /><span className="text-[10px] text-gray-500 normal-case">Kacamata</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">刺青<br /><span className="text-[10px] text-gray-500 normal-case">Tato</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">喫煙<br /><span className="text-[10px] text-gray-500 normal-case">Merokok</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">色盲<br /><span className="text-[10px] text-gray-500 normal-case">Buta Warna</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">骨折歴<br /><span className="text-[10px] text-gray-500 normal-case">Patah Tulang</span></th>
 
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">趣味<br /><span className="text-[10px] text-gray-500 normal-case">Hobi</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">学習レベル<br /><span className="text-[10px] text-gray-500 normal-case">Tingkatan Pembelajaran</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">元LPK名<br /><span className="text-[10px] text-gray-500 normal-case">Asal LPK</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">送り出し機関名<br /><span className="text-[10px] text-gray-500 normal-case">Nama SO</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">組合名<br /><span className="text-[10px] text-gray-500 normal-case">Nama Kumiai</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">企業名<br /><span className="text-[10px] text-gray-500 normal-case">Nama Perusahaan</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">職種・作業<br /><span className="text-[10px] text-gray-500 normal-case">Jenis Pekerjaan</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">保有資格<br /><span className="text-[10px] text-gray-500 normal-case">Sertifikat Dimiliki</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">入学日<br /><span className="text-[10px] text-gray-500 normal-case">Tanggal Masuk Pelatihan</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">卒業日<br /><span className="text-[10px] text-gray-500 normal-case">Tanggal Kelulusan</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">入国予定日<br /><span className="text-[10px] text-gray-500 normal-case">Perkiraan Masuk (Jepang)</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200">出国日<br /><span className="text-[10px] text-gray-500 normal-case">Tanggal Keberangkatan</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 bg-emerald-50">個人データファイル<br /><span className="text-[10px] text-gray-500 normal-case">File Data Diri</span></th>
-                <th scope="col" className="px-4 py-4 font-semibold border-b border-gray-200 sticky right-0 bg-gray-100 admin-sticky-split-left text-center">Aksi</th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">趣味<br /><span className="text-[10px] text-gray-500 normal-case">Hobi</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">学習レベル<br /><span className="text-[10px] text-gray-500 normal-case">Tingkatan Pembelajaran</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">元LPK名<br /><span className="text-[10px] text-gray-500 normal-case">Asal LPK</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">送り出し機関名<br /><span className="text-[10px] text-gray-500 normal-case">Nama SO</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">組合名<br /><span className="text-[10px] text-gray-500 normal-case">Nama Kumiai</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">企業名<br /><span className="text-[10px] text-gray-500 normal-case">Nama Perusahaan</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">職種・作業<br /><span className="text-[10px] text-gray-500 normal-case">Jenis Pekerjaan</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">保有資格<br /><span className="text-[10px] text-gray-500 normal-case">Sertifikat Dimiliki</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">入学日<br /><span className="text-[10px] text-gray-500 normal-case">Tanggal Masuk Pelatihan</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">卒業日<br /><span className="text-[10px] text-gray-500 normal-case">Tanggal Kelulusan</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">入国予定日<br /><span className="text-[10px] text-gray-500 normal-case">Perkiraan Masuk (Jepang)</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200">出国日<br /><span className="text-[10px] text-gray-500 normal-case">Tanggal Keberangkatan</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 bg-raftel-50">個人データファイル<br /><span className="text-[10px] text-gray-500 normal-case">File Data Diri</span></th>
+                <th scope="col" className="px-3 py-2 font-semibold border-b border-gray-200 sticky right-0 bg-gray-100 admin-sticky-split-left text-center">Aksi</th>
               </tr>
             </thead>
             <tbody>
               {paginatedStudents.map((student, index) => (
-                <tr key={student.id} className="bg-white hover:bg-slate-50 transition-colors group">
-                  <td className="px-4 py-4 font-medium text-gray-900 border-r bg-white group-hover:bg-slate-50 sticky left-0 z-10 transition-colors">{rangeStart + index}</td>
-                  <td className="px-4 py-4 font-semibold text-emerald-600 border-r bg-white group-hover:bg-slate-50 sticky left-[60px] z-10 transition-colors">{student.no_peserta}</td>
-                  <td className="px-4 py-4 border-r bg-white group-hover:bg-slate-50 sticky left-[190px] z-10 transition-colors">
-                    <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden relative border border-gray-200 shadow-sm flex items-center justify-center group/foto">
+                <tr key={`${student.no_peserta}-${rangeStart + index}`} className="bg-white hover:bg-slate-50 transition-colors group">
+                  <td className="px-3 py-2 font-medium text-gray-900 border-r bg-white group-hover:bg-slate-50 sticky left-0 z-10 transition-colors">{rangeStart + index}</td>
+                  <td className="px-3 py-2 font-semibold text-raftel-600 border-r bg-white group-hover:bg-slate-50 sticky left-[60px] z-10 transition-colors">{student.no_peserta}</td>
+                  <td className="px-3 py-2 border-r bg-white group-hover:bg-slate-50 sticky left-[190px] z-10 transition-colors">
+                    <div className="w-8 h-8 rounded-full bg-gray-100 overflow-hidden relative border border-gray-200 shadow-sm flex items-center justify-center group/foto">
                       {student.foto ? (
                         isEmojiAvatar(student.foto) ? (
                           <button
                             type="button"
                             onClick={() => setPhotoModalStudent(student)}
-                            className="w-full h-full flex items-center justify-center text-2xl hover:bg-gray-50 transition-colors"
+                            className="w-full h-full flex items-center justify-center text-lg hover:bg-gray-50 transition-colors"
                             title="Lihat Avatar"
                           >
                             {student.foto}
@@ -918,37 +920,37 @@ export default function ProfilSiswaPage() {
                       )}
                     </div>
                   </td>
-                  <td className="px-4 py-4 font-medium text-gray-800 border-r bg-white group-hover:bg-slate-50 sticky left-[270px] z-10 admin-sticky-split-right transition-colors">{student.nama_lengkap}</td>
-                  <td className="px-4 py-4 text-gray-700 bg-emerald-50/30 whitespace-normal max-w-[160px]">{student.peminatan || '-'}</td>
-                  <td className="px-4 py-4 text-gray-700 bg-emerald-50/30 whitespace-normal max-w-[240px]">{student.jenis_bidang_pekerjaan || '-'}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.nama_katakana}</td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">
+                  <td className="px-3 py-2 font-medium text-gray-800 border-r bg-white group-hover:bg-slate-50 sticky left-[270px] z-10 admin-sticky-split-right transition-colors">{student.nama_lengkap}</td>
+                  <td className="px-3 py-2 text-gray-700 bg-raftel-50/30 whitespace-normal max-w-[160px]">{student.peminatan || '-'}</td>
+                  <td className="px-3 py-2 text-gray-700 bg-raftel-50/30 whitespace-normal max-w-[240px]">{student.jenis_bidang_pekerjaan || '-'}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.nama_katakana}</td>
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">
                     <button
                       onClick={() => setParentModalStudent(student)}
-                      className="px-3 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-100 hover:bg-emerald-200 transition-colors border border-emerald-200 rounded-sm"
+                      className="px-3 py-1.5 text-xs font-medium text-raftel-700 bg-raftel-100 hover:bg-raftel-200 transition-colors border border-raftel-200 rounded-sm"
                     >
                       Lihat Data
                     </button>
                   </td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">{student.nama_panggilan}</td>
-                  <td className="px-4 py-4 text-gray-600">
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">{student.nama_panggilan}</td>
+                  <td className="px-3 py-2 text-gray-600">
                     <span className="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">{student.angkatan}</span>
                   </td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">{student.kewarganegaraan}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.tanggal_lahir}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.umur} thn</td>
-                  <td className="px-4 py-4 text-gray-600">
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">{student.kewarganegaraan}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.tanggal_lahir}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.umur} thn</td>
+                  <td className="px-3 py-2 text-gray-600">
                     {student.jenis_kelamin === 'L' ? 'Laki-laki (男)' : student.jenis_kelamin === 'P' ? 'Perempuan (女)' : student.jenis_kelamin}
                   </td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50 font-semibold">{student.golongan_darah}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.status_pernikahan}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.agama}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.asal}</td>
-                  <td className="px-4 py-4 text-gray-600 max-w-[200px] truncate" title={student.alamat}>{student.alamat}</td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">{student.kode_pos}</td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">{student.telepon}</td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">{student.email}</td>
-                  <td className="px-4 py-4 text-gray-600">
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50 font-semibold">{student.golongan_darah}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.status_pernikahan}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.agama}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.asal}</td>
+                  <td className="px-3 py-2 text-gray-600 max-w-[200px] truncate" title={student.alamat}>{student.alamat}</td>
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">{student.kode_pos}</td>
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">{student.telepon}</td>
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">{student.email}</td>
+                  <td className="px-3 py-2 text-gray-600">
                     {!student.mcu_pdf || student.mcu_pdf === '-' ? (
                       <span className="text-[11px] font-medium text-red-500 italic bg-red-50 px-2 py-1 rounded-sm border border-red-100">
                         Admin Perlu Upload Hasil MCU
@@ -957,55 +959,55 @@ export default function ProfilSiswaPage() {
                       <button
                         type="button"
                         onClick={() => openMcuPreview(student)}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-emerald-700 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 transition-colors"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-raftel-700 border border-raftel-200 bg-raftel-50 hover:bg-raftel-100 transition-colors"
                       >
                         <Eye size={12} />
                         {student.mcu_pdf}
                       </button>
                     )}
                   </td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">
                     {student.mcu}
                   </td>
-                  <td className="px-4 py-4 text-gray-600">{student.berat_badan} kg</td>
-                  <td className="px-4 py-4 text-gray-600">{student.tinggi_badan} cm</td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">{student.mata_kiri} / {student.mata_kanan}</td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">{student.berkacamata}</td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">{student.tato}</td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">{student.merokok}</td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">{student.buta_warna}</td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">{student.patah_tulang}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.hobi}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.tingkatan_pembelajaran}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.asal_lpk}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.nama_so}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.nama_kumiai}</td>
-                  <td className="px-4 py-4 font-medium text-gray-800">{student.nama_perusahaan}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.jenis_pekerjaan}</td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">
+                  <td className="px-3 py-2 text-gray-600">{student.berat_badan} kg</td>
+                  <td className="px-3 py-2 text-gray-600">{student.tinggi_badan} cm</td>
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">{student.mata_kiri} / {student.mata_kanan}</td>
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">{student.berkacamata}</td>
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">{student.tato}</td>
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">{student.merokok}</td>
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">{student.buta_warna}</td>
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">{student.patah_tulang}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.hobi}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.tingkatan_pembelajaran}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.asal_lpk}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.nama_so}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.nama_kumiai}</td>
+                  <td className="px-3 py-2 font-medium text-gray-800">{student.nama_perusahaan}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.jenis_pekerjaan}</td>
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">
                     <button
                       onClick={() => setCertificateModalStudent(student)}
-                      className="px-3 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-100 hover:bg-emerald-200 transition-colors border border-emerald-200 rounded-sm"
+                      className="px-3 py-1.5 text-xs font-medium text-raftel-700 bg-raftel-100 hover:bg-raftel-200 transition-colors border border-raftel-200 rounded-sm"
                     >
                       Lihat Sertifikat
                     </button>
                   </td>
-                  <td className="px-4 py-4 text-gray-600">{student.tanggal_masuk_pelatihan}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.tanggal_kelulusan}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.perkiraan_masuk_jepang}</td>
-                  <td className="px-4 py-4 text-gray-600">{student.tanggal_keberangkatan}</td>
-                  <td className="px-4 py-4 text-gray-600 bg-slate-50">
+                  <td className="px-3 py-2 text-gray-600">{student.tanggal_masuk_pelatihan}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.tanggal_kelulusan}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.perkiraan_masuk_jepang}</td>
+                  <td className="px-3 py-2 text-gray-600">{student.tanggal_keberangkatan}</td>
+                  <td className="px-3 py-2 text-gray-600 bg-slate-50">
                     <button
                       onClick={() => setPersonalDataModalStudent(student)}
-                      className="px-3 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-100 hover:bg-emerald-200 transition-colors border border-emerald-200 rounded-sm"
+                      className="px-3 py-1.5 text-xs font-medium text-raftel-700 bg-raftel-100 hover:bg-raftel-200 transition-colors border border-raftel-200 rounded-sm"
                     >
                       Lihat Data Diri
                     </button>
                   </td>
-                  <td className="px-4 py-4 sticky right-0 bg-white admin-sticky-split-left group-hover:bg-slate-50 transition-colors">
+                  <td className="px-3 py-2 sticky right-0 bg-white admin-sticky-split-left group-hover:bg-slate-50 transition-colors">
                     <button
                       onClick={() => openEditModal(student)}
-                      className="flex items-center justify-center gap-1.5 w-full px-3 py-1.5 text-sm font-medium text-emerald-600 hover:text-white bg-emerald-50 hover:bg-emerald-600 rounded-lg transition-colors border border-emerald-100"
+                      className="flex items-center justify-center gap-1.5 w-full px-3 py-1 text-sm font-medium text-raftel-600 hover:text-white bg-raftel-50 hover:bg-raftel-600 rounded-lg transition-colors border border-raftel-100"
                       title="Edit Data"
                     >
                       <Pencil size={14} /> Edit
@@ -1017,22 +1019,24 @@ export default function ProfilSiswaPage() {
           </table>
         </StickyHorizontalScroll>
         {filteredStudents.length > 0 && (
-          <TablePagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            totalItems={totalItems}
-            rangeStart={rangeStart}
-            rangeEnd={rangeEnd}
-            pageSize={pageSize}
-            minPageSize={minPageSize}
-            presetPageSizes={presetPageSizes}
-            isCustomPageSize={isCustomPageSize}
-            onPageChange={setCurrentPage}
-            onPageSizeChange={setPageSize}
-            onCustomModeChange={setIsCustomPageSize}
-          />
+          <div className="shrink-0">
+            <TablePagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalItems={totalItems}
+              rangeStart={rangeStart}
+              rangeEnd={rangeEnd}
+              pageSize={pageSize}
+              minPageSize={minPageSize}
+              presetPageSizes={presetPageSizes}
+              isCustomPageSize={isCustomPageSize}
+              onPageChange={setCurrentPage}
+              onPageSizeChange={setPageSize}
+              onCustomModeChange={setIsCustomPageSize}
+            />
+          </div>
         )}
-      </div >
+      </div>
 
       {/* CSS for custom scrollbar to make it look premium */}
       < style dangerouslySetInnerHTML={{
@@ -1222,7 +1226,7 @@ export default function ProfilSiswaPage() {
                     window.open(photoModalStudent.foto, '_blank');
                   }
                 }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-700 text-white text-xs tracking-widest uppercase font-medium rounded hover:bg-emerald-800 transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-raftel-700 text-white text-xs tracking-widest uppercase font-medium rounded hover:bg-raftel-800 transition-colors shadow-sm"
               >
                 <Download size={14} /> Download Foto
               </button>
@@ -1259,14 +1263,14 @@ export default function ProfilSiswaPage() {
                     placeholder="Cari nama atau no. peserta..."
                     value={unverifSearchTerm}
                     onChange={(e) => setUnverifSearchTerm(e.target.value)}
-                    className="w-full pl-9 pr-4 h-10 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full pl-9 pr-4 h-10 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-raftel-500 focus:border-raftel-500"
                   />
                 </div>
                 <div className="relative">
                   <select
                     value={unverifFilterKelas}
                     onChange={(e) => setUnverifFilterKelas(e.target.value)}
-                    className="appearance-none pl-4 pr-10 h-10 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 cursor-pointer min-w-[140px]"
+                    className="appearance-none pl-4 pr-10 h-10 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-1 focus:ring-raftel-500 focus:border-raftel-500 cursor-pointer min-w-[140px]"
                   >
                     <option value="Semua">Semua Kelas</option>
                     {uniqueUnverifKelas.map(k => (
@@ -1282,7 +1286,7 @@ export default function ProfilSiswaPage() {
                 <button
                   onClick={handlePrintUnverifPdf}
                   disabled={filteredUnverifUsers.length === 0}
-                  className="flex items-center justify-center w-10 h-10 shrink-0 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800 transition-colors focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
+                  className="flex items-center justify-center w-10 h-10 shrink-0 bg-raftel-700 text-white rounded-lg hover:bg-raftel-800 transition-colors focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
                   title="Download PDF"
                 >
                   <FileDown size={18} />
@@ -1304,13 +1308,13 @@ export default function ProfilSiswaPage() {
                   <tbody className="divide-y divide-gray-100">
                     {filteredUnverifUsers.length > 0 ? (
                       filteredUnverifUsers.map((u, i) => (
-                        <tr key={i} className="bg-white hover:bg-emerald-50/30 transition-colors group">
+                        <tr key={i} className="bg-white hover:bg-raftel-50/30 transition-colors group">
                           <td className="px-6 py-4 font-medium text-gray-500 group-hover:text-gray-900 transition-colors">{i + 1}</td>
-                          <td className="px-6 py-4 text-emerald-600 font-semibold">{u.user_name}</td>
+                          <td className="px-6 py-4 text-raftel-600 font-semibold">{u.user_name}</td>
                           <td className="px-6 py-4 text-gray-800 font-medium">{u.name}</td>
                           <td className="px-6 py-4">
                             {u.nama_kelas ? (
-                              <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
+                              <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-raftel-50 text-raftel-700 border border-raftel-100">
                                 {u.nama_kelas}
                               </span>
                             ) : (
@@ -1333,7 +1337,7 @@ export default function ProfilSiswaPage() {
                               </>
                             ) : (
                               <>
-                                <div className="w-12 h-12 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-3 border border-green-100">
+                                <div className="w-12 h-12 bg-raftel-50 text-raftel-500 rounded-full flex items-center justify-center mb-3 border border-raftel-100">
                                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                   </svg>

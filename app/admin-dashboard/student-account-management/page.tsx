@@ -521,7 +521,7 @@ export default function StudentAccountManagementPage() {
   const isAllSelected = filtered.length > 0 && selectedUserIds.length === filtered.length;
 
   return (
-    <main className="min-h-screen bg-[#F4F7F4] font-sans text-gray-800 p-4 md:p-8 relative">
+    <main className="min-h-screen bg-[#F5F9FC] font-sans text-gray-800 p-4 md:p-8 relative">
       <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link
@@ -532,7 +532,7 @@ export default function StudentAccountManagementPage() {
           </Link>
           <div>
             <div className="flex items-center gap-3">
-              <UserCog className="text-emerald-900" size={28} strokeWidth={1.5} />
+              <UserCog className="text-raftel-900" size={28} strokeWidth={1.5} />
               <h1 className="text-3xl font-serif text-gray-900 tracking-wide mb-1">
                 Student account management{' '}
                 <span className="text-lg text-gray-400 font-sans ml-2 tracking-normal font-normal">
@@ -548,7 +548,7 @@ export default function StudentAccountManagementPage() {
         <button
           type="button"
           onClick={() => setIsCreateClassOpen(true)}
-          className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-900 text-xs tracking-widest uppercase text-white hover:bg-emerald-950 transition-colors shadow-sm self-start md:self-auto"
+          className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-raftel-900 text-xs tracking-widest uppercase text-white hover:bg-raftel-950 transition-colors shadow-sm self-start md:self-auto"
         >
           <Plus size={16} strokeWidth={1.5} />
           Buat Kelas Baru
@@ -560,7 +560,7 @@ export default function StudentAccountManagementPage() {
           <div className="flex flex-col sm:flex-row flex-wrap sm:items-center gap-4 w-full xl:max-w-5xl">
             <div className="relative group w-full sm:max-w-xs">
               <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-emerald-800 transition-colors"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-raftel-800 transition-colors"
                 size={18}
                 strokeWidth={1.5}
               />
@@ -569,7 +569,7 @@ export default function StudentAccountManagementPage() {
                 placeholder="Cari nama atau username (NIM)…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10 pr-4 py-2 w-full bg-transparent border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+                className="pl-10 pr-4 py-2 w-full bg-transparent border border-gray-200 focus:outline-none focus:ring-2 focus:ring-raftel-500 text-sm"
               />
             </div>
 
@@ -577,7 +577,7 @@ export default function StudentAccountManagementPage() {
               <select
                 value={selectedKelas}
                 onChange={(e) => setSelectedKelas(e.target.value)}
-                className="appearance-none w-full border border-gray-200 bg-white px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
+                className="appearance-none w-full border border-gray-200 bg-white px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-raftel-500 cursor-pointer"
               >
                 <option value="">Semua Kelas</option>
                 {kelasSet.map((k) => (
@@ -595,7 +595,7 @@ export default function StudentAccountManagementPage() {
                   setSelectedUserIds([]);
                   setIsBulkMode(false);
                 }}
-                className="appearance-none w-full border border-gray-200 bg-white px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
+                className="appearance-none w-full border border-gray-200 bg-white px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-raftel-500 cursor-pointer"
               >
                 <option value="1">Akun Aktif</option>
                 <option value="0">Akun Nonaktif</option>
@@ -607,7 +607,7 @@ export default function StudentAccountManagementPage() {
               <select
                 value={selectedAngkatan}
                 onChange={(e) => setSelectedAngkatan(e.target.value)}
-                className="appearance-none w-full border border-gray-200 bg-white px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
+                className="appearance-none w-full border border-gray-200 bg-white px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-raftel-500 cursor-pointer"
               >
                 <option value="">Semua Angkatan</option>
                 {angkatanSet.map((a) => (
@@ -623,7 +623,7 @@ export default function StudentAccountManagementPage() {
                 if (!isBulkMode) setSelectedUserIds([]);
               }}
               className={`shrink-0 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium border transition-colors ${isBulkMode
-                ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                ? 'bg-raftel-50 border-raftel-200 text-raftel-800'
                 : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
                 }`}
             >
@@ -632,7 +632,7 @@ export default function StudentAccountManagementPage() {
             </button>
           </div>
           <div className="flex items-center gap-2 shrink-0 hidden lg:flex text-xs font-medium text-gray-600">
-            <span className={`w-2 h-2 rounded-full ${showInactive ? 'bg-red-500' : 'bg-green-500'}`} />
+            <span className={`w-2 h-2 rounded-full ${showInactive ? 'bg-red-500' : 'bg-raftel-500'}`} />
             {showInactive ? 'Siswa Nonaktif' : 'Siswa Aktif'}
           </div>
         </div>
@@ -666,7 +666,7 @@ export default function StudentAccountManagementPage() {
                 <button
                   type="button"
                   onClick={() => setIsBulkActivateOpen(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-emerald-700 bg-white border border-emerald-200 hover:bg-emerald-50 shadow-sm transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-raftel-700 bg-white border border-raftel-200 hover:bg-raftel-50 shadow-sm transition-colors"
                 >
                   <CheckSquare size={14} />
                   Aktifkan Akun (Bulk)
@@ -693,7 +693,7 @@ export default function StudentAccountManagementPage() {
                     {isBulkMode ? (
                       <input
                         type="checkbox"
-                        className="w-4 h-4 text-emerald-600 bg-white border-gray-300 rounded focus:ring-emerald-500 cursor-pointer"
+                        className="w-4 h-4 text-raftel-600 bg-white border-gray-300 rounded focus:ring-raftel-500 cursor-pointer"
                         checked={isAllSelected}
                         onChange={(e) => handleSelectAll(e.target.checked)}
                       />
@@ -721,12 +721,12 @@ export default function StudentAccountManagementPage() {
                 {filtered.map((u, i) => {
                   const isSelected = selectedUserIds.includes(u.user_id);
                   return (
-                    <tr key={u.user_id} className={`border-b border-gray-100 hover:bg-emerald-50/40 ${isSelected ? 'bg-indigo-50/30' : 'bg-white'}`}>
+                    <tr key={u.user_id} className={`border-b border-gray-100 hover:bg-raftel-50/40 ${isSelected ? 'bg-indigo-50/30' : 'bg-white'}`}>
                       <td className={`px-4 py-4 ${isBulkMode ? 'text-center' : 'text-gray-500'}`}>
                         {isBulkMode ? (
                           <input
                             type="checkbox"
-                            className="w-4 h-4 text-emerald-600 bg-white border-gray-300 rounded focus:ring-emerald-500 cursor-pointer"
+                            className="w-4 h-4 text-raftel-600 bg-white border-gray-300 rounded focus:ring-raftel-500 cursor-pointer"
                             checked={isSelected}
                             onChange={(e) => handleSelectOne(u.user_id, e.target.checked)}
                           />
@@ -735,7 +735,7 @@ export default function StudentAccountManagementPage() {
                         )}
                       </td>
                       <td className="px-4 py-4 font-medium text-gray-900">{u.name}</td>
-                      <td className="px-4 py-4 font-mono text-emerald-800">{u.user_name}</td>
+                      <td className="px-4 py-4 font-mono text-raftel-800">{u.user_name}</td>
                       <td className="px-4 py-4">
                         {u.kelas ? (
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
@@ -753,7 +753,7 @@ export default function StudentAccountManagementPage() {
                                 <button
                                   type="button"
                                   onClick={() => openPasswordModal(u)}
-                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-emerald-700 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 transition-colors"
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-raftel-700 border border-raftel-200 bg-raftel-50 hover:bg-raftel-100 transition-colors"
                                 >
                                   <KeyRound size={14} />
                                   Ubah password
@@ -769,7 +769,7 @@ export default function StudentAccountManagementPage() {
                                 <button
                                   type="button"
                                   onClick={() => openNameModal(u)}
-                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-emerald-700 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 transition-colors"
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-raftel-700 border border-raftel-200 bg-raftel-50 hover:bg-raftel-100 transition-colors"
                                 >
                                   <UserPen size={14} />
                                   Ubah nama
@@ -788,7 +788,7 @@ export default function StudentAccountManagementPage() {
                                 <button
                                   type="button"
                                   onClick={() => setActivateUser(u)}
-                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-emerald-700 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 transition-colors"
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-raftel-700 border border-raftel-200 bg-raftel-50 hover:bg-raftel-100 transition-colors"
                                 >
                                   <CheckSquare size={14} />
                                   Aktifkan Akun
@@ -840,7 +840,7 @@ export default function StudentAccountManagementPage() {
                       autoComplete="new-password"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      className="w-full border border-gray-200 bg-white px-3 py-2 pr-10 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="w-full border border-gray-200 bg-white px-3 py-2 pr-10 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-raftel-500"
                     />
                     <button
                       type="button"
@@ -862,7 +862,7 @@ export default function StudentAccountManagementPage() {
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       className={`w-full border bg-white px-3 py-2 pr-10 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 ${passwordMismatch
                         ? 'border-red-300 focus:ring-red-400'
-                        : 'border-gray-200 focus:ring-emerald-500'
+                        : 'border-gray-200 focus:ring-raftel-500'
                         }`}
                     />
                     <button
@@ -893,7 +893,7 @@ export default function StudentAccountManagementPage() {
                   type="button"
                   onClick={() => void submitPassword()}
                   disabled={savingPassword || passwordMismatch}
-                  className="px-4 py-2 text-xs tracking-widest uppercase bg-emerald-900 text-white hover:bg-emerald-950 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="px-4 py-2 text-xs tracking-widest uppercase bg-raftel-900 text-white hover:bg-raftel-950 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {savingPassword ? 'Menyimpan…' : 'Simpan password'}
                 </button>
@@ -927,7 +927,7 @@ export default function StudentAccountManagementPage() {
                   type="text"
                   value={editedName}
                   onChange={(e) => setEditedName(e.target.value)}
-                  className="mt-2 w-full border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="mt-2 w-full border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-raftel-500"
                   placeholder="Masukkan nama siswa"
                 />
               </label>
@@ -943,7 +943,7 @@ export default function StudentAccountManagementPage() {
                   type="button"
                   onClick={() => void submitName()}
                   disabled={savingName}
-                  className="px-4 py-2 text-xs tracking-widest uppercase bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-50"
+                  className="px-4 py-2 text-xs tracking-widest uppercase bg-raftel-700 text-white hover:bg-raftel-800 disabled:opacity-50"
                 >
                   {savingName ? 'Menyimpan…' : 'Simpan nama'}
                 </button>
@@ -1125,7 +1125,7 @@ export default function StudentAccountManagementPage() {
                     type="text"
                     value={newClassName}
                     onChange={(e) => setNewClassName(e.target.value)}
-                    className="mt-2 w-full border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="mt-2 w-full border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-raftel-500"
                     placeholder="Contoh: Kelas A, Kelas N4 Sore..."
                     autoFocus
                   />
@@ -1167,7 +1167,7 @@ export default function StudentAccountManagementPage() {
                       }
                     }}
                     disabled={savingCreateClass}
-                    className="px-4 py-2 text-xs tracking-widest uppercase bg-emerald-900 text-white hover:bg-emerald-950 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 text-xs tracking-widest uppercase bg-raftel-900 text-white hover:bg-raftel-950 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {savingCreateClass ? 'Menyimpan…' : 'Simpan'}
                   </button>
@@ -1201,7 +1201,7 @@ export default function StudentAccountManagementPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     {loadingKelasList && (
-                      <span className="text-[11px] text-emerald-500 animate-pulse">Memuat…</span>
+                      <span className="text-[11px] text-raftel-500 animate-pulse">Memuat…</span>
                     )}
                     {editingKelasId !== null && (
                       <span className="text-[11px] text-amber-600 font-medium">Mode Edit Aktif</span>
@@ -1230,14 +1230,14 @@ export default function StudentAccountManagementPage() {
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-100">
                         {kelasList.filter((k) => (showInactiveKelas ? k.is_active === 0 : k.is_active === 1)).map((k) => (
-                          <tr key={k.id_kelas} className="group hover:bg-emerald-50/30 transition-colors">
-                            <td className="px-4 py-2 font-medium text-gray-900 min-w-[180px] sticky left-0 z-[5] bg-white group-hover:bg-emerald-50 shadow-[1px_0_0_0_#e5e7eb]">
+                          <tr key={k.id_kelas} className="group hover:bg-raftel-50/30 transition-colors">
+                            <td className="px-4 py-2 font-medium text-gray-900 min-w-[180px] sticky left-0 z-[5] bg-white group-hover:bg-raftel-50 shadow-[1px_0_0_0_#e5e7eb]">
                               {editingKelasId === k.id_kelas ? (
                                 <input
                                   type="text"
                                   value={editKelasName}
                                   onChange={(e) => setEditKelasName(e.target.value)}
-                                  className="w-full border border-emerald-400 bg-white px-2 py-1 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-sm"
+                                  className="w-full border border-raftel-400 bg-white px-2 py-1 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-raftel-500 rounded-sm"
                                   autoFocus
                                   onKeyDown={(e) => {
                                     if (e.key === 'Escape') { setEditingKelasId(null); setEditKelasName(''); }
@@ -1247,10 +1247,10 @@ export default function StudentAccountManagementPage() {
                                 k.nama_kelas
                               )}
                             </td>
-                            <td className="px-4 py-2 w-24 sticky left-[180px] z-[5] bg-white group-hover:bg-emerald-50 shadow-[1px_0_0_0_#e5e7eb]">
+                            <td className="px-4 py-2 w-24 sticky left-[180px] z-[5] bg-white group-hover:bg-raftel-50 shadow-[1px_0_0_0_#e5e7eb]">
                               {k.is_active === 1 ? (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-700">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-raftel-100 text-raftel-700">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-raftel-500 inline-block" />
                                   Aktif
                                 </span>
                               ) : (
@@ -1262,7 +1262,7 @@ export default function StudentAccountManagementPage() {
                             </td>
                             <td className="px-4 py-2 text-gray-600">{k.created_by ?? <span className="text-gray-300">—</span>}</td>
                             <td className="px-4 py-2 text-gray-600">{k.edit_by ?? <span className="text-gray-300">—</span>}</td>
-                            <td className="px-4 py-2 text-center sticky right-0 z-[5] bg-white group-hover:bg-emerald-50 shadow-[-1px_0_0_0_#e5e7eb]">
+                            <td className="px-4 py-2 text-center sticky right-0 z-[5] bg-white group-hover:bg-raftel-50 shadow-[-1px_0_0_0_#e5e7eb]">
                               {editingKelasId === k.id_kelas ? (
                                 <div className="inline-flex items-center gap-1.5">
                                   <button
@@ -1290,7 +1290,7 @@ export default function StudentAccountManagementPage() {
                                         setSavingEditKelas(false);
                                       }
                                     }}
-                                    className="px-2 py-1 text-[11px] font-medium text-white bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 rounded-sm"
+                                    className="px-2 py-1 text-[11px] font-medium text-white bg-raftel-700 hover:bg-raftel-800 disabled:opacity-50 rounded-sm"
                                   >
                                     {savingEditKelas ? 'Menyimpan…' : 'Simpan'}
                                   </button>
@@ -1326,7 +1326,7 @@ export default function StudentAccountManagementPage() {
                                       <button
                                         type="button"
                                         onClick={() => setActivateKelasRow(k)}
-                                        className="px-2.5 py-1 text-[11px] font-medium text-emerald-700 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 rounded-sm transition-colors"
+                                        className="px-2.5 py-1 text-[11px] font-medium text-raftel-700 border border-raftel-200 bg-raftel-50 hover:bg-raftel-100 rounded-sm transition-colors"
                                       >
                                         Aktifkan
                                       </button>
@@ -1451,7 +1451,7 @@ export default function StudentAccountManagementPage() {
                       setActivatingKelasRow(false);
                     }
                   }}
-                  className="px-4 py-2 text-xs tracking-widest uppercase bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 text-xs tracking-widest uppercase bg-raftel-700 text-white hover:bg-raftel-800 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {activatingKelasRow ? 'Memproses…' : 'Aktifkan'}
                 </button>
@@ -1593,7 +1593,7 @@ export default function StudentAccountManagementPage() {
               </p>
               <div className="mt-6 flex justify-end gap-3">
                 <button type="button" onClick={() => setActivateUser(null)} className="px-4 py-2 text-xs tracking-widest uppercase border border-gray-300 text-gray-600 hover:border-gray-500">Batal</button>
-                <button type="button" onClick={() => void submitActivate()} disabled={activating} className="px-4 py-2 text-xs tracking-widest uppercase bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-50">
+                <button type="button" onClick={() => void submitActivate()} disabled={activating} className="px-4 py-2 text-xs tracking-widest uppercase bg-raftel-700 text-white hover:bg-raftel-800 disabled:opacity-50">
                   {activating ? 'Memproses…' : 'Aktifkan'}
                 </button>
               </div>
@@ -1614,7 +1614,7 @@ export default function StudentAccountManagementPage() {
               </p>
               <div className="mt-6 flex justify-end gap-3">
                 <button type="button" onClick={() => setIsBulkActivateOpen(false)} className="px-4 py-2 text-xs tracking-widest uppercase border border-gray-300 text-gray-600 hover:border-gray-500">Batal</button>
-                <button type="button" onClick={() => void submitBulkActivate()} disabled={bulkSaving} className="px-4 py-2 text-xs tracking-widest uppercase bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-50">
+                <button type="button" onClick={() => void submitBulkActivate()} disabled={bulkSaving} className="px-4 py-2 text-xs tracking-widest uppercase bg-raftel-700 text-white hover:bg-raftel-800 disabled:opacity-50">
                   {bulkSaving ? 'Memproses…' : 'Aktifkan (Bulk)'}
                 </button>
               </div>

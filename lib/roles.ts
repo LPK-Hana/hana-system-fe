@@ -1,5 +1,8 @@
 export const ADMIN_HUB_PATH = '/admin-dashboard/dashboard';
 
+/** Sensei tidak punya halaman hub — langsung ke Progress Belajar. */
+export const GURU_HOME_PATH = '/admin-dashboard/progress-belajar';
+
 export const ADMIN_ALLOWED_PATH_PREFIXES = [
   '/admin-dashboard/dashboard',
   '/admin-dashboard/profil-siswa',

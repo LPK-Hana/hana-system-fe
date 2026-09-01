@@ -190,7 +190,7 @@ export default function AddAccountPage() {
   }, [generatedAccounts, angkatPart]);
 
   return (
-    <main className="min-h-screen bg-[#F4F7F4] font-sans text-gray-800 p-4 md:p-8 relative">
+    <main className="min-h-screen bg-[#F5F9FC] font-sans text-gray-800 p-4 md:p-8 relative">
       <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link
@@ -201,7 +201,7 @@ export default function AddAccountPage() {
           </Link>
           <div>
             <div className="flex items-center gap-3">
-              <UserPlus className="text-emerald-900" size={28} strokeWidth={1.5} />
+              <UserPlus className="text-raftel-900" size={28} strokeWidth={1.5} />
               <h1 className="text-3xl font-serif text-gray-900 tracking-wide mb-1">
                 Tambah Akun{' '}
                 <span className="text-lg text-gray-400 font-sans ml-2 tracking-normal font-normal">
@@ -220,7 +220,7 @@ export default function AddAccountPage() {
         <div className="lg:col-span-4 flex flex-col gap-6">
           <div className="bg-white p-6 border border-gray-200/60 shadow-sm">
             <h2 className="text-lg font-serif text-gray-900 mb-6 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-emerald-900 rounded-full"></span>
+              <span className="w-1.5 h-1.5 bg-raftel-900 rounded-full"></span>
               Pengaturan Batch (Massal)
             </h2>
 
@@ -238,7 +238,7 @@ export default function AddAccountPage() {
                     maxLength={2}
                     value={angkatan}
                     onChange={(e) => setAngkatan(e.target.value.replace(/[^0-9]/g, ''))}
-                    className="w-full min-w-0 px-4 py-2.5 border border-gray-300 border-l-0 border-r-0 focus:outline-none focus:ring-0 focus:border-emerald-800 transition-colors font-mono"
+                    className="w-full min-w-0 px-4 py-2.5 border border-gray-300 border-l-0 border-r-0 focus:outline-none focus:ring-0 focus:border-raftel-800 transition-colors font-mono"
                     placeholder="05"
                     aria-label="Angkatan 2 digit"
                   />
@@ -251,10 +251,10 @@ export default function AddAccountPage() {
                 </div>
                 <p className="text-[10px] text-gray-500 mt-1.5 leading-relaxed">
                   {!usersListFetched && <span className="text-gray-400">Memuat nomor dari server… </span>}
-                  NIM berikutnya untuk angkatan ini: {NIM_PREFIX}<span className="font-bold text-emerald-800">{angkatPart}</span>
+                  NIM berikutnya untuk angkatan ini: {NIM_PREFIX}<span className="font-bold text-raftel-800">{angkatPart}</span>
                   {nextSeqLabel}. Angkatan 5 gunakan &quot;05&quot;.
                 </p>
-                <p className="text-[10px] text-emerald-700/90 mt-1 leading-relaxed">
+                <p className="text-[10px] text-raftel-700/90 mt-1 leading-relaxed">
                   Angkatan awal diisi dari database; kotak kanan mengikuti nomor urut terbesar yang sudah ada untuk angkatan
                   yang Anda pilih (sama dengan preview).
                 </p>
@@ -268,7 +268,7 @@ export default function AddAccountPage() {
                   rows={12}
                   value={namesInput}
                   onChange={(e) => setNamesInput(e.target.value.toUpperCase())}
-                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-emerald-800 transition-colors text-sm leading-relaxed"
+                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-0 focus:border-raftel-800 transition-colors text-sm leading-relaxed"
                   placeholder="Budi Santoso&#10;Siti Aminah&#10;Ahmad Fauzi&#10;&#10;(Paste daftar nama dari file Excel atau ketik manual.&#10;1 Baris = 1 Nama Siswa)"
                 ></textarea>
                 <p className="text-[10px] text-gray-500 mt-1.5 leading-relaxed">
@@ -285,7 +285,7 @@ export default function AddAccountPage() {
             <div className="p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h2 className="text-lg font-serif text-gray-900 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-green-600 rounded-full"></span>
+                  <span className="w-1.5 h-1.5 bg-raftel-600 rounded-full"></span>
                   Preview Akun ({generatedAccounts.length} Siswa)
                 </h2>
                 {batchUrutOverflow && (
@@ -301,7 +301,7 @@ export default function AddAccountPage() {
                   type="button"
                   onClick={handleExportCsv}
                   disabled={generatedAccounts.length === 0 || isSaving}
-                  className="flex items-center gap-2 px-4 py-2 bg-transparent border border-gray-300 text-xs tracking-widest uppercase text-gray-600 hover:border-emerald-800 hover:text-emerald-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center gap-2 px-4 py-2 bg-transparent border border-gray-300 text-xs tracking-widest uppercase text-gray-600 hover:border-raftel-800 hover:text-raftel-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <FileSpreadsheet size={16} strokeWidth={1.5} />
                   Export CSV
@@ -310,7 +310,7 @@ export default function AddAccountPage() {
                   type="button"
                   onClick={handleSaveAccounts}
                   disabled={generatedAccounts.length === 0 || isSaving || batchUrutOverflow}
-                  className="flex items-center gap-2 px-5 py-2 bg-emerald-900 border border-emerald-900 text-xs tracking-widest uppercase text-white hover:bg-emerald-950 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center gap-2 px-5 py-2 bg-raftel-900 border border-raftel-900 text-xs tracking-widest uppercase text-white hover:bg-raftel-950 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Save size={16} strokeWidth={1.5} />
                   {isSaving ? 'Menyimpan…' : 'Simpan Akun'}
@@ -349,7 +349,7 @@ export default function AddAccountPage() {
                     {generatedAccounts.map((acc) => (
                       <tr key={acc.id} className="bg-white border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
                         <td className="px-6 py-4 text-center text-gray-400">{acc.id}</td>
-                        <td className="px-6 py-4 font-mono font-medium text-emerald-800">{acc.nim}</td>
+                        <td className="px-6 py-4 font-mono font-medium text-raftel-800">{acc.nim}</td>
                         <td className="px-6 py-4 font-medium text-gray-800">{acc.name}</td>
                         <td className="px-6 py-4">
                           <span className="font-mono text-gray-600 bg-gray-100 px-2 py-1 text-xs rounded border border-gray-200">

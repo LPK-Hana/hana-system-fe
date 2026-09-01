@@ -428,7 +428,7 @@ export default function ExportModal({
       <div className="relative z-10 w-full max-w-xl bg-white rounded-xl shadow-2xl flex flex-col overflow-hidden max-h-[90vh]">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white shrink-0">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
+            <div className="p-2 bg-raftel-50 text-raftel-600 rounded-lg">
               <FileSpreadsheet size={20} />
             </div>
             <h2 className="text-lg font-semibold text-gray-900">Print Laporan Progress A4</h2>
@@ -445,7 +445,7 @@ export default function ExportModal({
               <select
                 value={exportTarget}
                 onChange={(e) => setExportTarget(e.target.value)}
-                className="mt-2 w-full border border-gray-300 rounded-md bg-white px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm transition-shadow cursor-pointer"
+                className="mt-2 w-full border border-gray-300 rounded-md bg-white px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-raftel-500 shadow-sm transition-shadow cursor-pointer"
               >
                 <option value="Semua">Semua Kelas ({rows.length} Siswa)</option>
                 {uniqueClasses.map(c => (
@@ -461,7 +461,7 @@ export default function ExportModal({
                 </span>
                 <button
                   onClick={toggleAll}
-                  className="text-xs font-medium text-emerald-600 hover:text-emerald-800 flex items-center gap-1.5 transition-colors bg-emerald-50 px-2 py-1 rounded-md"
+                  className="text-xs font-medium text-raftel-600 hover:text-raftel-800 flex items-center gap-1.5 transition-colors bg-raftel-50 px-2 py-1 rounded-md"
                 >
                   {selectedStudentIds.size === studentsInTarget.length ? (
                     <><CheckSquare size={14} /> Deselect All</>
@@ -483,10 +483,10 @@ export default function ExportModal({
                         type="checkbox"
                         checked={selectedStudentIds.has(s.no_peserta)}
                         onChange={() => toggleStudent(s.no_peserta)}
-                        className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500 transition-colors"
+                        className="w-4 h-4 text-raftel-600 rounded border-gray-300 focus:ring-raftel-500 transition-colors"
                       />
                       <div className="flex flex-col">
-                        <span className="text-sm font-medium text-gray-900 group-hover:text-emerald-700 transition-colors">{s.nama_lengkap}</span>
+                        <span className="text-sm font-medium text-gray-900 group-hover:text-raftel-700 transition-colors">{s.nama_lengkap}</span>
                         <span className="text-xs text-gray-500">{s.no_peserta} • {s.kelas || 'Tanpa Kelas'}</span>
                       </div>
                     </label>
@@ -503,13 +503,13 @@ export default function ExportModal({
               <button
                 type="button"
                 onClick={() => setN5Only(!n5Only)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 ${n5Only ? 'bg-emerald-600' : 'bg-gray-200'}`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-raftel-500 focus:ring-offset-2 ${n5Only ? 'bg-raftel-600' : 'bg-gray-200'}`}
               >
                 <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${n5Only ? 'translate-x-6' : 'translate-x-1'}`} />
               </button>
             </div>
 
-            <div className="p-4 bg-emerald-50 rounded-lg border border-emerald-100 flex items-start gap-3 text-sm text-emerald-800 leading-relaxed shadow-sm">
+            <div className="p-4 bg-raftel-50 rounded-lg border border-raftel-100 flex items-start gap-3 text-sm text-raftel-800 leading-relaxed shadow-sm">
               <Info className="shrink-0 mt-0.5" size={18} />
               <div>
                 Laporan akan dicetak padat dalam 1 lembar A4 per siswa yang dipilih. <br />
@@ -526,7 +526,7 @@ export default function ExportModal({
           <button
             onClick={handlePreview}
             disabled={targetRows.length === 0}
-            className="flex items-center gap-2 px-6 py-2.5 text-sm font-medium rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 disabled:bg-emerald-300 disabled:cursor-not-allowed transition-colors shadow-sm"
+            className="flex items-center gap-2 px-6 py-2.5 text-sm font-medium rounded-lg bg-raftel-600 text-white hover:bg-raftel-700 disabled:bg-raftel-300 disabled:cursor-not-allowed transition-colors shadow-sm"
           >
             Tampilkan Preview ({targetRows.length})
           </button>

@@ -308,7 +308,7 @@ export default function KartuKeluargaPage() {
   }
 
   return (
-    <main className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50/50 font-sans text-slate-800 pb-20 lg:pb-0 flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
+    <main className="min-h-screen lg:h-screen lg:overflow-hidden bg-[#F5F9FC] font-sans text-slate-800 pb-20 lg:pb-0 flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
       <Header
         viewLanguage={viewLanguage}
         setViewLanguage={setViewLanguage}
@@ -325,8 +325,8 @@ export default function KartuKeluargaPage() {
 
       {/* ── Saved View Banner ── */}
       {isViewingSaved && savedPreviewData && (
-        <div className="bg-emerald-50 border-b border-emerald-200 px-4 lg:px-8 py-2.5 flex items-center justify-between print:hidden">
-          <div className="flex items-center gap-2 text-emerald-700 font-semibold text-sm">
+        <div className="bg-raftel-50 border-b border-raftel-200 px-4 lg:px-8 py-2.5 flex items-center justify-between print:hidden">
+          <div className="flex items-center gap-2 text-raftel-700 font-semibold text-sm">
             <FileText size={16} />
             <span>Kartu Keluarga Anda telah tersimpan. Anda hanya dapat mengunduh dokumen ini.</span>
           </div>

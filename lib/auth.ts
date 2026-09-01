@@ -1,11 +1,12 @@
 /** Selaras dengan masa berlaku JWT di backend (24 jam). */
 import { isDemoModeClient } from '@/lib/demo-mode';
+import { GURU_HOME_PATH } from '@/lib/roles';
 
 const ONE_DAY_SECONDS = 60 * 60 * 24;
 
 const JWT_SKEW_MS = 30_000;
 
-export const AUTH_REASON_KEY = 'hana_auth_reason';
+export const AUTH_REASON_KEY = 'raftel_auth_reason';
 
 export type AuthReason = 'session_expired' | 'unauthorized' | 'logged_out';
 
@@ -70,7 +71,7 @@ export const clearAuthSession = () => {
   try {
     for (let i = localStorage.length - 1; i >= 0; i--) {
       const k = localStorage.key(i);
-      if (k && k.startsWith("hana_student_profile_v1")) {
+      if (k && k.startsWith("raftel_student_profile_v1")) {
         localStorage.removeItem(k);
       }
     }
@@ -134,7 +135,7 @@ export function getDashboardPathForRole(): string {
   }
   const role = localStorage.getItem("auth_role");
   if (role === "admin") return "/admin-dashboard/dashboard";
-  if (role === "guru") return "/guru-dashboard";
+  if (role === "guru") return GURU_HOME_PATH;
   if (role === "guest") return "/cust-page";
   return "/student-dashboard";
 }
@@ -191,6 +192,11 @@ export const getAuthUserId = () => {
   const raw = localStorage.getItem("auth_user_id");
   const n = raw ? parseInt(raw, 10) : NaN;
   return Number.isFinite(n) && n > 0 ? n : 0;
+};
+
+export const getAuthRole = () => {
+  if (typeof window === "undefined") return "";
+  return localStorage.getItem("auth_role") || "";
 };
 
 export const getAuthDisplayName = () => {
