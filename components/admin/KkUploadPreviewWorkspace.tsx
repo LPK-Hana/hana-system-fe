@@ -25,6 +25,9 @@ import {
 } from '@/app/student-dashboard/kartu-keluarga/utils/suratTanggunganPageSize';
 import { exportBulkKkJpAndSuratTanggungan } from '@/app/student-dashboard/kartu-keluarga/utils/exportPemberkasanBulk';
 import { useKkSourceImage } from '@/app/student-dashboard/kartu-keluarga/utils/useKkSourceImage';
+import ApiFormDraft from '@/app/api/form-draft/api_form_draft';
+import ApiInputKk from '@/app/api/input-kk/api_input_kk';
+import { toast } from 'react-hot-toast';
 
 export default function KkUploadPreviewWorkspace() {
   const [scale, setScale] = useState(0.78);
@@ -38,10 +41,30 @@ export default function KkUploadPreviewWorkspace() {
   const [containerHeight, setContainerHeight] = useState(794);
   const [activeDocument, setActiveDocument] = useState<KkHeaderDocument>('kk');
   const previewContainerRef = useRef<HTMLDivElement>(null);
-  const { sourceUrl, fileName: sourceFileName, setSourceFile } = useKkSourceImage();
+  const { sourceUrl, fileName: sourceFileName, sourceFile, setSourceFile, setRemoteSource } = useKkSourceImage();
   const [formData, setFormData] = useState<KkFormData>(initialFormData);
   const [stFormData, setStFormData] = useState(initialSuratTanggunganData);
   const [stActiveTab, setStActiveTab] = useState<StEditorTab>('select');
+  const [isSaving, setIsSaving] = useState(false);
+  const lastScanRef = useRef('');
+
+  useEffect(() => {
+    void (async () => {
+      const res = await ApiFormDraft().getKkWorkspace();
+      if (res?.status !== 200 || !res.data || typeof res.data !== 'object') return;
+      const payload = res.data as {
+        formData?: KkFormData;
+        suratTanggungan?: typeof initialSuratTanggunganData;
+        scan_filename?: string;
+      };
+      if (payload.formData) setFormData(payload.formData);
+      if (payload.suratTanggungan) setStFormData(payload.suratTanggungan);
+      if (payload.scan_filename) {
+        lastScanRef.current = payload.scan_filename;
+        setRemoteSource(`/api/files/kk/${encodeURIComponent(payload.scan_filename)}`, payload.scan_filename);
+      }
+    })();
+  }, [setRemoteSource]);
 
   useEffect(() => {
     if (activeDocument === 'tanggungan') {
@@ -241,6 +264,34 @@ export default function KkUploadPreviewWorkspace() {
     });
   };
 
+  const handleSaveWorkspace = async () => {
+    setIsSaving(true);
+    try {
+      let scanFilename = '';
+      if (sourceFile.current) {
+        const fd = new FormData();
+        fd.append('file', sourceFile.current);
+        const scanRes = await ApiInputKk().PostUploadScan(fd);
+        if (scanRes?.status === 200 && scanRes.data?.filename) {
+          scanFilename = scanRes.data.filename as string;
+        }
+      }
+      const res = await ApiFormDraft().saveKkWorkspace({
+        payload: {
+          formData,
+          suratTanggungan: stFormData,
+          scan_filename: scanFilename || lastScanRef.current || undefined,
+        },
+      });
+      if (res?.status === 200) toast.success('KK & surat tanggungan tersimpan');
+      else toast.error(res?.message || 'Gagal menyimpan');
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Gagal menyimpan');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <main className="min-h-screen lg:h-screen lg:overflow-hidden bg-[#F5F9FC] font-sans text-slate-800 pb-20 lg:pb-0 flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
       <Header
@@ -253,6 +304,8 @@ export default function KkUploadPreviewWorkspace() {
         isEditorCollapsed={isEditorCollapsed}
         setIsEditorCollapsed={setIsEditorCollapsed}
         isDataEmpty={headerDataEmpty}
+        saveDisabled={(isDataEmpty && isStEmpty) || isSaving}
+        onSave={() => void handleSaveWorkspace()}
         backHref="/admin-dashboard/pemberkasan"
         backLabel="Kembali ke Pemberkasan"
         pdfFileName={pdfFileName}

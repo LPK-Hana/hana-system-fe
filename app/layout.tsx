@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono, Inter, Noto_Sans_JP, Noto_Serif_JP } from "next/font/google";
 import { AuthSessionWatcher } from "@/components/AuthSessionWatcher";
 import { GlobalToaster } from "@/components/GlobalToaster";
+import { LogoutGuard } from "@/components/LogoutGuard";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-full flex flex-col">
         <GlobalToaster />
         <AuthSessionWatcher />
+        <LogoutGuard />
         {children}
       </body>
     </html>

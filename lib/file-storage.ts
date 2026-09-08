@@ -23,8 +23,7 @@ export function buildFileUrl(folder: string, filename: string): string {
   const base = (process.env.NEXT_PUBLIC_BASE_URL ?? '').replace(/\/$/, '');
   if (filename.startsWith('http')) return filename;
   if (isSensitiveFolder(folder)) {
-    // BASE_URL sudah berisi prefix /api — jangan tambah /api lagi
-    return `${base}/files/${folder}/${encodeURIComponent(filename)}`;
+    return `/api/files/${folder}/${encodeURIComponent(filename)}`;
   }
   return `${base}/static/${folder}/${filename}`;
 }

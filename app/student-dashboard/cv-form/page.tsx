@@ -16,7 +16,7 @@ import CVTemplate from './components/CVTemplate';
 import { exportCVToPDF } from './exportPdf';
 import ApiResume from '../../api/resume/api_resume';
 import { toast } from 'react-hot-toast';
-import { loadStudentProfile, mergeCVData, saveStudentProfileCv } from '@/lib/student-profile-storage';
+import { loadStudentProfileAsync, mergeCVData, saveStudentProfileCv } from '@/lib/student-profile-storage';
 import { buildDummyCVTemplate } from '@/lib/demo/cv-dummy-template';
 import { NIM_PREFIX, buildNim } from '@/lib/nim';
 import { getAuthDisplayName, getAuthUserName } from '@/lib/auth';
@@ -599,7 +599,7 @@ export default function CVFormPage() {
           setSubmitted(true);
           setIsAlreadyCreated(true);
         } else {
-          const saved = loadStudentProfile();
+          const saved = await loadStudentProfileAsync();
           const base = saved?.cv ? mergeCVData(saved.cv) : buildEmptyCV();
           setData(applyAuthFields(base));
         }

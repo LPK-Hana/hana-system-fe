@@ -1,6 +1,8 @@
 import type { CVData } from '@/app/student-dashboard/cv-form/types';
 import { defaultCVData } from '@/app/student-dashboard/cv-form/defaults';
 import { getAuthToken } from '@/lib/auth';
+import { isDemoModeClient } from '@/lib/demo-mode';
+import ApiFormDraft from '@/app/api/form-draft/api_form_draft';
 
 /** Snapshot profil siswa di browser; backend nanti menggantikan sumber data ini. */
 export type StoredStudentProfile = {
@@ -69,4 +71,31 @@ export function saveStudentProfileCv(cv: CVData): void {
     updatedAt: new Date().toISOString(),
   };
   localStorage.setItem(storageKey(), JSON.stringify(next));
+  if (!isDemoModeClient()) {
+    void ApiFormDraft().saveCvDraft({ payload: next });
+  }
+}
+
+export async function loadStudentProfileAsync(): Promise<StoredStudentProfile | null> {
+  if (typeof window !== 'undefined' && !isDemoModeClient()) {
+    try {
+      const res = await ApiFormDraft().getCvDraft();
+      if (res?.status === 200 && res.data && typeof res.data === 'object') {
+        const parsed = res.data as Partial<StoredStudentProfile>;
+        if (parsed.cv && typeof parsed.cv === 'object') {
+          const profile: StoredStudentProfile = {
+            cv: mergeCVData(parsed.cv),
+            jms_id: typeof parsed.jms_id === 'string' ? parsed.jms_id : '',
+            kelas: typeof parsed.kelas === 'string' ? parsed.kelas : '',
+            updatedAt: typeof parsed.updatedAt === 'string' ? parsed.updatedAt : new Date().toISOString(),
+          };
+          localStorage.setItem(storageKey(), JSON.stringify(profile));
+          return profile;
+        }
+      }
+    } catch {
+      /* fallback local */
+    }
+  }
+  return loadStudentProfile();
 }

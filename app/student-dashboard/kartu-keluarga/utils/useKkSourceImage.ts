@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 /** Simpan object URL gambar KK yang di-upload (untuk panel referensi di preview). */
 export function useKkSourceImage() {
   const urlRef = useRef<string | null>(null);
+  const fileRef = useRef<File | null>(null);
   const [sourceUrl, setSourceUrl] = useState<string | null>(null);
   const [fileName, setFileName] = useState('');
 
@@ -11,6 +12,7 @@ export function useKkSourceImage() {
       URL.revokeObjectURL(urlRef.current);
       urlRef.current = null;
     }
+    fileRef.current = file;
     if (file) {
       urlRef.current = URL.createObjectURL(file);
       setSourceUrl(urlRef.current);
@@ -19,6 +21,16 @@ export function useKkSourceImage() {
       setSourceUrl(null);
       setFileName('');
     }
+  }, []);
+
+  const setRemoteSource = useCallback((url: string, name: string) => {
+    if (urlRef.current) {
+      URL.revokeObjectURL(urlRef.current);
+      urlRef.current = null;
+    }
+    fileRef.current = null;
+    setSourceUrl(url);
+    setFileName(name);
   }, []);
 
   const clearSource = useCallback(() => setSourceFile(null), [setSourceFile]);
@@ -30,5 +42,5 @@ export function useKkSourceImage() {
     [],
   );
 
-  return { sourceUrl, fileName, setSourceFile, clearSource };
+  return { sourceUrl, fileName, sourceFile: fileRef, setSourceFile, setRemoteSource, clearSource };
 }

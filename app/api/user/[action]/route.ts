@@ -34,22 +34,24 @@ export async function GET(
 
     if (action === 'list' || action === 'user-list') {
       const users = await query<any>(
-        `SELECT mu.user_id, mu.name, mu.user_name, mu.is_admin, mu.is_active, mu.id_kelas, k.nama_kelas
+        `SELECT mu.user_id, mu.name, mu.user_name, mu.is_admin, COALESCE(mu.is_guru, 0) AS is_guru, mu.is_active, mu.id_kelas, k.nama_kelas
          FROM master_user mu LEFT JOIN tbl_kelas k ON k.id_kelas = mu.id_kelas ORDER BY mu.user_id`
       );
       const formatted = users.map(u => ({
         id_user: u.user_id, name: u.name, user_name: u.user_name,
-        is_admin: u.is_admin, is_active: u.is_active, nama_kelas: u.nama_kelas || ''
+        is_admin: u.is_admin, is_guru: u.is_guru, is_active: u.is_active, nama_kelas: u.nama_kelas || ''
       }));
       return NextResponse.json({ status: 200, data: formatted }, { status: 200 });
     }
 
     if (action === 'list-active') {
       const rows = await query<any>(
-        `SELECT mu.user_id, mu.name, mu.user_name, mu.is_admin, mu.is_active, mu.id_kelas, k.nama_kelas
+        `SELECT mu.user_id, mu.name, mu.user_name, mu.is_admin, COALESCE(mu.is_guru, 0) AS is_guru, mu.is_active, mu.id_kelas, k.nama_kelas
          FROM master_user mu
          LEFT JOIN tbl_kelas k ON k.id_kelas = mu.id_kelas AND k.is_active = 1
          WHERE mu.is_active = 1
+           AND COALESCE(mu.is_admin, 0) = 0
+           AND COALESCE(mu.is_guru, 0) = 0
          ORDER BY mu.user_name`
       );
       const data = rows.map((u) => ({
@@ -57,6 +59,7 @@ export async function GET(
         name: u.name,
         user_name: u.user_name,
         is_admin: u.is_admin,
+        is_guru: u.is_guru,
         is_active: u.is_active,
         id_kelas: u.id_kelas,
         kelas: u.nama_kelas || null,
@@ -68,10 +71,12 @@ export async function GET(
       await query(`UPDATE master_user SET id_kelas = NULL WHERE is_active = 0 AND id_kelas IS NOT NULL`);
 
       const rows = await query<any>(
-        `SELECT mu.user_id, mu.name, mu.user_name, mu.is_admin, mu.is_active, mu.id_kelas, k.nama_kelas
+        `SELECT mu.user_id, mu.name, mu.user_name, mu.is_admin, COALESCE(mu.is_guru, 0) AS is_guru, mu.is_active, mu.id_kelas, k.nama_kelas
          FROM master_user mu
          LEFT JOIN tbl_kelas k ON k.id_kelas = mu.id_kelas
          WHERE mu.is_active = 0
+           AND COALESCE(mu.is_admin, 0) = 0
+           AND COALESCE(mu.is_guru, 0) = 0
          ORDER BY mu.user_name`
       );
       const data = rows.map((u) => ({
@@ -79,6 +84,7 @@ export async function GET(
         name: u.name,
         user_name: u.user_name,
         is_admin: u.is_admin,
+        is_guru: u.is_guru,
         is_active: u.is_active,
         id_kelas: u.id_kelas,
         kelas: null,
@@ -91,7 +97,7 @@ export async function GET(
         `SELECT mu.name, mu.user_name, k.nama_kelas
          FROM master_user mu
          LEFT JOIN tbl_kelas k ON k.id_kelas = mu.id_kelas
-         WHERE mu.is_admin = 0 AND mu.is_active = 1
+         WHERE COALESCE(mu.is_admin, 0) = 0 AND COALESCE(mu.is_guru, 0) = 0 AND mu.is_active = 1
            AND mu.user_name NOT IN (SELECT no_peserta FROM tbl_biodata WHERE no_peserta IS NOT NULL)
          ORDER BY mu.name`
       );
@@ -222,8 +228,8 @@ export async function PUT(
         return NextResponse.json({ status: 400, message: 'id_user wajib diisi' }, { status: 400 });
       }
 
-      const user = await queryOne<{ user_name: string; is_admin: number }>(
-        `SELECT user_name, is_admin FROM master_user WHERE user_id = $1`,
+      const user = await queryOne<{ user_name: string; is_admin: number; is_guru: number }>(
+        `SELECT user_name, is_admin, COALESCE(is_guru, 0) AS is_guru FROM master_user WHERE user_id = $1`,
         [id_user],
       );
       if (!user) {
@@ -231,6 +237,9 @@ export async function PUT(
       }
       if (Number(user.is_admin) === 1) {
         return NextResponse.json({ status: 400, message: 'Tidak dapat menghapus akun admin' }, { status: 400 });
+      }
+      if (Number(user.is_guru) === 1) {
+        return NextResponse.json({ status: 400, message: 'Tidak dapat menghapus akun sensei' }, { status: 400 });
       }
 
       const client = await pool.connect();

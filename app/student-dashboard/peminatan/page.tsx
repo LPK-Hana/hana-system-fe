@@ -10,20 +10,22 @@ import {
   PROGRAM_TYPES,
   type ProgramType,
 } from '@/lib/job-categories';
-import { loadStudentPeminatan, saveStudentPeminatan } from '@/lib/student-peminatan-storage';
+import { persistStudentPeminatan, fetchStudentPeminatan } from '@/lib/student-peminatan-storage';
 
 export default function PeminatanPage() {
   const [programType, setProgramType] = useState<ProgramType | ''>('');
   const [jobCategoryIds, setJobCategoryIds] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    const saved = loadStudentPeminatan();
-    if (saved) {
-      setProgramType(saved.programType);
-      setJobCategoryIds(saved.jobCategoryIds);
-    }
-    setReady(true);
+    void fetchStudentPeminatan().then((saved) => {
+      if (saved) {
+        setProgramType(saved.programType);
+        setJobCategoryIds(saved.jobCategoryIds);
+      }
+      setReady(true);
+    });
   }, []);
 
   const toggleJob = (id: string) => {
@@ -37,7 +39,7 @@ export default function PeminatanPage() {
     });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!programType) {
       toast.error('Pilih program Ginou Jisshu atau Tokutei Ginou terlebih dahulu.');
       return;
@@ -46,8 +48,17 @@ export default function PeminatanPage() {
       toast.error('Pilih minimal 1 bidang pekerjaan.');
       return;
     }
-    saveStudentPeminatan({ programType, jobCategoryIds });
-    toast.success('Peminatan berhasil disimpan.');
+    setSaving(true);
+    try {
+      const result = await persistStudentPeminatan({ programType, jobCategoryIds });
+      if (result.ok) {
+        toast.success('Peminatan berhasil disimpan.');
+      } else {
+        toast.error(result.message || 'Gagal menyimpan peminatan.');
+      }
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (!ready) {
@@ -149,10 +160,11 @@ export default function PeminatanPage() {
         <div className="flex justify-end">
           <button
             type="button"
-            onClick={handleSave}
-            className="inline-flex items-center gap-2 px-8 py-3 bg-raftel-900 text-white text-xs font-semibold uppercase tracking-widest hover:bg-raftel-950 transition-colors"
+            onClick={() => void handleSave()}
+            disabled={saving}
+            className="inline-flex items-center gap-2 px-8 py-3 bg-raftel-900 text-white text-xs font-semibold uppercase tracking-widest hover:bg-raftel-950 transition-colors disabled:opacity-60"
           >
-            Simpan Peminatan
+            {saving ? 'Menyimpan…' : 'Simpan Peminatan'}
           </button>
         </div>
       </div>

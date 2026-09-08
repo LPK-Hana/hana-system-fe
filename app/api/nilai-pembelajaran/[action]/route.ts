@@ -64,7 +64,7 @@ export async function GET(
          LEFT JOIN tbl_aspek_nilai a ON n.id_aspek_nilai = a.id_aspek_nilai
          LEFT JOIN tbl_sub_nilai sb ON n.user_name = sb.user_name
          LEFT JOIN tbl_nilai_kepribadian kp ON n.user_name = kp.user_name
-         WHERE u.is_active = 1 AND u.is_admin = 0`
+         WHERE u.is_active = 1 AND COALESCE(u.is_admin, 0) = 0 AND COALESCE(u.is_guru, 0) = 0`
       );
 
       const grouped: { [key: string]: any } = {};
@@ -156,7 +156,7 @@ export async function GET(
          LEFT JOIN master_user u ON b.no_peserta = u.user_name
          LEFT JOIN tbl_kelas k ON u.id_kelas = k.id_kelas
          LEFT JOIN tbl_sub_nilai sb ON u.user_name = sb.user_name
-         WHERE u.is_active = 1 AND u.is_admin = 0`
+         WHERE u.is_active = 1 AND COALESCE(u.is_admin, 0) = 0 AND COALESCE(u.is_guru, 0) = 0`
       );
       return NextResponse.json({ status: 200, data }, { status: 200 });
     }

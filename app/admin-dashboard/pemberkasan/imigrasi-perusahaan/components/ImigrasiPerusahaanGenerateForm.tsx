@@ -2,8 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Download, Eye, FileText, Plus, Sparkles, Trash2, X } from 'lucide-react';
+import { ArrowLeft, Download, Eye, FileText, Plus, Save, Sparkles, Trash2, X } from 'lucide-react';
 import toast from 'react-hot-toast';
+import ApiFormDraft from '@/app/api/form-draft/api_form_draft';
 import {
   emptyPeserta,
   MAX_PESERTA,
@@ -94,7 +95,7 @@ const inputCompactCls =
 export default function ImigrasiPerusahaanGenerateForm() {
   const router = useRouter();
   const [form, setForm] = useState<ImigrasiPerusahaanFormData>(emptyForm);
-  const [busy, setBusy] = useState<'docx' | 'preview' | 'pdf' | null>(null);
+  const [busy, setBusy] = useState<'docx' | 'preview' | 'pdf' | 'save' | null>(null);
   const [pdfPreview, setPdfPreview] = useState<{
     url: string;
     blob: Blob;
@@ -118,6 +119,14 @@ export default function ImigrasiPerusahaanGenerateForm() {
   const payload = useMemo(() => form, [form]);
 
   useEffect(() => {
+    void ApiFormDraft().getImigrasi().then((res) => {
+      if (res?.status === 200 && res.data && typeof res.data === 'object') {
+        setForm((f) => ({ ...f, ...(res.data as ImigrasiPerusahaanFormData) }));
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     return () => {
       if (pdfPreview?.url) URL.revokeObjectURL(pdfPreview.url);
     };
@@ -135,6 +144,19 @@ export default function ImigrasiPerusahaanGenerateForm() {
     a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  async function saveDraft() {
+    setBusy('save');
+    try {
+      const res = await ApiFormDraft().saveImigrasi({ payload: form });
+      if (res?.status === 200) toast.success('Draft imigrasi tersimpan di database');
+      else toast.error(res?.message || 'Gagal menyimpan draft');
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(null);
+    }
   }
 
   async function downloadDocx() {
@@ -226,6 +248,15 @@ export default function ImigrasiPerusahaanGenerateForm() {
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              disabled={!!busy}
+              onClick={() => void saveDraft()}
+              className="inline-flex items-center gap-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 text-sm font-medium disabled:opacity-60"
+            >
+              <Save size={16} />
+              {busy === 'save' ? 'Menyimpan…' : 'Simpan'}
+            </button>
             <button
               type="button"
               disabled={!!busy}

@@ -4,15 +4,23 @@ import { GURU_HOME_PATH } from '@/lib/roles';
 
 const ONE_DAY_SECONDS = 60 * 60 * 24;
 
-const JWT_SKEW_MS = 30_000;
+export const JWT_SKEW_MS = 30_000;
 
 export const AUTH_REASON_KEY = 'raftel_auth_reason';
+export const LOGOUT_CONFIRM_EVENT = 'raftel:logout-confirm';
 
 export type AuthReason = 'session_expired' | 'unauthorized' | 'logged_out';
 
 const setCookie = (name: string, value: string, maxAge = ONE_DAY_SECONDS) => {
   document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; samesite=lax`;
 };
+
+function cookieMaxAgeFromToken(token: string): number {
+  const expMs = parseJwtExpMs(token);
+  if (expMs == null) return ONE_DAY_SECONDS;
+  const remaining = Math.floor((expMs - Date.now()) / 1000);
+  return Math.max(1, Math.min(ONE_DAY_SECONDS, remaining));
+}
 
 const removeCookie = (name: string) => {
   document.cookie = `${name}=; path=/; max-age=0; samesite=lax`;
@@ -53,11 +61,9 @@ export const saveAuthSession = (
     localStorage.removeItem("auth_display_name");
   }
 
-  // Di demo FE, cookie auth_role + auth_token ringan agar layout server ikut mengenali sesi
-  setCookie('auth_role', roleStr);
-  if (isDemoModeClient()) {
-    setCookie('auth_token', token);
-  }
+  const maxAge = cookieMaxAgeFromToken(token);
+  setCookie('auth_role', roleStr, maxAge);
+  setCookie('auth_token', token, maxAge);
 };
 
 export const clearAuthSession = () => {
@@ -83,15 +89,26 @@ export const clearAuthSession = () => {
   removeCookie("auth_role");
 };
 
-/** Mengurai klaim `exp` JWT (detik Unix) ke milidetik. */
+function decodeJwtPayloadJson(b64url: string): { exp?: number } {
+  let b64 = b64url.replace(/-/g, "+").replace(/_/g, "/");
+  const pad = (4 - (b64.length % 4)) % 4;
+  if (pad) b64 += "=".repeat(pad);
+  return JSON.parse(atob(b64)) as { exp?: number };
+}
+
+/** Mengurai klaim `exp` JWT / token demo (detik Unix) ke milidetik. */
 export function parseJwtExpMs(token: string): number | null {
   try {
+    if (token.startsWith("demo.")) {
+      const payload = decodeJwtPayloadJson(token.slice(5));
+      if (typeof payload.exp !== "number" || !Number.isFinite(payload.exp)) {
+        return null;
+      }
+      return payload.exp * 1000;
+    }
     const parts = token.split(".");
     if (parts.length !== 3) return null;
-    let b64 = parts[1]!.replace(/-/g, "+").replace(/_/g, "/");
-    const pad = (4 - (b64.length % 4)) % 4;
-    if (pad) b64 += "=".repeat(pad);
-    const payload = JSON.parse(atob(b64)) as { exp?: number };
+    const payload = decodeJwtPayloadJson(parts[1]!);
     if (typeof payload.exp !== "number" || !Number.isFinite(payload.exp)) {
       return null;
     }
@@ -106,8 +123,17 @@ export function isAuthSessionExpired(): boolean {
   const token = localStorage.getItem("auth_token") || "";
   if (!token) return true;
   const expMs = parseJwtExpMs(token);
-  if (expMs == null) return false;
+  if (expMs == null) return true;
   return Date.now() >= expMs - JWT_SKEW_MS;
+}
+
+/** Sisa masa berlaku token (ms). Null jika tidak ada token / tidak bisa diurai. */
+export function getAuthTokenRemainingMs(): number | null {
+  const token = getAuthToken();
+  if (!token) return null;
+  const expMs = parseJwtExpMs(token);
+  if (expMs == null) return null;
+  return expMs - Date.now() - JWT_SKEW_MS;
 }
 
 /**
@@ -140,14 +166,17 @@ export function getDashboardPathForRole(): string {
   return "/student-dashboard";
 }
 
-/** Apakah masih ada sesi login aktif di browser (localStorage + cookie role). */
+/** Apakah masih ada sesi login aktif (token ada dan belum lewat 24 jam). */
 export function hasActiveSession(): boolean {
   if (typeof window === "undefined") return false;
   const token = getAuthToken();
-  if (token && !isAuthSessionExpired()) return true;
-  const role = localStorage.getItem("auth_role");
-  if (!role) return false;
-  return document.cookie.split(";").some((c) => c.trim().startsWith("auth_role="));
+  return Boolean(token && !isAuthSessionExpired());
+}
+
+/** Tampilkan modal konfirmasi logout (ditangani LogoutGuard). */
+export function requestLogoutConfirm(): void {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent(LOGOUT_CONFIRM_EVENT));
 }
 
 /**
@@ -161,20 +190,33 @@ export function clearAuthSessionOnLoginPage(): void {
 }
 
 export function logoutUser(): void {
-  // Panggil server API untuk hapus HttpOnly cookie (tidak bisa dihapus dari JS)
-  fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
-    forceRelogin('logged_out');
+  const goBase = (process.env.NEXT_PUBLIC_BASE_URL || "").replace(/\/$/, "");
+  const timeout = AbortSignal.timeout(4000);
+  const jobs: Promise<unknown>[] = [
+    fetch("/api/auth/logout", { method: "POST", signal: timeout }).catch(() => undefined),
+  ];
+  if (goBase) {
+    jobs.push(
+      fetch(`${goBase}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+        signal: timeout,
+      }).catch(() => undefined),
+    );
+  }
+  Promise.allSettled(jobs).finally(() => {
+    forceRelogin("logged_out");
   });
 }
 
-/** Kembali ke halaman pemilih role — di demo tidak perlu logout penuh. */
+/** Kembali ke halaman login — konfirmasi dulu (kecuali mode demo). */
 export function exitToHome(): void {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
   if (isDemoModeClient()) {
-    window.location.assign('/');
+    window.location.assign("/");
     return;
   }
-  logoutUser();
+  requestLogoutConfirm();
 }
 
 export const getAuthToken = () => {

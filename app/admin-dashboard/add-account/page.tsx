@@ -6,8 +6,9 @@ import { ArrowLeft, UserPlus, Save, FileSpreadsheet } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import ApiUser from '@/app/api/user/api_user';
 import { NIM_PREFIX, buildNim, parseNimParts } from '@/lib/nim';
+import { isStudentAccount } from '@/lib/roles';
 
-type ListUserRow = { user_name?: string; is_admin?: number };
+type ListUserRow = { user_name?: string; is_admin?: number; is_guru?: number };
 
 function padAngkatan(raw: string): string {
   return String(raw || '')
@@ -22,7 +23,7 @@ function startUrutForAngkatan(users: ListUserRow[], angkatPart: string): number 
   if (!Number.isFinite(angNum)) return 1;
 
   const inCohort = users
-    .filter((u) => Number(u?.is_admin) === 0)
+    .filter((u) => isStudentAccount(u))
     .map((u) => String(u?.user_name || '').trim().toUpperCase())
     .map((username) => parseNimParts(username))
     .filter(Boolean) as Array<{ angkatan: number; urut: number }>;
@@ -34,7 +35,7 @@ function startUrutForAngkatan(users: ListUserRow[], angkatPart: string): number 
 
 function resolveNextNoPeserta(users: ListUserRow[]) {
   const studentNoPesertaValues = users
-    .filter((u) => Number(u?.is_admin) === 0)
+    .filter((u) => isStudentAccount(u))
     .map((u) => String(u?.user_name || '').trim().toUpperCase())
     .map((username) => parseNimParts(username))
     .filter(Boolean) as Array<{ angkatan: number; urut: number }>;

@@ -147,7 +147,7 @@ export async function invokeClientApi(
           im.golongan_darah,
           im.tato, im.riwayat_patah_tulang
          FROM tbl_biodata b
-         INNER JOIN master_user mu ON mu.user_name = b.no_peserta AND mu.is_active = 1 AND mu.is_admin = 0
+         INNER JOIN master_user mu ON mu.user_name = b.no_peserta AND mu.is_active = 1 AND mu.is_admin = 0 AND COALESCE(mu.is_guru, 0) = 0
          LEFT JOIN tbl_info_medis im ON im.id_biodata = b.id_biodata
          ORDER BY b.id_biodata`,
       );
@@ -203,7 +203,7 @@ export async function invokeClientApi(
     case 'GET user/list-unverif-user': {
       return ok(
         await demoQuery(
-          `SELECT name, user_name, nama_kelas FROM master_user mu WHERE mu.is_admin = 0 and mu.is_active = 1 AND mu.user_name NOT IN (SELECT no_peserta FROM tbl_biodata)`,
+          `SELECT name, user_name, nama_kelas FROM master_user mu WHERE mu.is_admin = 0 AND COALESCE(mu.is_guru, 0) = 0 and mu.is_active = 1 AND mu.user_name NOT IN (SELECT no_peserta FROM tbl_biodata)`,
         ),
       );
     }
@@ -236,7 +236,7 @@ export async function invokeClientApi(
     case 'GET nilai-pembelajaran/list-certificate': {
       return ok(
         await demoQuery(
-          `SELECT user_name, name, foto, nama_kelas, nilai_n4, nilai_n5 FROM tbl_biodata b WHERE u.is_active = 1 and u.is_admin = 0`,
+          `SELECT user_name, name, foto, nama_kelas, nilai_n4, nilai_n5 FROM tbl_biodata b WHERE u.is_active = 1 and u.is_admin = 0 AND COALESCE(u.is_guru, 0) = 0`,
         ),
       );
     }

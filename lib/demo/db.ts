@@ -113,10 +113,10 @@ export async function demoQuery<T = unknown>(text: string, params: unknown[] = [
       })) as T[];
   }
 
-  if (sql.includes('where mu.is_admin = 0 and mu.is_active = 1') && sql.includes('not in (select no_peserta from tbl_biodata')) {
+  if (sql.includes('not in (select no_peserta from tbl_biodata')) {
     const withBio = new Set(demoBiodata.map((b) => b.no_peserta));
     return demoUsers
-      .filter((u) => u.is_admin === 0 && u.is_active === 1 && !withBio.has(u.user_name))
+      .filter((u) => u.is_admin === 0 && u.is_active === 1 && Number(u.is_guru) !== 1 && !withBio.has(u.user_name))
       .map((u) => ({
         name: u.name,
         user_name: u.user_name,
@@ -166,7 +166,7 @@ export async function demoQuery<T = unknown>(text: string, params: unknown[] = [
     return demoShowcaseStudents() as T[];
   }
 
-  if (sql.includes('from tbl_biodata b') && sql.includes('where u.is_active = 1 and u.is_admin = 0')) {
+  if (sql.includes('from tbl_biodata b') && sql.includes('u.is_admin = 0')) {
     return demoBiodata.map((bio) => {
       const u = demoUsers.find((x) => x.user_name === bio.no_peserta);
       const kelas = demoKelas.find((k) => k.id_kelas === u?.id_kelas);

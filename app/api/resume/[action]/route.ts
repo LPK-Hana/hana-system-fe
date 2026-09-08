@@ -64,7 +64,7 @@ export async function GET(
           im.golongan_darah,
           im.tato, im.riwayat_patah_tulang
          FROM tbl_biodata b
-         INNER JOIN master_user mu ON mu.user_name = b.no_peserta AND mu.is_active = 1 AND mu.is_admin = 0
+         INNER JOIN master_user mu ON mu.user_name = b.no_peserta AND mu.is_active = 1 AND COALESCE(mu.is_admin, 0) = 0 AND COALESCE(mu.is_guru, 0) = 0
          LEFT JOIN tbl_info_medis im ON im.id_biodata = b.id_biodata
          ORDER BY b.id_biodata`
       );

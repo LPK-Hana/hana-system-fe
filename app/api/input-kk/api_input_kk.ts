@@ -14,5 +14,6 @@ export default function ApiInputKk() {
     GetAdminDataKKJP: (userName: string) => getByUser(userName, 'input-kk/get-kk-jp'),
     PutUpdateKKID: createApiFunction('PUT', 'input-kk/update-kk-id'),
     PutUpdateKKJP: createApiFunction('PUT', 'input-kk/update-kk-jp'),
+    PostUploadScan: createApiFunction('POST', 'input-kk/upload-scan'),
   };
 }

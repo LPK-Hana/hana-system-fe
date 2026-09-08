@@ -52,6 +52,18 @@ async function canAccessFile(folder: string, filename: string, auth: NonNullable
     return !!cert;
   }
 
+  if (folder === 'kk') {
+    try {
+      const scan = await queryOne<{ scan_filename: string }>(
+        `SELECT scan_filename FROM tbl_master_kk_id WHERE user_name = $1 AND scan_filename = $2 LIMIT 1`,
+        [auth.user_name, filename],
+      );
+      if (scan) return true;
+    } catch {
+      // kolom scan_filename belum ada sampai 03_persist_missing.sql dijalankan
+    }
+  }
+
   return columnMap[folder] === filename;
 }
 

@@ -28,7 +28,7 @@ export default function KartuKeluargaPage() {
   const [containerWidth, setContainerWidth] = useState(1122);
   const [containerHeight, setContainerHeight] = useState(794);
   const previewContainerRef = useRef<HTMLDivElement>(null);
-  const { sourceUrl, fileName: sourceFileName, setSourceFile } = useKkSourceImage();
+  const { sourceUrl, fileName: sourceFileName, sourceFile, setSourceFile, setRemoteSource } = useKkSourceImage();
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -165,6 +165,9 @@ export default function KartuKeluargaPage() {
         setActiveTab('edit_id');
         setIsEditorCollapsed(true);
         setActiveMobileTab('preview');
+        if (typeof d.scan_filename === 'string' && d.scan_filename) {
+          setRemoteSource(`/api/files/kk/${encodeURIComponent(d.scan_filename)}`, d.scan_filename);
+        }
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -264,6 +267,14 @@ export default function KartuKeluargaPage() {
     setIsSaving(true);
     try {
       const api = ApiInputKk();
+      if (sourceFile.current) {
+        const scanFd = new FormData();
+        scanFd.append('file', sourceFile.current);
+        const scanRes = await api.PostUploadScan(scanFd);
+        if (scanRes?.status !== 200) {
+          throw new Error(scanRes?.message || 'Gagal menyimpan file scan KK');
+        }
+      }
       const payloadId = mapToKKID(formData);
       const payloadJp = mapToKKJP(formData);
 

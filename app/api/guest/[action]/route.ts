@@ -57,7 +57,7 @@ export async function GET(
                 ELSE 0 
             END AS finish_bab15
         FROM tbl_biodata b
-        INNER JOIN master_user mu ON mu.user_name = b.no_peserta AND mu.is_active = 1 AND mu.is_admin = 0
+        INNER JOIN master_user mu ON mu.user_name = b.no_peserta AND mu.is_active = 1 AND COALESCE(mu.is_admin, 0) = 0 AND COALESCE(mu.is_guru, 0) = 0
         LEFT JOIN tbl_nilai n ON b.no_peserta = n.user_name AND n.id_aspek_nilai = 1`
       );
 

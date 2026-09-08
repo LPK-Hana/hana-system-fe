@@ -9,12 +9,14 @@ import { Trash2 } from 'lucide-react';
 import ApiUser from '@/app/api/user/api_user';
 import ApiKelas from '@/app/api/kelas/api_kelas';
 import { angkatanDigitsFromNoPeserta } from '@/lib/nim';
+import { isStudentAccount } from '@/lib/roles';
 
 type ListUserRow = {
   user_id: number;
   name: string;
   user_name: string;
   is_admin: number;
+  is_guru?: number;
   is_active: number;
   id_kelas?: number | null;
   kelas?: string | null;
@@ -96,7 +98,7 @@ export default function StudentAccountManagementPage() {
       const res = showInactive ? await ApiUser().getAllInactiveUser() : await ApiUser().getAllActiveUser();
       const list = Array.isArray(res?.data) ? res.data : [];
       if (res?.status === 200) {
-        const students = list.filter((u: ListUserRow) => Number(u?.is_admin) === 0);
+        const students = list.filter((u: ListUserRow) => isStudentAccount(u));
         setRows(students);
       } else {
         setRows([]);

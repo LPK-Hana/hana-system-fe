@@ -51,3 +51,7 @@ export function isGuruAllowedAdminPath(pathname: string): boolean {
 export function isShachouAllowedPath(pathname: string): boolean {
   return pathMatchesPrefixes(pathname, SHACHOU_ALLOWED_PATH_PREFIXES);
 }
+
+export function isStudentAccount(user: { is_admin?: number; is_guru?: number } | null | undefined): boolean {
+  return Number(user?.is_admin) !== 1 && Number(user?.is_guru) !== 1;
+}

@@ -34,7 +34,7 @@ export async function GET(
       const data = await query<any>(
         `SELECT jd.user_name, jd.nama_peserta, jd.angkatan, jd.id_master_job, mj.job_title, jd.updated_at
          FROM tbl_job_details jd
-         INNER JOIN master_user mu ON mu.user_name = jd.user_name AND mu.is_active = 1 AND mu.is_admin = 0
+         INNER JOIN master_user mu ON mu.user_name = jd.user_name AND mu.is_active = 1 AND COALESCE(mu.is_admin, 0) = 0 AND COALESCE(mu.is_guru, 0) = 0
          LEFT JOIN tbl_master_job mj ON jd.id_master_job = mj.id_master_job
          ORDER BY jd.user_name ASC`
       );
